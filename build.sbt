@@ -19,7 +19,37 @@ lazy val root = (project in file("."))
 
 lazy val dataFiles = taskKey[Vector[File]]("List all CEX files in data directories.")
 lazy val dataFilesImpl : Def.Initialize[Task[Vector[File]]] = Def.task {
+  import Path.rebase
   val fileVector = IO.listFiles(baseDirectory.value / "datasets").toVector
-  println("Trim from original total of " + fileVector.size + " files")
+
+  val fstFileOpts = (baseDirectory.value / "datasets") ** "*.fst"
+  val fstFiles = fstFileOpts.get
+  val baseDirectories: Seq[File] = Seq( baseDirectory.value / "datasets" )
+  val newBase = baseDirectory.value / "parsers"
+  val mappings: Seq[(File,File)] = fstFiles pair rebase(baseDirectories, newBase)
+
+  println("fstFiles: " + fstFiles)
+  println("basedirs: " + baseDirectories)
+  println("New base: " + newBase)
+  println("Mappiongs:  " + mappings)
+
+  for (m <- mappings) {
+    println(m._1 + "->" + m._2)
+    IO.copyFile(m._1, m._2)
+  }
+
+
+
+/*
+
+  val mappings: Seq[(File,File)] = fstFiles.get pair rebase(baseDirectories, baseDirectory / "parsers")
+  println("Rebased: " + mappings)
+
+*/
+
+
+
+
+
   fileVector.filter(_.getName.endsWith("cex"))
 }
