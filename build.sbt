@@ -33,8 +33,9 @@ lazy val cleanAll = taskKey[Unit]("Cleans out all parsers")
 
 lazy val cpDataFilesImpl: Def.Initialize[InputTask[Unit]]  = Def.inputTask {
 
-  val args: Seq[String] = spaceDelimited("corpus>").parsed
-  println("ARGS:  " + args)
+  val corpus: String = spaceDelimited("corpus>").parsed.head
+  println("CORPUS TO COPY:  " + corpus)
+  System.setProperty("corpus",corpus)
   import Path.rebase
   val cexFileOpts = (baseDirectory.value / "datasets") ** "*.cex"
   val cexFiles = cexFileOpts.get
@@ -58,7 +59,8 @@ lazy val cpFstFilesImpl : Def.Initialize[Task[Unit]]  = Def.task {
 }
 
 lazy val mapVariablesImpl : Def.Initialize[Task[Map[String,String]]] = Def.task {
-  cpDataFilesImpl.inputTaskValue
+  //val x = { cpDataFilesImpl "smyth" }.evaluated
+  cpDataFilesImpl.toTask(" whatever").value
   cpFstFilesImpl.value
   println("\n1. Mapped some variables")
   Map.empty[String,String]
