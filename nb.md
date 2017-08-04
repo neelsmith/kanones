@@ -18,7 +18,7 @@ Data in the build space can be organized as follows.
 Builds are specific to an orthography.  Directory tree looks like this for data dynamically supplied at compile time:
 
     build dir/
-      ortho dir/
+      corpus dir/
           inflection/
           lexica/
 
