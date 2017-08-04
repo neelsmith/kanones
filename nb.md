@@ -13,9 +13,9 @@
 
 Data in the build space can be organized as follows.
 
-### A.  Lexica and inflection rules for an orthography
+### A.  Lexica and inflection rules for a corpus
 
-Builds are specific to an orthography.  Directory tree looks like this for data dynamically supplied at compile time:
+Builds are specific to a corpus, with a specified orthography.  Directory tree looks like this for data dynamically supplied at compile time:
 
     build dir/
       corpus dir/
