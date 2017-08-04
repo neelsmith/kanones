@@ -1,3 +1,6 @@
+import ParserBuilder._
+import complete.DefaultParsers._
+
 lazy val root = (project in file("."))
   .settings(
     name := "kanones",
@@ -14,24 +17,24 @@ lazy val root = (project in file("."))
       "edu.holycross.shot.cite" %% "xcite" % "2.7.1"
     ),
 
-    cpDataFiles := cpDataFilesImpl.value,
-    fst := buildFst.value
+    cpData := cpDataFilesImpl.evaluated,
+    fst := buildFst.value,
+    cleanAll := cleanAllImpl.value
   )
 
-lazy val cpDataFiles = taskKey[Unit]("Copy all CEX files in data directories.")
-// compute lists of files...
+lazy val cpData = inputKey[Unit]("Copy all CEX files in data directories for a given corpus.")
 lazy val mapVariables = taskKey[Map[String, String]]("Build map of all ant-style variables to replacement values")
-// copy fst files
-lazy val cpFstFiles = taskKey[Unit]("Copy all .fst and accompnaying make files in src directories.")
-// rewrite fst after filetering with lists
+lazy val cpFstFiles = taskKey[Unit]("Copy all .fst and accompanying make files in src directories.")
 lazy val filterSource = taskKey[Unit]("Replace all ant-style variables in source files with appropriate values.")
-// compile
 lazy val fst = taskKey[Unit]("Compile complete FST system")
+lazy val cleanAll = taskKey[Unit]("Cleans out all parsers")
 
 
 
+lazy val cpDataFilesImpl: Def.Initialize[InputTask[Unit]]  = Def.inputTask {
 
-lazy val cpDataFilesImpl: Def.Initialize[Task[Unit]]  = Def.task {
+  val args: Seq[String] = spaceDelimited("corpus>").parsed
+  println("ARGS:  " + args)
   import Path.rebase
   val cexFileOpts = (baseDirectory.value / "datasets") ** "*.cex"
   val cexFiles = cexFileOpts.get
@@ -46,16 +49,22 @@ lazy val cpDataFilesImpl: Def.Initialize[Task[Unit]]  = Def.task {
   }
   println("\n0. Copied data files to build space.")
 }
+
+
 lazy val cpFstFilesImpl : Def.Initialize[Task[Unit]]  = Def.task {
   println("\ncopying fst files...")
+  ParserBuilder.buildNounStems(baseDirectory.value / "data")
   println("\n0. Copied fst files to build space.")
 }
+
 lazy val mapVariablesImpl : Def.Initialize[Task[Map[String,String]]] = Def.task {
-  cpDataFilesImpl.value
+  cpDataFilesImpl.inputTaskValue
   cpFstFilesImpl.value
   println("\n1. Mapped some variables")
   Map.empty[String,String]
 }
+
+
 lazy val filterSourceImpl : Def.Initialize[Task[Unit]]  = Def.task {
   val varMap = mapVariablesImpl.value
   println("\n2. Filtered fst files.")
@@ -66,4 +75,8 @@ lazy val filterSourceImpl : Def.Initialize[Task[Unit]]  = Def.task {
 lazy val buildFst: Def.Initialize[Task[Unit]] = Def.task {
   filterSourceImpl.value
   println("\n3. Time to compile ...")
+}
+
+lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
+  println("Delete all parsers in parsers directory...")
 }
