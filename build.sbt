@@ -18,15 +18,15 @@ lazy val root = (project in file("."))
     ),
 
     cpData := cpDataFilesImpl.evaluated,
-    fst := buildFst.value,
+    fst := buildFst.evaluated,
     cleanAll := cleanAllImpl.value
   )
 
 lazy val cpData = inputKey[Unit]("Copy all CEX files in data directories for a given corpus.")
 lazy val mapVariables = taskKey[Map[String, String]]("Build map of all ant-style variables to replacement values")
 lazy val cpFstFiles = taskKey[Unit]("Copy all .fst and accompanying make files in src directories.")
-lazy val filterSource = taskKey[Unit]("Replace all ant-style variables in source files with appropriate values.")
-lazy val fst = taskKey[Unit]("Compile complete FST system")
+lazy val filterSource = inputKey[Unit]("Replace all ant-style variables in source files with appropriate values.")
+lazy val fst = inputKey[Unit]("Compile complete FST system")
 lazy val cleanAll = taskKey[Unit]("Cleans out all parsers")
 
 
@@ -67,16 +67,32 @@ lazy val mapVariablesImpl : Def.Initialize[Task[Map[String,String]]] = Def.task 
 }
 
 
-lazy val filterSourceImpl : Def.Initialize[Task[Unit]]  = Def.task {
+lazy val filterSourceImpl : Def.Initialize[InputTask[Unit]]  = Def.inputTask {
+  val corpus = spaceDelimited("corpus>").parsed.head
+  println("Filtering source for corpus " + corpus)
   val varMap = mapVariablesImpl.value
   println("\n2. Filtered fst files.")
 }
 
 
 
-lazy val buildFst: Def.Initialize[Task[Unit]] = Def.task {
-  filterSourceImpl.value
-  println("\n3. Time to compile ...")
+lazy val buildFst: Def.Initialize[InputTask[Unit]] = Def.inputTaskDyn {
+  val args = spaceDelimited("corpus>").parsed
+  if (args.size != 1) {
+    println("Error: no corpus given.")
+    println("\n\tUsage: fst CORPUS\n")
+  } else {
+    println ("so far, so good...")
+    println("\n3. Time to compile ..." + args.head)
+  }
+  val corpus = args.head
+  (Def.taskDyn {
+    (filterSourceImpl).toTask(" " + args.head + " ")
+  })
+
+
+
+
 }
 
 lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
