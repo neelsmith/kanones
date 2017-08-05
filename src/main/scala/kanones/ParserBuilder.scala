@@ -14,7 +14,7 @@ object ParserBuilder {
 
   /** Create a [[ParserBuilder]] from a  configuration file.
   *
-  * @config Name of configuration file.
+  * @config Name of configuration file.h
   */
   def apply(config: String): ParserBuilder = {
     val lines = Source.fromFile(config).getLines.toVector.filter(_.nonEmpty).filter(_(0) != '#')

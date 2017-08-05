@@ -41,10 +41,15 @@ lazy val corpusImpl = Def.inputTaskDyn {
     println("No corpus named.")
     templateUsage
   } else {
-    Def.task {
-      val destDir = baseDirectory.value / args.head
-      println("\nCreate directory tree for new corpus " + args.head + "\n")
-      DataTemplate(destDir)
+    val destDir = baseDirectory.value / s"datasets/${args.head}"
+    if (destDir.exists()) {
+      error(s"file exists: ${destDir}")
+    } else {
+      Def.task {
+
+        println("\nCreate directory tree for new corpus " + args.head + "\n")
+        DataTemplate(destDir)
+      }
     }
   }
 }
@@ -71,6 +76,10 @@ lazy val buildFst = Def.inputTaskDyn {
 }
 def usage: Def.Initialize[Task[Unit]] = Def.task {
   println("\n\tUsage: fst CORPUS\n")
+}
+
+def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
+  println(s"\n\tError: {$msg}\n")
 }
 
 // Compile FST parser
