@@ -29,6 +29,8 @@ lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 // Delete all compiled parsers
 lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
   println("Delete all parsers in parsers directory...")
+  val parserDir = baseDirectory.value / "parsers"
+  println(parserDir.listFiles.toVector)
 }
 
 // Generate data directory hierarchy for a new named corpus

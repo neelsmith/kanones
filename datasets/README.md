@@ -5,9 +5,3 @@ Each corpus should have its dataset in a named directory with subdirectories lai
 You build templates for your datasets with sbt:
 
     sbt corpus CORPUSNAME
-
-You can erase all datasets in this directory with
-
-    sbt cleanAll
-
-        
