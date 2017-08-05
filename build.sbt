@@ -32,7 +32,7 @@ lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
 }
 
 // Generate data directory hierarchy for a new named corpus
-lazy val corpusImpl = Def.inputTask {
+lazy val corpusImpl = Def.inputTaskDyn {
   val args = spaceDelimited("corpus>").parsed
   if (args.size > 1) {
     println("Too many parameters.")
@@ -41,11 +41,16 @@ lazy val corpusImpl = Def.inputTask {
     println("No corpus named.")
     templateUsage
   } else {
-    println("\nCreate directory tree for " + args.head + "\n")
+    Def.task {
+      val destDir = baseDirectory.value / args.head
+      println("\nCreate directory tree for new corpus " + args.head + "\n")
+      DataTemplate(destDir)
+    }
   }
 }
+
 def templateUsage: Def.Initialize[Task[Unit]] = Def.task {
-  println("\n\tUsage: corpus CORPUSNAMEs\n")
+  println("\n\tUsage: corpus CORPUSNAME\n")
 }
 
 
