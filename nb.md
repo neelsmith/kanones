@@ -6,6 +6,9 @@
 2. compile fst
 3. test fst output for candidates
 4. develop wrapper class to assess candidates
+    1. parse fst output into object model
+    2. add accent to unaccented candidate surface forms
+    3. assess accented form
 5. test parsing output
 
 
