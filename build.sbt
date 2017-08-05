@@ -21,21 +21,17 @@ lazy val root = (project in file("."))
     corpus := corpusImpl.evaluated,
     cleanAll := cleanAllImpl.value
   )
-/*
-lazy val cpData = inputKey[Unit]("Copy all CEX files in data directories for a given corpus.")
-lazy val mapVariables = taskKey[Map[String, String]]("Build map of all ant-style variables to replacement values")
-lazy val cpFstFiles = taskKey[Unit]("Copy all .fst and accompanying make files in src directories.")
-lazy val filterSource = inputKey[Unit]("Replace all ant-style variables in source files with appropriate values.")
-*/
 
-lazy val fst = inputKey[Unit]("Compile complete FST system")
-lazy val corpus = inputKey[Unit]("Generate directory hierarchy for new named corpus of data")
-lazy val cleanAll = taskKey[Unit]("Cleans out all parsers")
+lazy val fst = inputKey[Unit]("Compile complete FST system for a named corpus")
+lazy val corpus = inputKey[Unit]("Generate data directory hierarchy for a new named corpus")
+lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 
+// Delete all compiled parsers
 lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
   println("Delete all parsers in parsers directory...")
 }
 
+// Generate data directory hierarchy for a new named corpus
 lazy val corpusImpl = Def.inputTask {
   val args = spaceDelimited("corpus>").parsed
   if (args.size > 1) {
@@ -48,10 +44,11 @@ lazy val corpusImpl = Def.inputTask {
     println("\nCreate directory tree for " + args.head + "\n")
   }
 }
-
 def templateUsage: Def.Initialize[Task[Unit]] = Def.task {
   println("\n\tUsage: corpus CORPUSNAMEs\n")
 }
+
+
 // Dynamically creates task to build parser by
 // successively invoking tasks that take parameters.
 lazy val buildFst = Def.inputTaskDyn {
@@ -67,30 +64,36 @@ lazy val buildFst = Def.inputTaskDyn {
     fstCompile(args.head)
   }
 }
-
 def usage: Def.Initialize[Task[Unit]] = Def.task {
   println("\n\tUsage: fst CORPUS\n")
 }
 
-// task with parameters
+// Compile FST parser
 def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
   filterSourceImpl(corpus).value
    println("3. Compile " + corpus)
  }
 
+// Replace all ant-style variables in source files with appropriate values
 def filterSourceImpl(corpus: String)  = Def.task {
   mapVarsImpl(corpus).value
   println("2. Filter " + corpus + " before compiling.")
  }
+
+ // Build map of all ant-style variables to replacement values
  def mapVarsImpl(corpus: String)  = Def.task {
    cpFstFiles(corpus).value
    cpDataFiles(corpus).value
    println("1. Map variables on " + corpus + " before filtering.")
  }
+
+ // Copy all .fst and accompanying make files in src directories
  def cpFstFiles(corpus: String)  = Def.task {
    ParserBuilder.buildNounStems(baseDirectory.value / s"data/${corpus}")
    println("0. Copy FST files " + corpus + " before mapping variables.")
  }
+
+ // Copy all CEX files in data directories for a given corpus
  def cpDataFiles(corpus: String)  = Def.task {
    import Path.rebase
    val cexFileOpts = (baseDirectory.value / s"datasets/${corpus}") ** "*.cex"
