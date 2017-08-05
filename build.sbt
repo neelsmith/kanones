@@ -46,9 +46,10 @@ lazy val corpusImpl = Def.inputTaskDyn {
       error(s"file exists: ${destDir}")
     } else {
       Def.task {
-
+        val srcDir = baseDirectory.value / "datatemplate"
         println("\nCreate directory tree for new corpus " + args.head + "\n")
-        DataTemplate(destDir)
+        DataTemplate(srcDir, destDir)
+        println("\n\nDone.  Template is in " + destDir)
       }
     }
   }
