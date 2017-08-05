@@ -18,8 +18,14 @@ lazy val root = (project in file("."))
     ),
 
     cpData := cpDataFilesImpl.evaluated,
+
+    filterSource := filterSourceImpl.evaluated,
     fst := buildFst.evaluated,
-    cleanAll := cleanAllImpl.value
+    cleanAll := cleanAllImpl.value,
+
+
+   fst2 := fst2Impl.evaluated
+
   )
 
 lazy val cpData = inputKey[Unit]("Copy all CEX files in data directories for a given corpus.")
@@ -58,9 +64,11 @@ lazy val cpFstFilesImpl : Def.Initialize[Task[Unit]]  = Def.task {
   println("\n0. Copied fst files to build space.")
 }
 
-lazy val mapVariablesImpl : Def.Initialize[Task[Map[String,String]]] = Def.task {
-  //val x = { cpDataFilesImpl "smyth" }.evaluated
-  cpDataFilesImpl.toTask(" whatever").value
+lazy val mapVariablesImpl : Def.Initialize[InputTask[Map[String,String]]] = Def.inputTask {
+  val corpus = spaceDelimited("corpus>").parsed.head
+  println("MAP VARIABLE FOR CORPUS " + corpus)
+
+  cpDataFilesImpl.toTask("  ex-variable-mapper ").value
   cpFstFilesImpl.value
   println("\n1. Mapped some variables")
   Map.empty[String,String]
@@ -69,32 +77,59 @@ lazy val mapVariablesImpl : Def.Initialize[Task[Map[String,String]]] = Def.task 
 
 lazy val filterSourceImpl : Def.Initialize[InputTask[Unit]]  = Def.inputTask {
   val corpus = spaceDelimited("corpus>").parsed.head
-  println("Filtering source for corpus " + corpus)
-  val varMap = mapVariablesImpl.value
-  println("\n2. Filtered fst files.")
+  println("\n2. Filtering source for corpus " + corpus)
+
+  val mapped = mapVariablesImpl.toTask(" ex-filter ").value
+  /*val mappedOut = (Def.taskDyn {
+    (mapVariablesImpl).toTask(" " + corpus + " ")
+  })*/
 }
 
 
 
-lazy val buildFst: Def.Initialize[InputTask[Unit]] = Def.inputTaskDyn {
+lazy val buildFst: Def.Initialize[InputTask[Unit]] = Def.inputTask {
   val args = spaceDelimited("corpus>").parsed
   if (args.size != 1) {
-    println("Error: no corpus given.")
+    println("Fail: no corpus given.")
     println("\n\tUsage: fst CORPUS\n")
   } else {
-    println ("so far, so good...")
-    println("\n3. Time to compile ..." + args.head)
+    println("\nTime to compile ..." + args.head)
   }
-  val corpus = args.head
-  (Def.taskDyn {
-    (filterSourceImpl).toTask(" " + args.head + " ")
-  })
-
-
-
-
+  val filtered = filterSourceImpl.toTask(" ex-fst ").value
 }
 
 lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
   println("Delete all parsers in parsers directory...")
 }
+
+
+/////////////////////////
+
+
+lazy val fst2 = inputKey[Unit]("sample dynamic input task")
+// creates a task
+lazy val fst2Impl = Def.inputTaskDyn {
+  val sources = spaceDelimited("<arg>").parsed
+  fstCompile(sources)
+}
+// task with parameters
+def fstCompile(source : Seq[String]) : Def.Initialize[Task[Unit]] = Def.task {
+  filterSourceImpl2(source.mkString(" ")).value
+   println("3. Compile " + source)
+ }
+
+def filterSourceImpl2(source: String)  = Def.task {
+  mapVarsImpl2(source).value
+  println("2. Filter " + source + " before compiling.")
+ }
+ def mapVarsImpl2(source: String)  = Def.task {
+   cpFstFiles2(source).value
+   cpDataFiles2(source).value
+   println("1. Map variables on " + source + " before filtering.")
+ }
+ def cpFstFiles2(source: String)  = Def.task {
+   println("0. Copy FST files " + source + " before mapping variables.")
+ }
+ def cpDataFiles2(source: String)  = Def.task {
+   println("0. Copy CEX data files " + source + " before mapping variables.")
+ }
