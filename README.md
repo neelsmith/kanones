@@ -12,6 +12,6 @@ Kanónes is a Greek morphological parser.  Its rationale and approach to parsing
 
 ## `sbt` usage
 
-- create a template data set in `datasets` directory: `sbt corpus CORPUSNAME`
+- create a template data set in `datasets` directory: `sbt corpus [-r] CORPUSNAME` (where `-r` means "delete and replace" any existing dataset named `CORPUSNAME`)
 - compile a parser for a corpus:  `sbt fst CORPUSNAME` (where `CORPUSNAME` is a dataset in the `datasets` directory)
 - delete all parsers:  `sbt cleanAll`

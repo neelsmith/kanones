@@ -43,29 +43,50 @@ lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
 // Generate data directory hierarchy for a new named corpus
 lazy val corpusImpl = Def.inputTaskDyn {
   val args = spaceDelimited("corpus>").parsed
-  if (args.size > 1) {
-    println("Too many parameters.")
-    templateUsage
-  } else if (args.size < 1) {
-    println("No corpus named.")
-    templateUsage
-  } else {
-    val destDir = baseDirectory.value / s"datasets/${args.head}"
-    if (destDir.exists()) {
-      error(s"file exists: ${destDir}")
-    } else {
+  args.size match {
+    case 1 => {
+      val destDir = baseDirectory.value / s"datasets/${args.head}"
+      if (destDir.exists()) {
+        error(s"file exists: ${destDir}")
+      } else {
+        Def.task {
+          val srcDir = baseDirectory.value / "datatemplate"
+          println("\nCreate directory tree for new corpus " + args.head + "\n")
+          DataTemplate(srcDir, destDir)
+          println("\n\nDone.  Template is in " + destDir)
+        }
+      }
+    }
+    case 2 => {
+      if(args(0) == "-r") {
+      val destDir = baseDirectory.value / s"datasets/${args(1)}"
+      if (destDir.exists()) {
+        IO.delete(destDir)
+        println("Deleted " + destDir)
+      } else { }
+
       Def.task {
         val srcDir = baseDirectory.value / "datatemplate"
         println("\nCreate directory tree for new corpus " + args.head + "\n")
         DataTemplate(srcDir, destDir)
         println("\n\nDone.  Template is in " + destDir)
       }
+
+    } else {
+      println("Syntax error.")
+      templateUsage
+    }
+    }
+    case _ => {
+      println("\nWrong number of parameters.")
+      templateUsage
     }
   }
 }
 
 def templateUsage: Def.Initialize[Task[Unit]] = Def.task {
-  println("\n\tUsage: corpus CORPUSNAME\n")
+  println("\n\tUsage: corpus [-r] CORPUSNAME\n")
+  println("\t-r option = replace (delete) existing dataset\n")
 }
 
 
