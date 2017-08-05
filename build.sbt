@@ -100,9 +100,15 @@ lazy val buildFst = Def.inputTaskDyn {
   } else if (args.size < 1) {
     println("No corpus named.")
     usage
+
   } else {
-    println("\nCompile corpus " + args.head + "\n")
-    fstCompile(args.head)
+     val src = baseDirectory.value / s"datasets/${args.head}"
+     if (! src.exists()) {
+       error("Source dataset " + src + " does not exist.\n")
+     } else {
+       println("\nCompile corpus " + args.head + "\n")
+       fstCompile(args.head)
+     }
   }
 }
 def usage: Def.Initialize[Task[Unit]] = Def.task {
@@ -115,7 +121,7 @@ def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
 
 // Compile FST parser
 def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
-  filterSourceImpl(corpus).value
+   filterSourceImpl(corpus).value
    println("3. Compile " + corpus)
  }
 
@@ -153,4 +159,5 @@ def filterSourceImpl(corpus: String)  = Def.task {
      IO.copyFile(m._1, m._2)
    }
    println("0. Copy CEX data files " + corpus + " before mapping variables.")
+
  }
