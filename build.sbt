@@ -74,24 +74,24 @@ def usage: Def.Initialize[Task[Unit]] = Def.task {
 
 // task with parameters
 def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
-  filterSourceImpl2(corpus).value
+  filterSourceImpl(corpus).value
    println("3. Compile " + corpus)
  }
 
-def filterSourceImpl2(corpus: String)  = Def.task {
-  mapVarsImpl2(corpus).value
+def filterSourceImpl(corpus: String)  = Def.task {
+  mapVarsImpl(corpus).value
   println("2. Filter " + corpus + " before compiling.")
  }
- def mapVarsImpl2(corpus: String)  = Def.task {
-   cpFstFiles2(corpus).value
-   cpDataFiles2(corpus).value
+ def mapVarsImpl(corpus: String)  = Def.task {
+   cpFstFiles(corpus).value
+   cpDataFiles(corpus).value
    println("1. Map variables on " + corpus + " before filtering.")
  }
- def cpFstFiles2(corpus: String)  = Def.task {
+ def cpFstFiles(corpus: String)  = Def.task {
    ParserBuilder.buildNounStems(baseDirectory.value / s"data/${corpus}")
    println("0. Copy FST files " + corpus + " before mapping variables.")
  }
- def cpDataFiles2(corpus: String)  = Def.task {
+ def cpDataFiles(corpus: String)  = Def.task {
    import Path.rebase
    val cexFileOpts = (baseDirectory.value / s"datasets/${corpus}") ** "*.cex"
    val cexFiles = cexFileOpts.get
