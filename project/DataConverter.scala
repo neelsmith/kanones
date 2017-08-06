@@ -1,5 +1,6 @@
 import sbt._
 import scala.io.Source
+import java.io.PrintWriter
 
 object DataConverter {
 
@@ -21,6 +22,7 @@ object DataConverter {
       // omit empty lines and header
       val dataLines = Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1)
       val fstLines = DataConverter.nounLinesToFst(dataLines)
+      new PrintWriter(fstFile) { write(fstLines); close }
     }
   }
 
@@ -44,10 +46,7 @@ object DataConverter {
     }
   }
   def nounLinesToFst(data: Vector[String]) : String = {
-    println("\n\nHere's a sample line:\n " + data(0))
-    val fst = nounLineToFst(data(0))
-    println("\nHere it is as fst:\n" + fst)
-    fst
+    data.map(nounLineToFst(_)).mkString("\n")
   }
 
 /*
