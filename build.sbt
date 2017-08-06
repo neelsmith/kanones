@@ -34,7 +34,9 @@ lazy val test = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
   //DataConverter.cexToFst(baseDirectory.value / "parsers/smyth")
   //RulesConverter.cexToFst(baseDirectory.value / "parsers/smyth")
-  BuildComposer(baseDirectory.value / "parsers/smyth")
+
+  val proj = baseDirectory.value / "parsers/smyth"
+  BuildComposer(proj, "/usr/local/bin/fst-compiler")
 }
 
 // Delete all compiled parsers
@@ -105,25 +107,36 @@ def templateUsage: Def.Initialize[Task[Unit]] = Def.task {
 // successively invoking tasks that take parameters.
 lazy val buildFst = Def.inputTaskDyn {
   val args = spaceDelimited("corpus>").parsed
-  if (args.size > 1) {
-    println("Too many parameters.")
-    usage
-  } else if (args.size < 1) {
-    println("No corpus named.")
-    usage
 
-  } else {
-     val src = baseDirectory.value / s"datasets/${args.head}"
-     if (! src.exists()) {
-       error("Source dataset " + src + " does not exist.\n")
-     } else {
-       println("\nCompile corpus " + args.head )
-       fstCompile(args.head)
-     }
+  args.size match {
+    case 1 => {
+      val src = baseDirectory.value / s"datasets/${args.head}"
+      if (! src.exists()) {
+        error("Source dataset " + src + " does not exist.\n")
+      } else {
+        println("\nCompile corpus " + args.head )
+        fstCompile(args.head)
+      }
+
+    }
+    case 2 => {
+      val src = baseDirectory.value / s"datasets/${args.head}"
+      if (! src.exists()) {
+        error("Source dataset " + src + " does not exist.\n")
+      } else {
+        println("\nCompile corpus " + args.head )
+        fstCompile(args.head)
+      }
+    }
+    case _ => {
+      println("Wrong number of parameters.")
+      usage
+    }
   }
 }
+
 def usage: Def.Initialize[Task[Unit]] = Def.task {
-  println("\n\tUsage: fst CORPUS\n")
+  println("\n\tUsage: fst CORPUS [CONFIGFILE] \n")
 }
 
 def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
@@ -136,7 +149,7 @@ def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
 def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
     installDataFiles(corpus).value
     installFstFiles(corpus).value
-    BuildComposer(baseDirectory.value / corpus)
+    BuildComposer(baseDirectory.value / s"parsers/${corpus}", "/usr/local/bin/fst-compiler")
    println("\nAll files in place.\nLast step:  compile " + corpus)
  }
 
@@ -153,10 +166,10 @@ def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
 
     println("\ncopying rules files...")
     for (m <- mappings) {
-      //println("  ..copy " + m._1 + " -> " + m._2)
       IO.copyFile(m._1, m._2)
     }
-
+    println("converting to fst...")
+    RulesConverter.cexToFst(baseDirectory.value / s"parsers/${corpus}")
     //VariableManager.expandVariables(baseDirectory.value / s"parsers/${corpus}")
  }
 

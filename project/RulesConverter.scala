@@ -6,7 +6,7 @@ object RulesConverter {
 
 
   def cexToFst(srcDir: File): Unit = {
-    println(s"Convert CEX files in ${srcDir} to FST")
+    println(s"Convert rules files in ${srcDir} to FST")
     buildNounRules(srcDir)
   }
 
