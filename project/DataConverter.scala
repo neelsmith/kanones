@@ -36,7 +36,7 @@ object DataConverter {
       val fstBuilder = StringBuilder.newBuilder
       val ruleUrn = cols(0).replaceAll("_","\\\\_").replaceAll("\\.","\\\\.")
       val inflClass = cols(1).replaceAll("_","\\_")
-      val inflString = cols(2) // toFstAlphabet(cols[2])
+      val inflString = toFstAlphabet(cols(2))
       val grammGender = cols(3)
       val grammCase = cols(4)
       val grammNumber = cols(5)
@@ -49,21 +49,20 @@ object DataConverter {
     data.map(nounLineToFst(_)).mkString("\n")
   }
 
-/*
-  if (cols.size() < 6) {
-    return ""
-  }
-  StringBuilder fst = new StringBuilder("")
-  String ruleUrn = cols[0].replaceAll(/_/,"\\\\_")
-  ruleUrn = ruleUrn.replaceAll("\\.","\\\\.")
-  String inflClass = cols[1].replaceAll(/_/,"\\_")
-  String inflString = toFstAlphabet(cols[2])
-  String grammGender = cols[3]
-  String grammCase = cols[4]
-  String grammNumber = cols[5]
 
-  fst.append(" <${inflClass}><noun>${inflString}<${grammGender}><${grammCase}><${grammNumber}> <u>${ruleUrn}</u>")
-  return fst.toString()
 
-*/
+
+
+  def toFstAlphabet( s: String) = {
+    s.
+     replaceAll("_", "<lo>").
+     replaceAll("\\^", "<sh>").
+     replaceAll("\\(", "<ro>").
+     replaceAll("\\)", "<sm>").
+     replaceAll("=", "\\\\=").
+     replaceAll("\\|", "<isub>")
+   }
+
+
+
 }
