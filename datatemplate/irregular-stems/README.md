@@ -1,1 +1,1 @@
-README goes here
+README for irregulars goes here
