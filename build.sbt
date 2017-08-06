@@ -1,5 +1,6 @@
 import DataConverter._
-import VariableManager._
+import RulesConverter._
+import BuildComposer._
 import complete.DefaultParsers._
 
 lazy val root = (project in file("."))
@@ -31,7 +32,8 @@ lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 
 lazy val test = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
-  DataConverter.cexToFst(baseDirectory.value / "parsers/smyth")
+  //DataConverter.cexToFst(baseDirectory.value / "parsers/smyth")
+  RulesConverter.cexToFst(baseDirectory.value / "parsers/smyth")
 }
 
 // Delete all compiled parsers
@@ -151,7 +153,7 @@ def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
       IO.copyFile(m._1, m._2)
     }
 
-    VariableManager.expandVariables(baseDirectory.value / s"parsers/${corpus}")
+    //VariableManager.expandVariables(baseDirectory.value / s"parsers/${corpus}")
  }
 
  // Copy all CEX files in data directories for a given corpus
