@@ -1,4 +1,5 @@
-import ParserBuilder._
+import DataConverter._
+import VariableManager._
 import complete.DefaultParsers._
 
 lazy val root = (project in file("."))
@@ -121,31 +122,33 @@ def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
 
 // Compile FST parser
 def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
-   filterSourceImpl(corpus).value
-   println("3. Compile " + corpus)
+    installDataFiles(corpus).value
+    installFstFiles(corpus).value
+   println("\nAll files in place.\nLast step:  compile " + corpus)
  }
 
-// Replace all ant-style variables in source files with appropriate values
-def filterSourceImpl(corpus: String)  = Def.task {
-  mapVarsImpl(corpus).value
-  println("2. Filter " + corpus + " before compiling.")
- }
-
- // Build map of all ant-style variables to replacement values
- def mapVarsImpl(corpus: String)  = Def.task {
-   cpFstFiles(corpus).value
-   cpDataFiles(corpus).value
-   println("1. Map variables on " + corpus + " before filtering.")
- }
 
  // Copy all .fst and accompanying make files in src directories
- def cpFstFiles(corpus: String)  = Def.task {
-   ParserBuilder.buildNounStems(baseDirectory.value / s"data/${corpus}")
-   println("0. Copy FST files " + corpus + " before mapping variables.")
+ def installFstFiles(corpus: String)  = Def.task {
+    import Path.rebase
+    val fstDir = baseDirectory.value / "fst"
+    val fstFileOpts = (fstDir) ** "*.fst"
+    val fstFiles = fstFileOpts.get
+
+    val newBase = baseDirectory.value / s"parsers/${corpus}"
+    val mappings: Seq[(File,File)] = fstFiles pair rebase(fstDir, newBase)
+
+    println("\ncopying data files...")
+    for (m <- mappings) {
+      println("  ..copy " + m._1 + " -> " + m._2)
+      IO.copyFile(m._1, m._2)
+    }
+
+    VariableManager.expandVariables(baseDirectory.value / s"parsers/${corpus}")
  }
 
  // Copy all CEX files in data directories for a given corpus
- def cpDataFiles(corpus: String)  = Def.task {
+ def installDataFiles(corpus: String)  = Def.task {
    import Path.rebase
    val cexFileOpts = (baseDirectory.value / s"datasets/${corpus}") ** "*.cex"
    val cexFiles = cexFileOpts.get
@@ -158,6 +161,5 @@ def filterSourceImpl(corpus: String)  = Def.task {
      println("  ..copy " + m._1 + " -> " + m._2)
      IO.copyFile(m._1, m._2)
    }
-   println("0. Copy CEX data files " + corpus + " before mapping variables.")
-
+   DataConverter.cexToFst(baseDirectory.value / s"parsers/${corpus}")
  }
