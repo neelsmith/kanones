@@ -3,6 +3,8 @@
 ## Approaching Scala
 
 1. set up build space
+    2.  cp data files to build space, and rewrite in place
+    3.  cp fst files to buid space, and filter for list values
 2. compile fst
 3. test fst output for candidates
 4. develop wrapper class to assess candidates
