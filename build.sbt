@@ -33,7 +33,8 @@ lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 lazy val test = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
   //DataConverter.cexToFst(baseDirectory.value / "parsers/smyth")
-  RulesConverter.cexToFst(baseDirectory.value / "parsers/smyth")
+  //RulesConverter.cexToFst(baseDirectory.value / "parsers/smyth")
+  BuildComposer(baseDirectory.value / "parsers/smyth")
 }
 
 // Delete all compiled parsers
