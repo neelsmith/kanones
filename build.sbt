@@ -20,12 +20,19 @@ lazy val root = (project in file("."))
 
     fst := buildFst.evaluated,
     corpus := corpusImpl.evaluated,
-    cleanAll := cleanAllImpl.value
+    cleanAll := cleanAllImpl.value,
+
+    test := currentTest.value
   )
 
 lazy val fst = inputKey[Unit]("Compile complete FST system for a named corpus")
 lazy val corpus = inputKey[Unit]("Generate data directory hierarchy for a new named corpus")
 lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
+
+lazy val test = taskKey[Unit]("Run temporary build tests")
+def currentTest: Def.Initialize[Task[Unit]] = Def.task {
+  DataConverter.cexToFst(baseDirectory.value / "parsers/smyth")
+}
 
 // Delete all compiled parsers
 lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
