@@ -116,7 +116,7 @@ lazy val buildFst = Def.inputTaskDyn {
      if (! src.exists()) {
        error("Source dataset " + src + " does not exist.\n")
      } else {
-       println("\nCompile corpus " + args.head + "\n")
+       println("\nCompile corpus " + args.head )
        fstCompile(args.head)
      }
   }
@@ -129,10 +129,13 @@ def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
   println(s"\n\tError: {$msg}\n")
 }
 
+
+
 // Compile FST parser
 def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
     installDataFiles(corpus).value
     installFstFiles(corpus).value
+    BuildComposer(baseDirectory.value / corpus)
    println("\nAll files in place.\nLast step:  compile " + corpus)
  }
 
@@ -147,9 +150,9 @@ def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
     val newBase = baseDirectory.value / s"parsers/${corpus}"
     val mappings: Seq[(File,File)] = fstFiles pair rebase(fstDir, newBase)
 
-    println("\ncopying data files...")
+    println("\ncopying rules files...")
     for (m <- mappings) {
-      println("  ..copy " + m._1 + " -> " + m._2)
+      //println("  ..copy " + m._1 + " -> " + m._2)
       IO.copyFile(m._1, m._2)
     }
 
@@ -167,7 +170,7 @@ def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
 
    println("\ncopying data files...")
    for (m <- mappings) {
-     println("  ..copy " + m._1 + " -> " + m._2)
+     //println("  ..copy " + m._1 + " -> " + m._2)
      IO.copyFile(m._1, m._2)
    }
    DataConverter.cexToFst(baseDirectory.value / s"parsers/${corpus}")
