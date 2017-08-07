@@ -5,10 +5,10 @@ import java.io.PrintWriter
 object MakefileComposer {
 
   def apply(projectDir: File, fstcompiler: String) : Unit = {
-    //composeMainMake(projectDir, fstcompiler)
-
     val inflDir = projectDir / "inflection"
     composeInflectionMake(inflDir, fstcompiler)
+
+    composeMainMake(projectDir, fstcompiler)
   }
 
 
@@ -16,6 +16,8 @@ object MakefileComposer {
   def composeMainMake(projectDir: File, fstcompiler: String): Unit = {
     val makeFileText = StringBuilder.newBuilder
     makeFileText.append(s"${projectDir.toString}/greek.a: ${projectDir.toString}/symbols.fst ${projectDir.toString}/symbols/phonology.fst ${projectDir.toString}/inflection.a ${projectDir.toString}/acceptor.a ${projectDir.toString}/generator.a ")
+
+    println("Main makefile:\n\n\n" + makeFileText.toString )
   }
 
   def composeInflectionMake(inflDir: File, fstcompiler: String) : Unit = {

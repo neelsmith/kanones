@@ -37,7 +37,10 @@ object ParserComposer {
     greek.append("% Final transducer:\n")
     greek.append("$morph$ || $acceptor$\n\n")
 
-    println("greek.fst:\n\n" + greek.toString)
+
+    val greekFile = projectDir / "greek.fst"
+    new PrintWriter(greekFile) { write(greek.toString); close }
+    
   }
 
 }

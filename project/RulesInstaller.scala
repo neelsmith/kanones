@@ -6,7 +6,7 @@ object RulesInstaller {
 
   def apply(repo: File, corpus: String): Unit = {
   //def cexToFst(srcDir: File): Unit = {
-    println(s"Convert rules files in ${repo} to FST")
+    println(s"Convert inflectional rules tables in ${repo} to FST")
     buildNounRules(repo, corpus)
   }
 
@@ -28,7 +28,7 @@ object RulesInstaller {
   }
 
   def fstForNounRules(srcDir: File) : String = {
-    val nounsDir = srcDir / "rules/nouns"
+    val nounsDir = srcDir / "rules-tables/nouns"
     val nounsOpt = (nounsDir) ** "*cex"
     val nounsFiles = nounsOpt.get
     println("\tBuilding inflection rules for nouns from " + nounsDir)

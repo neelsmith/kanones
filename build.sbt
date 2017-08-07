@@ -31,7 +31,7 @@ lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 
 lazy val test = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
-  ParserComposer(baseDirectory.value / "parsers/dev")
+ SymbolsComposer(baseDirectory.value , "dev")
 }
 
 // Delete all compiled parsers
@@ -145,16 +145,16 @@ def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
 def fstCompile(corpus : String, configFile: File) : Def.Initialize[Task[Unit]] = Def.task {
   val buildDirectory = baseDirectory.value / s"parsers/${corpus}"
   val conf = Configuration(configFile)
+
   // Install data and rules, converting tabular data to FST
   DataInstaller(baseDirectory.value, corpus)
   RulesInstaller(baseDirectory.value, corpus)
+
   // Compose makefiles and higher-order FST for build system
-  BuildComposer(baseDirectory.value / s"parsers/${corpus}", "/usr/local/bin/fst-compiler")
+  BuildComposer(baseDirectory.value, corpus, "/usr/local/bin/fst-compiler")
 
-
-  // Compile:
-  val makefile = buildDirectory / "inflection/makefile"
-  val infl = s"${conf.make} -f ${makefile}"
-  println("\nAll files in place.\nCompiling inflection for " + corpus  + " with " + infl)
-  //infl !
+  // Build it!
+  val makefile = buildDirectory / "makefile"
+  val doit = s"${conf.make} -f ${makefile}"
+  //doit !
 }

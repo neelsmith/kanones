@@ -7,7 +7,7 @@ object DataInstaller {
 
 
   def apply(repo: File, corpus: String): Unit = {
-    println(s"Convert rules files in ${repo} to FST")
+    println(s"Convert morphological lexicon tables in ${repo} to FST")
     val projectDir = madeDir(repo / s"parsers/${corpus}")
     val lexDir = madeDir(projectDir / "lexica")
     buildNounStems(repo, corpus)
@@ -32,7 +32,7 @@ object DataInstaller {
   def buildNounStems(repo: File, corpus: String) = {
     val lexDirectory = madeDir(repo / s"parsers/${corpus}/lexica")
 
-    val nounsDir = repo / s"datasets/${corpus}/stems/nouns"
+    val nounsDir = repo / s"datasets/${corpus}/stems-tables/nouns"
     val nounsOpt = (nounsDir) ** "*cex"
     val nounsFiles = nounsOpt.get
     println("\tbuilding nouns stems from " + nounsDir)

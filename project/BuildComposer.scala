@@ -11,10 +11,13 @@ import java.io.PrintWriter
 */
 object BuildComposer {
 
-  def apply(projectDir: File, fstcompiler: String) : Unit = {
+  def apply(repo: File, corpus: String, fstcompiler: String) : Unit = {
+     val corpusDir = "parsers/" + corpus
+    val projectDir = repo / corpusDir
     MakefileComposer(projectDir, fstcompiler)
     InflectionComposer(projectDir)
     AcceptorComposer(projectDir)
+    SymbolsComposer(repo, corpus)
     ParserComposer(projectDir)
   }
 
