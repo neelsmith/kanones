@@ -34,9 +34,7 @@ $acceptor$ || $stripsym$
 """
 
 
-  def apply(repo: File, corpus: String): Unit = {
-    val projectDir = repo / s"parsers/${corpus}"
-
+  def apply(projectDir: File): Unit = {
     val fst = StringBuilder.newBuilder
     fst.append("#include \"" + projectDir.toString + "/symbols.fst\"\n")
     fst.append(nounAcceptor + "\n")
