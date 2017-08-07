@@ -30,14 +30,11 @@ lazy val fst = inputKey[Unit]("Compile complete FST system for a named corpus")
 lazy val corpus = inputKey[Unit]("Generate data directory hierarchy for a new named corpus")
 lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 
+
+
 lazy val test = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
-  //DataConverter.cexToFst(baseDirectory.value / "parsers/smyth")
-  //RulesConverter.cexToFst(baseDirectory.value / "parsers/smyth")
-
-//  val proj = baseDirectory.value / "parsers/dev"
-//  BuildComposer(proj, "/usr/local/bin/fst-compiler")
-    DataInstaller(baseDirectory.value, "dev")
+  BuildComposer(baseDirectory.value, "dev", "/usr/local/bin/fst-compiler")
 }
 
 // Delete all compiled parsers
@@ -149,13 +146,18 @@ def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
 
 // Compile FST parser
 def fstCompile(corpus : String, configFile: File) : Def.Initialize[Task[Unit]] = Def.task {
+  val buildDirectory = baseDirectory.value / s"parsers/${corpus}"
   val conf = Configuration(configFile)
-  println("Configured with compiler " + conf.fstcompile)
+
   DataInstaller(baseDirectory.value, corpus)
-  DataConverter.cexToFst(baseDirectory.value / s"parsers/${corpus}")
+  DataConverter.cexToFst(buildDirectory)
 
   RulesInstaller(baseDirectory.value, corpus)
-  RulesConverter.cexToFst(baseDirectory.value / s"parsers/${corpus}")
-  //BuildComposer(baseDirectory.value / s"parsers/${corpus}", "/usr/local/bin/fst-compiler")
-  println("\nAll files in place.\nLast step:  compile " + corpus)
+  RulesConverter.cexToFst(buildDirectory)
+
+  BuildComposer(baseDirectory.value, corpus, "/usr/local/bin/fst-compiler")
+  val makefile = buildDirectory / "inflection/makefile"
+  val infl = s"${conf.make} -f ${makefile}"
+  println("\nAll files in place.\nCompiling inflection for " + corpus  + " with " + infl)
+  infl !
 }
