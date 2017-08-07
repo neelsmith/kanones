@@ -34,7 +34,7 @@ lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 
 lazy val test = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
-  //BuildComposer(baseDirectory.value, "dev", "/usr/local/bin/fst-compiler")
+  InflectionComposer(baseDirectory.value / "parsers/dev")
 }
 
 // Delete all compiled parsers
@@ -155,7 +155,7 @@ def fstCompile(corpus : String, configFile: File) : Def.Initialize[Task[Unit]] =
   RulesInstaller(baseDirectory.value, corpus)
   RulesConverter.cexToFst(buildDirectory)
 
-  BuildComposer(baseDirectory.value, corpus, "/usr/local/bin/fst-compiler")
+  BuildComposer(baseDirectory.value / s"parsers/${corpus}", "/usr/local/bin/fst-compiler")
   val makefile = buildDirectory / "inflection/makefile"
   val infl = s"${conf.make} -f ${makefile}"
   println("\nAll files in place.\nCompiling inflection for " + corpus  + " with " + infl)
