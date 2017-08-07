@@ -35,8 +35,9 @@ def currentTest: Def.Initialize[Task[Unit]] = Def.task {
   //DataConverter.cexToFst(baseDirectory.value / "parsers/smyth")
   //RulesConverter.cexToFst(baseDirectory.value / "parsers/smyth")
 
-  val proj = baseDirectory.value / "parsers/smyth"
-  BuildComposer(proj, "/usr/local/bin/fst-compiler")
+//  val proj = baseDirectory.value / "parsers/dev"
+//  BuildComposer(proj, "/usr/local/bin/fst-compiler")
+    DataInstaller(baseDirectory.value, "dev")
 }
 
 // Delete all compiled parsers
@@ -114,18 +115,21 @@ lazy val buildFst = Def.inputTaskDyn {
       if (! src.exists()) {
         error("Source dataset " + src + " does not exist.\n")
       } else {
-        println("\nCompile corpus " + args.head )
-        fstCompile(args.head)
+        println("\nCompile corpus " + args.head + " with default configuration from config.properties")
+        fstCompile(args.head, baseDirectory.value / "config.properties")
       }
 
     }
     case 2 => {
       val src = baseDirectory.value / s"datasets/${args.head}"
+      val confFile = baseDirectory.value / args(1)
       if (! src.exists()) {
         error("Source dataset " + src + " does not exist.\n")
+      } else if (! confFile.exists()) {
+        error("Configuration file " + confFile + " does not exist.\n")
       } else {
-        println("\nCompile corpus " + args.head )
-        fstCompile(args.head)
+        println("\nCompile corpus " + args.head ) + " using configuration file " + confFile
+        fstCompile(args.head, confFile)
       }
     }
     case _ => {
@@ -143,49 +147,15 @@ def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
   println(s"\n\tError: {$msg}\n")
 }
 
-
-
 // Compile FST parser
-def fstCompile(corpus : String) : Def.Initialize[Task[Unit]] = Def.task {
-    installDataFiles(corpus).value
-    installFstFiles(corpus).value
-    BuildComposer(baseDirectory.value / s"parsers/${corpus}", "/usr/local/bin/fst-compiler")
-   println("\nAll files in place.\nLast step:  compile " + corpus)
- }
+def fstCompile(corpus : String, configFile: File) : Def.Initialize[Task[Unit]] = Def.task {
+  val conf = Configuration(configFile)
+  println("Configured with compiler " + conf.fstcompile)
+  DataInstaller(baseDirectory.value, corpus)
+  DataConverter.cexToFst(baseDirectory.value / s"parsers/${corpus}")
 
-
- // Copy all .fst and accompanying make files in src directories
- def installFstFiles(corpus: String)  = Def.task {
-    import Path.rebase
-    val fstDir = baseDirectory.value / "fst"
-    val fstFileOpts = (fstDir) ** "*.fst"
-    val fstFiles = fstFileOpts.get
-
-    val newBase = baseDirectory.value / s"parsers/${corpus}"
-    val mappings: Seq[(File,File)] = fstFiles pair rebase(fstDir, newBase)
-
-    println("\ncopying rules files...")
-    for (m <- mappings) {
-      IO.copyFile(m._1, m._2)
-    }
-    println("converting to fst...")
-    RulesConverter.cexToFst(baseDirectory.value / s"parsers/${corpus}")
-    //VariableManager.expandVariables(baseDirectory.value / s"parsers/${corpus}")
- }
-
- // Copy all CEX files in data directories for a given corpus
- def installDataFiles(corpus: String)  = Def.task {
-   import Path.rebase
-   val cexFileOpts = (baseDirectory.value / s"datasets/${corpus}") ** "*.cex"
-   val cexFiles = cexFileOpts.get
-   val baseDirectories: Seq[File] = Seq( baseDirectory.value / s"datasets/${corpus}" )
-   val newBase = baseDirectory.value / s"parsers/${corpus}"
-   val mappings: Seq[(File,File)] = cexFiles pair rebase(baseDirectories, newBase)
-
-   println("\ncopying data files...")
-   for (m <- mappings) {
-     //println("  ..copy " + m._1 + " -> " + m._2)
-     IO.copyFile(m._1, m._2)
-   }
-   DataConverter.cexToFst(baseDirectory.value / s"parsers/${corpus}")
- }
+  RulesInstaller(baseDirectory.value, corpus)
+  RulesConverter.cexToFst(baseDirectory.value / s"parsers/${corpus}")
+  //BuildComposer(baseDirectory.value / s"parsers/${corpus}", "/usr/local/bin/fst-compiler")
+  println("\nAll files in place.\nLast step:  compile " + corpus)
+}
