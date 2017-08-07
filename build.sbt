@@ -145,14 +145,14 @@ def error(msg: String): Def.Initialize[Task[Unit]] = Def.task {
 def fstCompile(corpus : String, configFile: File) : Def.Initialize[Task[Unit]] = Def.task {
   val buildDirectory = baseDirectory.value / s"parsers/${corpus}"
   val conf = Configuration(configFile)
-
+  // Install data and rules, converting tabular data to FST
   DataInstaller(baseDirectory.value, corpus)
-  DataConverter.cexToFst(buildDirectory)
-
   RulesInstaller(baseDirectory.value, corpus)
-  //RulesConverter.cexToFst(buildDirectory)
-
+  // Compose makefiles and higher-order FST for build system
   BuildComposer(baseDirectory.value / s"parsers/${corpus}", "/usr/local/bin/fst-compiler")
+
+
+  // Compile:
   val makefile = buildDirectory / "inflection/makefile"
   val infl = s"${conf.make} -f ${makefile}"
   println("\nAll files in place.\nCompiling inflection for " + corpus  + " with " + infl)
