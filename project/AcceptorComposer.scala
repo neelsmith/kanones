@@ -1,11 +1,50 @@
 import sbt._
 import java.io.PrintWriter
-
+import scala.io.Source
 
 /** Factory object for composing and writing to file the top-level
 * acceptor transducer, acceptor.fst in the root of the project FST build.
 */
 object AcceptorComposer {
+
+  def apply(repo: File, corpus: String): Unit = {
+    val projectDir =  repo / s"parsers/${corpus}"
+    composeMainAcceptor(projectDir)
+    copySecondaryAcceptors(repo, corpus)
+    rewriteSecondaryAcceptors(projectDir)
+  }
+
+  def copySecondaryAcceptors(repo: File, corpus: String): Unit = {
+    val src = repo / "fst/acceptors"
+    val dest = repo / s"parsers/${corpus}/acceptors"
+
+     val fst = (src) ** "*.fst"
+     val fstFiles = fst.get
+     val mappings: Seq[(File,File)] = fstFiles pair rebase(src, dest)
+     for (m <- mappings) {
+       IO.copyFile(m._1, m._2)
+     }
+  }
+
+
+  def rewriteFile(f: File, workDir: File): Unit = {
+    val lines = Source.fromFile(f).getLines.toVector
+    val rewritten = lines.map(_.replaceAll("@workdir@", workDir.toString + "/")).mkString("\n")
+    new PrintWriter(f) { write(rewritten); close }
+  }
+
+  def rewriteSecondaryAcceptors(projectDir: File) : Unit = {
+
+    val dir = projectDir / "acceptors"
+   val fst = (dir) ** "*.fst"
+    val fstFiles = fst.get
+    for (f <- fstFiles) {
+      rewriteFile(f, projectDir)
+    }
+  }
+
+
+
 
 
   val nounAcceptor = """
@@ -49,10 +88,6 @@ $acceptor$ || $stripsym$
   }
 
 
-  def apply(repo: File, corpus: String): Unit = {
-    val projectDir =  repo / s"parsers/${corpus}"
-    composeMainAcceptor(projectDir)
-  }
 
 
 
