@@ -159,5 +159,5 @@ def fstCompile(corpus : String, configFile: File) : Def.Initialize[Task[Unit]] =
   val makefile = buildDirectory / "inflection/makefile"
   val infl = s"${conf.make} -f ${makefile}"
   println("\nAll files in place.\nCompiling inflection for " + corpus  + " with " + infl)
-  infl !
+  //infl !
 }
