@@ -14,11 +14,12 @@ object BuildComposer {
   def apply(repo: File, corpus: String, fstcompiler: String) : Unit = {
      val corpusDir = "parsers/" + corpus
     val projectDir = repo / corpusDir
-    MakefileComposer(projectDir, fstcompiler)
+    SymbolsComposer(repo, corpus)
     InflectionComposer(projectDir)
     AcceptorComposer(repo, corpus)
-    SymbolsComposer(repo, corpus)
     ParserComposer(projectDir)
+    MakefileComposer(projectDir, fstcompiler)
+    //GeneratorComposer(repo, corpus)
   }
 
 }

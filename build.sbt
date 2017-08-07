@@ -31,7 +31,7 @@ lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 
 lazy val test = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
- SymbolsComposer(baseDirectory.value , "dev")
+ MakefileComposer(baseDirectory.value / s"parsers/dev" , "/usr/local/bin/fst-compiler")
 }
 
 // Delete all compiled parsers

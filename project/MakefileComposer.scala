@@ -12,12 +12,43 @@ object MakefileComposer {
   }
 
 
+  def dotAsForFst(dir: File) : Vector[String] = {
+    val fst = (dir) * "*fst"
+    val fstFiles = fst.get
+    fstFiles.map(_.toString().replaceFirst(".fst$", ".a")).toVector
+  }
+
+  def subDirs(dir: File) : Vector[File] = {
+    val children = dir.listFiles()
+    children.filter(_.isDirectory).toVector
+  }
 
   def composeMainMake(projectDir: File, fstcompiler: String): Unit = {
     val makeFileText = StringBuilder.newBuilder
-    makeFileText.append(s"${projectDir.toString}/greek.a: ${projectDir.toString}/symbols.fst ${projectDir.toString}/symbols/phonology.fst ${projectDir.toString}/inflection.a ${projectDir.toString}/acceptor.a ${projectDir.toString}/generator.a ")
+    makeFileText.append(s"${projectDir.toString}/greek.a: ${projectDir.toString}/symbols.fst ${projectDir.toString}/symbols/phonology.fst ${projectDir.toString}/inflection.a ${projectDir.toString}/acceptor.a \n")
 
-    println("Main makefile:\n\n\n" + makeFileText.toString )
+    val dotAs = dotAsForFst(projectDir / "acceptors").mkString(" ")
+    makeFileText.append(s"${projectDir.toString}/acceptor.a: " + dotAs + "\n\n")
+
+    for (d <- subDirs(projectDir / "acceptors")) {
+      val subDotAs = dotAsForFst(d)
+      makeFileText.append(d.toString() + ".a: " + subDotAs + "\n\n")
+    }
+
+
+
+    //println("DOT AS WERE " + dotAs.mkString("\n"))
+    //val acceptorsFst = (projectDir / "acceptors") ** "*fst"
+    //val acceptorsFstFiles = acceptorsFst.get
+    //val dotAs = acceptorsFst.map(_.toString().replaceFirst(".fst$", ".a"))
+//    makeFileText.append(dotAs.mkString(" ") + "\n")
+
+
+
+    makeFileText.append("%.a: %.fst\n\t" + fstcompiler + " $< $@\n")
+     //later:  ${projectDir.toString}/generator.a ")
+
+    println("\nMain makefile:\n\n" + makeFileText.toString )
   }
 
   def composeInflectionMake(inflDir: File, fstcompiler: String) : Unit = {
