@@ -1,6 +1,7 @@
 import sbt._
 import scala.io.Source
 import java.io.PrintWriter
+import Path.rebase
 
 object DataConverter {
 
@@ -23,7 +24,8 @@ object DataConverter {
     val nounsOpt = (nounsDir) ** "*cex"
     val nounsFiles = nounsOpt.get
     println("\tbuilding nouns stems from " + nounsDir)
-
+    // remap to "lexica" dir
+    /*
     for (f <- nounsFiles) {
       val fstFile = nounsDir / f.getName().replaceFirst(".cex$", ".fst")
       // omit empty lines and header
@@ -31,6 +33,7 @@ object DataConverter {
       val fstLines = DataConverter.nounLinesToFst(dataLines)
       new PrintWriter(fstFile) { write(fstLines); close }
     }
+    */
   }
 
   /** Translates one line of CEX data documenting a noun stem

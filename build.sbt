@@ -1,6 +1,3 @@
-import DataConverter._
-import RulesConverter._
-import BuildComposer._
 import complete.DefaultParsers._
 
 lazy val root = (project in file("."))
@@ -153,7 +150,7 @@ def fstCompile(corpus : String, configFile: File) : Def.Initialize[Task[Unit]] =
   DataConverter.cexToFst(buildDirectory)
 
   RulesInstaller(baseDirectory.value, corpus)
-  RulesConverter.cexToFst(buildDirectory)
+  //RulesConverter.cexToFst(buildDirectory)
 
   BuildComposer(baseDirectory.value / s"parsers/${corpus}", "/usr/local/bin/fst-compiler")
   val makefile = buildDirectory / "inflection/makefile"

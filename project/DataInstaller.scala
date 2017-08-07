@@ -1,5 +1,5 @@
 import sbt._
- import Path.rebase
+import Path.rebase
 import scala.io.Source
 import java.io.PrintWriter
 
