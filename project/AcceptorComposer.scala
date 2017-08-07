@@ -36,8 +36,7 @@ $stripsym$ = .+
 $acceptor$ || $stripsym$
 """
 
-
-  def apply(projectDir: File): Unit = {
+  def composeMainAcceptor(projectDir: File) = {
     val fst = StringBuilder.newBuilder
     fst.append("#include \"" + projectDir.toString + "/symbols.fst\"\n")
     fst.append(nounAcceptor + "\n")
@@ -47,6 +46,12 @@ $acceptor$ || $stripsym$
 
     val acceptorFile = projectDir / "acceptor.fst"
     new PrintWriter(acceptorFile) { write(fst.toString); close }
+  }
+
+
+  def apply(repo: File, corpus: String): Unit = {
+    val projectDir =  repo / s"parsers/${corpus}"
+    composeMainAcceptor(projectDir)
   }
 
 

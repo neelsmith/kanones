@@ -16,7 +16,7 @@ object BuildComposer {
     val projectDir = repo / corpusDir
     MakefileComposer(projectDir, fstcompiler)
     InflectionComposer(projectDir)
-    AcceptorComposer(projectDir)
+    AcceptorComposer(repo, corpus)
     SymbolsComposer(repo, corpus)
     ParserComposer(projectDir)
   }
