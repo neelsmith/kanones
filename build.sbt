@@ -31,7 +31,7 @@ lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 
 lazy val test = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
-  InflectionComposer(baseDirectory.value / "parsers/dev")
+  ParserComposer(baseDirectory.value / "parsers/dev")
 }
 
 // Delete all compiled parsers
