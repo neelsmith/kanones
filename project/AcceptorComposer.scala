@@ -2,6 +2,9 @@ import sbt._
 import java.io.PrintWriter
 
 
+/** Factory object for composing and writing to file the top-level
+* acceptor transducer, acceptor.fst in the root of the project FST build.
+*/
 object AcceptorComposer {
 
 

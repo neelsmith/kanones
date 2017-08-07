@@ -1,7 +1,10 @@
 import sbt._
 import java.io.PrintWriter
 
-
+/** Factory object for composing and writing to a file the top-level
+* transducer creating the morphological lexica, inflection.fst in the root of
+* the project FST build.
+*/
 object InflectionComposer {
 
 
