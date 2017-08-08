@@ -170,7 +170,10 @@ def fstCompile(corpus : String, configFile: File) : Def.Initialize[Task[Unit]] =
   BuildComposer(baseDirectory.value, corpus, "/usr/local/bin/fst-compiler")
 
   // Build it!
+  val inflMakefile = buildDirectory / "inflection/makefile"
+  val makeInfl = s"${conf.make} -f ${inflMakefile}"
+  makeInfl !
   val makefile = buildDirectory / "makefile"
   val doit = s"${conf.make} -f ${makefile}"
-  //doit !
+  doit !
 }

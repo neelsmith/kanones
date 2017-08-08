@@ -50,7 +50,6 @@ object MakefileComposer {
     makeFileText.append("%.a: %.fst\n\t" + fstcompiler + " $< $@\n")
      //later:  ${projectDir.toString}/generator.a ")
 
-    println("\nMain makefile:\n\n" + makeFileText.toString )
     val makeFile = projectDir / "makefile"
     new PrintWriter(makeFile) { write(makeFileText.toString); close }
   }
