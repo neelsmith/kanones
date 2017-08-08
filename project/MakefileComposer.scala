@@ -30,11 +30,13 @@ object MakefileComposer {
     val dotAs = dotAsForFst(projectDir / "acceptors").mkString(" ")
     makeFileText.append(s"${projectDir.toString}/acceptor.a: " + dotAs + "\n\n")
 
+
+/*
     for (d <- subDirs(projectDir / "acceptors")) {
       val subDotAs = dotAsForFst(d)
       makeFileText.append(d.toString() + ".a: " + subDotAs + "\n\n")
     }
-
+*/
 
 
     //println("DOT AS WERE " + dotAs.mkString("\n"))
@@ -49,6 +51,8 @@ object MakefileComposer {
      //later:  ${projectDir.toString}/generator.a ")
 
     println("\nMain makefile:\n\n" + makeFileText.toString )
+    val makeFile = projectDir / "makefile"
+    new PrintWriter(makeFile) { write(makeFileText.toString); close }
   }
 
   def composeInflectionMake(inflDir: File, fstcompiler: String) : Unit = {

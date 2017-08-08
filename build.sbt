@@ -18,6 +18,7 @@ lazy val root = (project in file("."))
 
     fst := buildFst.evaluated,
     corpus := corpusImpl.evaluated,
+    utils := utilsImpl.evaluated,
     cleanAll := cleanAllImpl.value,
 
     test := currentTest.value
@@ -26,6 +27,7 @@ lazy val root = (project in file("."))
 lazy val fst = inputKey[Unit]("Compile complete FST system for a named corpus")
 lazy val corpus = inputKey[Unit]("Generate data directory hierarchy for a new named corpus")
 lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
+lazy val utils = inputKey[Unit]("Build utility transducers for a named corpus")
 
 
 
@@ -95,6 +97,20 @@ lazy val corpusImpl = Def.inputTaskDyn {
 def templateUsage: Def.Initialize[Task[Unit]] = Def.task {
   println("\n\tUsage: corpus [-r] CORPUSNAME\n")
   println("\t-r option = replace (delete) existing dataset\n")
+}
+
+
+
+lazy val utilsImpl = Def.inputTaskDyn {
+  val args = spaceDelimited("corpus>").parsed
+  if (args.size != 1) {
+    error("No corpus named\n\tUsage: utils CORPUS")
+  } else {
+    Def.task {
+      def conf = Configuration(file("config.properties"))
+      UtilsInstaller(baseDirectory.value, args.head,conf)
+    }
+  }
 }
 
 

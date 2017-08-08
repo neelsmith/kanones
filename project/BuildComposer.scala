@@ -15,6 +15,8 @@ object BuildComposer {
      val corpusDir = "parsers/" + corpus
     val projectDir = repo / corpusDir
     SymbolsComposer(repo, corpus)
+    IO.copyFile(repo / s"datasets/${corpus}/orthography/alphabet.fst",
+      repo / s"parsers/${corpus}/symbols/alphabet.fst")
     InflectionComposer(projectDir)
     AcceptorComposer(repo, corpus)
     ParserComposer(projectDir)

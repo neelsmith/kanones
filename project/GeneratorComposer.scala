@@ -10,6 +10,7 @@ object GeneratorComposer {
   def apply(repo: File, corpus: String): Unit = {
     val projectDir =  repo / s"parsers/${corpus}"
     composeMainGenerator(projectDir)
+    println("Secondary generators are necessary for verbs to distinguish prin.part as well as infletional category")
     //copySecondaryGenerators(repo, corpus)
     //rewriteSecondaryGenerators(projectDir)
   }

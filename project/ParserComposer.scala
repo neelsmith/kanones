@@ -19,7 +19,7 @@ object ParserComposer {
   def apply(projectDir: File) : Unit = {
     val greek = StringBuilder.newBuilder
     greek.append(header)
-    greek.append(projectDir.toString + "/symbols.fst\n\n" )
+    greek.append("#include \"" + projectDir.toString + "/symbols.fst\"\n\n" )
 
 
     greek.append("% Dynamically loaded lexica of stems:\n$stems$ = ")
@@ -40,7 +40,7 @@ object ParserComposer {
 
     val greekFile = projectDir / "greek.fst"
     new PrintWriter(greekFile) { write(greek.toString); close }
-    
+
   }
 
 }
