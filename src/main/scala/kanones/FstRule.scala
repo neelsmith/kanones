@@ -28,7 +28,6 @@ object FstRule {
   * @param fst The "rule" half of an FST reply.
   */
   def apply(fst: String): FstRule = {
-    println("\nCreate FstRule from " + fst + "\n")
     val idsRE = "<([^<]+)><([^<]+)>(.+)".r
     val idsRE(inflClass, stemType, remainder) = fst
 

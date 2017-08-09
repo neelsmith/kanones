@@ -11,7 +11,15 @@ class FstFormSpec extends FlatSpec {
     "The Form object" should "construct Forms from FST input" in {
 
     val f = Form(res1)
-    //println("GOT FORM " + f)
+    f match {
+      case nf: NounForm => {
+        assert (nf.gender == Feminine)
+        assert (nf.grammaticalCase == Nominative)
+        assert (nf.grammaticalNumber == Singular)
+      }
+      case _ => fail("Should have created a noun form")
+    }
+
   }
 
 }

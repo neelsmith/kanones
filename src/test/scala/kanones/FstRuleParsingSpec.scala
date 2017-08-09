@@ -11,12 +11,15 @@ class FstRuleParsingSpec extends FlatSpec {
     val rule = FstRule(ruleFst)
     rule match {
       case nr: NounRule => {
-        assert(nr.ruleId == "nouninfl.h_hs5")      
+        assert(nr.ruleId == "nouninfl.h_hs5")
+        assert(nr.gender == "fem")
+        assert(nr.grammaticalCase == "voc")
+        assert(nr.grammaticalNumber == "sg")
+        assert(nr.declClass == "h_hs")
+        assert(nr.ending == "h")
+
       }
     }
-
-//ruleId: String,gender: String, grammaticalCase: String,
-//grammaticalNumber:String, declClass: String, ending: String
   }
 
 

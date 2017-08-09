@@ -5,26 +5,36 @@ package edu.holycross.shot.kanones
 sealed trait Form
 
 object Form {
+
+  /** From a raw FST string, identify a morphological form.
+  *
+  * @param s String value of a single FST analysis.
+  */
   def apply(s: String): Form = {
     val halves = s.split("::")
     require(halves.size == 2, "Could not find :: delimited parts of FST string " + s)
-    //val stem = FstStem(halves(0))
-    val inflection = FstRule(halves(1))
-    //println("STEM: " + stem)
-    println("INFL: " + inflection)
 
-    NounForm(Masculine, Nominative, Singular)
+    val inflection = FstRule(halves(1))
+
+    inflection match {
+      case nr: NounRule => {
+        NounForm(nr.gender, nr.grammaticalCase, nr.grammaticalNumber)
+      }
+      case _ => throw new Exception("Form class not yet implemented.")
+    }
   }
 }
 
 case class NounForm(gender: Gender, grammaticalCase: GrammaticalCase, grammaticalNumber: GrammaticalNumber) extends Form {}
 
+
 object NounForm {
-  def apply(s: String): NounForm = {
-    println("Analyze as a noun: " + s)
-    val parts = s.split("<noun>")
-    
-    throw new Exception("Not yet implemented")
+
+
+  /** Create [[NounForm]] from three FST symbols.
+  */
+  def apply(g: String, c: String, n: String): NounForm = {
+    NounForm(genderForFstSymbol(g), caseForFstSymbol(c), numberForFstSymbol(n))
   }
 }
 
