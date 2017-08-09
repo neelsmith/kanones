@@ -5,6 +5,7 @@ import scala.language.postfixOps
 import edu.holycross.shot.greek._
 import java.io.PrintWriter
 import java.io.File
+import scala.io.Source
 
 case class TestConfig(echo: String, fstinfl: String, parser: String) {
   def parseAction: String =  { fstinfl + " " + parser }
@@ -14,6 +15,15 @@ case class TestConfig(echo: String, fstinfl: String, parser: String) {
 
 case class SimpleTestHarness(conf: TestConfig)  {
 
+  def score(f: File) = {
+    for (spec <- testSpecs(f)) yield {
+      passes(spec)
+    }
+  }
+
+  def testSpecs(f: File): Vector[String] = {
+    Source.fromFile(f).getLines.toVector.drop(1).filter(_.nonEmpty)
+  }
 
   /** True if the parser produces an analysis specified by a line
   * of delimited-text data.

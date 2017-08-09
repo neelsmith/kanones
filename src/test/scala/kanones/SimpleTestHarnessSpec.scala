@@ -2,6 +2,7 @@
 package edu.holycross.shot.kanones
 
 import org.scalatest.FlatSpec
+import java.io.File
 
 class SimpleTestHarnessSpec extends FlatSpec {
 
@@ -30,5 +31,18 @@ class SimpleTestHarnessSpec extends FlatSpec {
   it should "report if the parser produces the expected reply" in {
     val testLine = "νίκη#noun#feminine#nominative#singular#stempenacc#"
     assert( testHarness.passes(testLine))
+  }
+
+  it should "read test specs from a file" in {
+    val testFile = new File("src/test/resources/unit_tests_data/smyth/smyth216/smyth216nike.cex")
+    val specs = testHarness.testSpecs(testFile)
+    val expectedSpecs = 15
+    assert(specs.size == expectedSpecs)
+  }
+
+  it should "score a set of spcs from a file" in {
+    val testFile = new File("src/test/resources/unit_tests_data/smyth/smyth216/smyth216nike.cex")
+    val results = testHarness.score(testFile)
+    println(results)
   }
 }
