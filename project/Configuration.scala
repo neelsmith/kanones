@@ -8,6 +8,7 @@ case class Configuration(fstcompile: String, fstinfl: String, make: String, data
   require(new File(fstcompile).exists(), "No fst compiler named " + fstcompile + " found.")
   require(new File(fstinfl).exists(), "No file named " + fstinfl + " found.")
   require(new File(make).exists(), "No file named " + make + " found.")
+  require(new File(datadir).exists(), "No directory named " + datadir + " found.")
 }
 
 

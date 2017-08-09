@@ -1,28 +1,28 @@
 import complete.DefaultParsers._
 
-lazy val root = (project in file("."))
-  .settings(
-    name := "kanones",
-    organization := "edu.holycross.shot",
-    version := "0.0.1",
-    scalaVersion := "2.12.3",
-    licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
-    resolvers += Resolver.jcenterRepo,
-    resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
-    libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.1" % "test",
-      "edu.holycross.shot" %% "greek" % "1.3.5",
+lazy val root = (project in file(".")).
+    settings(
+      name := "kanones",
+      organization := "edu.holycross.shot",
+      version := "0.0.1",
+      scalaVersion := "2.12.3",
+      licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
+      resolvers += Resolver.jcenterRepo,
+      resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
+      libraryDependencies ++= Seq(
+        "org.scalatest" %% "scalatest" % "3.0.1" % "test",
+        "edu.holycross.shot" %% "greek" % "1.3.5",
 
-      "edu.holycross.shot.cite" %% "xcite" % "2.7.1"
-    ),
+        "edu.holycross.shot.cite" %% "xcite" % "2.7.1"
+      ),
 
-    fst := buildFst.evaluated,
-    corpus := corpusImpl.evaluated,
-    utils := utilsImpl.evaluated,
-    cleanAll := cleanAllImpl.value,
+      fst := buildFst.evaluated,
+      corpus := corpusImpl.evaluated,
+      utils := utilsImpl.evaluated,
+      cleanAll := cleanAllImpl.value,
 
-    test := currentTest.value
-  )
+      debug := currentTest.value
+    )
 
 lazy val fst = inputKey[Unit]("Compile complete FST system for a named corpus")
 lazy val corpus = inputKey[Unit]("Generate data directory hierarchy for a new named corpus")
@@ -31,7 +31,7 @@ lazy val utils = inputKey[Unit]("Build utility transducers for a named corpus")
 
 
 
-lazy val test = taskKey[Unit]("Run temporary build tests")
+lazy val debug = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
  //MakefileComposer(baseDirectory.value / s"parsers/dev" , "/usr/local/bin/fst-compiler")
  InflectionComposer(baseDirectory.value / "parsers/dev")
