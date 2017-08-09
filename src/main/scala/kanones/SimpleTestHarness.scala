@@ -15,7 +15,23 @@ case class TestConfig(echo: String, fstinfl: String, parser: String) {
 case class SimpleTestHarness(conf: TestConfig)  {
 
 
-  def requestedForm(ln: String) : Form = {
+  /** True if the parser produces an analysis specified by a line
+  * of delimited-text data.
+  *
+  * @param ln  One line of delimited-text data specifying a test.
+  */
+  def passes(ln: String): Boolean = {
+    val expected = expectedForm(ln)
+    val formVector = fstAnalyses(ln).map(fst => Form(fst))
+    val matchList = formVector.map(_ == expected)
+    matchList.contains(true)
+  }
+
+  /** Create a [[Form]] object from a line of delimited-text data specifying a test.
+  *
+  * @param ln  One line of delimited-text data specifying a test.
+  */
+  def expectedForm(ln: String) : Form = {
     val cols = ln.split("#")
 
     cols(1) match {
@@ -25,7 +41,9 @@ case class SimpleTestHarness(conf: TestConfig)  {
   }
 
 
-  /** Collect FST analyses for a line of test data.
+  /** Collect FST analyses for a line of delimited-text data specifying a test.
+  *
+  * @param ln One line of a reply from fst-infl
   */
   def fstAnalyses (ln : String):Vector[String] = {
     val cols = ln.split("#")
@@ -34,8 +52,11 @@ case class SimpleTestHarness(conf: TestConfig)  {
     new PrintWriter(tmp) { write(token); close }
     val reply =  Process(conf.parseAction + " " + tmp.toString ).!!
     tmp.delete()
+
+
     val lines = reply.split("\n").drop(1).toVector
-    lines
+    val tidy = lines.map(_.replaceAll("\\\\:", ":"))
+    tidy
   }
 
 
