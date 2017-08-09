@@ -126,7 +126,7 @@ lazy val buildFst = Def.inputTaskDyn {
       if (! src.exists()) {
         error("Source dataset " + src + " does not exist.\n")
       } else {
-        println("\nCompile corpus " + args.head + " with default configuration from config.properties")
+        println("\nCompile corpus " + args.head + " with default configuration from config.properties\n")
         fstCompile(args.head, baseDirectory.value / "config.properties")
       }
 

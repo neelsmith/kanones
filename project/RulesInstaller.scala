@@ -6,7 +6,7 @@ object RulesInstaller {
 
   def apply(repo: File, corpus: String): Unit = {
   //def cexToFst(srcDir: File): Unit = {
-    println(s"Convert inflectional rules tables in ${repo} to FST")
+    println(s"\nConvert inflectional rules tables in ${repo} to FST")
     buildNounRules(repo, corpus)
   }
 
@@ -22,7 +22,6 @@ object RulesInstaller {
   }
   def buildNounRules(srcDir: File, corpus: String): Unit = {
     val fst = fstForNounRules(srcDir / s"datasets/${corpus}")
-    println("FST FOR NOUNS: \n" + fst)
     val inflDir = madeDir(srcDir / s"parsers/${corpus}/inflection")
     val fstFile = inflDir / "nouninfl.fst"
     new PrintWriter(fstFile) { write(fst ); close }
@@ -32,7 +31,7 @@ object RulesInstaller {
     val nounsDir = srcDir / "rules-tables/nouns"
     val nounsOpt = (nounsDir) ** "*cex"
     val nounsFiles = nounsOpt.get
-    println("\tBuilding inflection rules for nouns from " + nounsDir)
+    println("\tbuilding inflection rules for nouns from " + nounsDir)
 
     val rules = nounsFiles.flatMap(f => Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1))
     val fst = RulesInstaller.nounRulesToFst(rules.toVector)

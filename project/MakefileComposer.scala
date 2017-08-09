@@ -39,7 +39,7 @@ object MakefileComposer {
 */
 
 
-    //println("DOT AS WERE " + dotAs.mkString("\n"))
+    //("DOT AS WERE " + dotAs.mkString("\n"))
     //val acceptorsFst = (projectDir / "acceptors") ** "*fst"
     //val acceptorsFstFiles = acceptorsFst.get
     //val dotAs = acceptorsFst.map(_.toString().replaceFirst(".fst$", ".a"))
@@ -55,7 +55,7 @@ object MakefileComposer {
   }
 
   def composeInflectionMake(inflDir: File, fstcompiler: String) : Unit = {
-      println(s"\nWrite makefile for inflection rules in project ${inflDir}")
+      (s"\nWrite makefile for inflection rules in project ${inflDir}\n")
       val makeFileText = StringBuilder.newBuilder
       makeFileText.append(s"${inflDir.toString}/inflection.a: ")
 

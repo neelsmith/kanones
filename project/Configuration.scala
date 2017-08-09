@@ -3,7 +3,7 @@ import scala.io.Source
 import java.io.PrintWriter
 
 
-case class Configuration(fstcompile: String, fstinfl: String, make: String) {
+case class Configuration(fstcompile: String, fstinfl: String, make: String, datadir: String = "datasets") {
 
   require(new File(fstcompile).exists(), "No fst compiler named " + fstcompile + " found.")
   require(new File(fstinfl).exists(), "No file named " + fstinfl + " found.")

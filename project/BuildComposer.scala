@@ -12,7 +12,7 @@ import java.io.PrintWriter
 object BuildComposer {
 
   def apply(repo: File, corpus: String, fstcompiler: String) : Unit = {
-     val corpusDir = "parsers/" + corpus
+    val corpusDir = "parsers/" + corpus
     val projectDir = repo / corpusDir
     SymbolsComposer(repo, corpus)
     IO.copyFile(repo / s"datasets/${corpus}/orthography/alphabet.fst",
