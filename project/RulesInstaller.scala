@@ -22,6 +22,7 @@ object RulesInstaller {
   }
   def buildNounRules(srcDir: File, corpus: String): Unit = {
     val fst = fstForNounRules(srcDir / s"datasets/${corpus}")
+    println("FST FOR NOUNS: \n" + fst)
     val inflDir = madeDir(srcDir / s"parsers/${corpus}/inflection")
     val fstFile = inflDir / "nouninfl.fst"
     new PrintWriter(fstFile) { write(fst ); close }

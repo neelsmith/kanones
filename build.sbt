@@ -33,7 +33,8 @@ lazy val utils = inputKey[Unit]("Build utility transducers for a named corpus")
 
 lazy val test = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
- MakefileComposer(baseDirectory.value / s"parsers/dev" , "/usr/local/bin/fst-compiler")
+ //MakefileComposer(baseDirectory.value / s"parsers/dev" , "/usr/local/bin/fst-compiler")
+ InflectionComposer(baseDirectory.value / "parsers/dev")
 }
 
 // Delete all compiled parsers

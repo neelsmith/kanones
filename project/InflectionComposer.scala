@@ -22,12 +22,19 @@ $ending$ = """
   }
 
   def apply(projectDir: File) : Unit = {
+
     val fstText = StringBuilder.newBuilder
     fstText.append(header)
-    fstText.append(inflectionFsts(projectDir / "inflection") )
+    fstText.append( inflectionFsts(projectDir / "inflection").mkString(" |\\\n"))
     fstText.append ("\n\n$ending$\n")
+
+    val finalText = fstText.toString
+    println("INFLECTION FST: \n" + finalText)
+
     val fstFile = projectDir / "inflection.fst"
-    new PrintWriter(fstFile) { write(fstText.toString); close }
+
+
+    new PrintWriter(fstFile) { write(finalText); close }
   }
 
 }

@@ -61,13 +61,13 @@ object DataInstaller {
     } else {
       val fstBuilder = StringBuilder.newBuilder
       val ruleUrn = cols(0).replaceAll("_","\\\\_").replaceAll("\\.","\\\\.")
-      val inflClass = cols(1).replaceAll("_","\\_")
+      val inflClass = cols(1).replaceAll("_","\\_").replaceAll("\\.","\\\\.")
       val inflString = toFstAlphabet(cols(2))
       val grammGender = cols(3)
       val grammCase = cols(4)
       val grammNumber = cols(5)
 
-      fstBuilder.append(s" <${inflClass}><noun>${inflString}<${grammGender}><${grammCase}><${grammNumber}> <u>${ruleUrn}</u>")
+      fstBuilder.append(s"<u>${ruleUrn}</u><u>${inflClass}</u>${inflString}<noun><${grammGender}><${grammCase}><${grammNumber}>")
       fstBuilder.toString
     }
   }
@@ -79,7 +79,7 @@ object DataInstaller {
   * represents one noun stem in CEX form.
   */
   def nounLinesToFst(data: Vector[String]) : String = {
-    data.map(nounLineToFst(_)).mkString("\n")
+    data.map(nounLineToFst(_)).mkString("\n") + "\n"
   }
 
 
