@@ -40,4 +40,14 @@ class SustantivePropertiesSpec extends FlatSpec {
     }
     assert(isDual)
   }
+
+    "The Degree trait" should "include all degrees of Greek adjectives " in {
+      val superlativeExample: Degree = Superlative
+      val isSuperlative = superlativeExample match {
+        case Positive => false
+        case Comparative => false
+        case Superlative => true
+      }
+      assert(isSuperlative)
+    }
 }

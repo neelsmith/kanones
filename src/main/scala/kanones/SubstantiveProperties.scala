@@ -23,3 +23,10 @@ sealed trait GrammaticalNumber
 case object Singular extends GrammaticalNumber
 case object Dual extends GrammaticalNumber
 case object Plural extends GrammaticalNumber
+
+
+sealed trait Degree
+
+case object Positive extends Degree
+case object Comparative extends Degree
+case object Superlative extends Degree
