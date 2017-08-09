@@ -34,4 +34,24 @@ package object kanones {
       "pl" -> Plural
     )
 
+
+  val genderForTestLabel: Map[String,Gender] = Map(
+    "feminine" -> Feminine,
+    "masculine" -> Masculine,
+    "neuter" -> Neuter
+  )
+
+  val caseForTestLabel: Map[String, GrammaticalCase] = Map(
+    "nominative" -> Nominative,
+    "genitive" -> Genitive,
+    "dative" -> Dative,
+    "accusative" -> Accusative,
+    "vocative" -> Vocative
+  )
+
+    val numberForTestLabel: Map[String, GrammaticalNumber] = Map(
+      "singular" -> Singular,
+      "dual" -> Dual,
+      "plural" -> Plural
+    )
 }

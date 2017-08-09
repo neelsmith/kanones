@@ -15,24 +15,27 @@ case class TestConfig(echo: String, fstinfl: String, parser: String) {
 case class SimpleTestHarness(conf: TestConfig)  {
 
 
+  def requestedForm(ln: String) : Form = {
+    val cols = ln.split("#")
+
+    cols(1) match {
+      case "noun" => NounForm(genderForTestLabel(cols(2)), caseForTestLabel(cols(3)), numberForTestLabel(cols(4)))
+      case _ => throw new Exception ("Not yet implemented")
+    }
+  }
+
+
   /** Collect FST analyses for a line of test data.
   */
-  def fstAnalyses (ln : String) = {
+  def fstAnalyses (ln : String):Vector[String] = {
     val cols = ln.split("#")
     val token = LiteraryGreekString(cols(0)).stripAccent.ascii
     val tmp = new File("kanonesTestHarness.txt")
     new PrintWriter(tmp) { write(token); close }
-    //println("NEED TO EXEC: " + s"echo ${token} #|  ${conf.parseAction}")
-    //s"echo ${token}" #|  conf.parseAction !!
-    //val reply =  cmd !!
-    //println("GOT THIS: "+ repl)
-    //val rp1: String = "echo xwra" #|  "/usr/local/bin/fst-infl parsers/dev/greek.a" !!
-    //val r = Process(s"echo ${token}") #| Process(conf.parseAction).!!
-    //println(rp)
-    val r =  Process(conf.parseAction + " " + tmp.toString ).!!
+    val reply =  Process(conf.parseAction + " " + tmp.toString ).!!
     tmp.delete()
-    val lines = r.split("\n").drop(1).toVector
-    println("REPLY IS " + lines)
+    val lines = reply.split("\n").drop(1).toVector
+    lines
   }
 
 
