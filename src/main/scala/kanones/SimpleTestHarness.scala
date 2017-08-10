@@ -32,7 +32,7 @@ case class SimpleTestHarness(conf: TestConfig)  {
   */
   def passes(ln: String): Boolean = {
     val expected = expectedForm(ln)
-    val formVector = fstAnalyses(ln).map(fst => Form(fst))
+    val formVector = fstAnalyses(ln).map(fst => Form(fstToAscii(fst)))
     val matchList = formVector.map(_ == expected)
     matchList.contains(true)
   }
@@ -57,7 +57,7 @@ case class SimpleTestHarness(conf: TestConfig)  {
   */
   def fstAnalyses (ln : String):Vector[String] = {
     val cols = ln.split("#")
-    val token = LiteraryGreekString(cols(0)).stripAccent.ascii
+    val token = asciiToFst(LiteraryGreekString(cols(0)).stripAccent.ascii)
     val tmp = new File("kanonesTestHarness.txt")
     new PrintWriter(tmp) { write(token); close }
     val reply =  Process(conf.parseAction + " " + tmp.toString ).!!

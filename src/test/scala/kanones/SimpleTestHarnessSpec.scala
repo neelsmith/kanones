@@ -42,7 +42,12 @@ class SimpleTestHarnessSpec extends FlatSpec {
 
   it should "score a set of spcs from a file" in {
     val testFile = new File("src/test/resources/unit_tests_data/smyth/smyth216/smyth216nike.cex")
+
+    val expectedSpecs = 15
+    val specs = testHarness.testSpecs(testFile)
+    assert(specs.size == expectedSpecs)
+
     val results = testHarness.score(testFile)
-    println(results)
+    assert(results.filter(_ == true).size == expectedSpecs)
   }
 }
