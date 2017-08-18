@@ -21,7 +21,7 @@ lazy val root = (project in file(".")).
       utils := utilsImpl.evaluated,
       cleanAll := cleanAllImpl.value,
 
-      debug := currentTest.value
+      kdebug := currentTest.value
     )
 
 lazy val fst = inputKey[Unit]("Compile complete FST system for a named corpus")
@@ -31,10 +31,33 @@ lazy val utils = inputKey[Unit]("Build utility transducers for a named corpus")
 
 
 
-lazy val debug = taskKey[Unit]("Run temporary build tests")
+lazy val kdebug = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
- //MakefileComposer(baseDirectory.value / s"parsers/dev" , "/usr/local/bin/fst-compiler")
- InflectionComposer(baseDirectory.value / "parsers/dev")
+  val corpus = "smyth"
+  val configFile = file("config.properties")
+
+
+
+  /*
+  val buildDirectory = baseDirectory.value / s"parsers/${corpus}"
+  val conf = Configuration(configFile)
+
+  // Install data and rules, converting tabular data to FST
+
+   DataInstaller(baseDirectory.value, corpus)
+   */
+   RulesInstaller(baseDirectory.value, corpus)
+
+
+/*
+   // Compose makefiles and higher-order FST for build system
+   BuildComposer(baseDirectory.value, corpus, "/usr/local/bin/fst-compiler")
+
+   // Build it!
+   val inflMakefile = buildDirectory / "inflection/makefile"
+   val makeInfl = s"${conf.make} -f ${inflMakefile}"
+   makeInfl !
+   */
 }
 
 // Delete all compiled parsers
