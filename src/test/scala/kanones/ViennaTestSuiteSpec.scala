@@ -13,7 +13,7 @@ class ViennaTestSuiteSpec extends FlatSpec {
   val atticTestHarness = SimpleTestHarness(atticConf)
 
 
-  "A harness for literary Attic Greek" should "score files one at a time" in {
+  "A harness for literary Attic Greek" should "score files one at a time" in  {
     val testSrc = new File("src/test/resources/unit_tests_data/vienna_lit")
     val subDirs =  testSrc.listFiles().toVector.filter(_.isDirectory())
 
@@ -32,7 +32,7 @@ class ViennaTestSuiteSpec extends FlatSpec {
   }
 
 
-  "A harness for archalic and classica Attic Greek" should "score files one at a time" in {
+  "A harness for archalic and classica Attic Greek" should "score files one at a time" in pending /*{
     val testSrc = new File("src/test/resources/unit_tests_data/vienna_attic")
     val subDirs =  testSrc.listFiles().toVector.filter(_.isDirectory())
 
@@ -48,7 +48,7 @@ class ViennaTestSuiteSpec extends FlatSpec {
 
     }
     println(scores.toString)
-  }
+  }*/
 
 
 }

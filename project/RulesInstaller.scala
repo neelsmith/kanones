@@ -7,7 +7,20 @@ object RulesInstaller {
   def apply(repo: File, corpus: String): Unit = {
   //def cexToFst(srcDir: File): Unit = {
     println(s"\nConvert inflectional rules tables in ${repo} to FST")
-    buildNounRules(repo, corpus)
+    buildRules(repo, corpus)
+
+  }
+
+  def buildRules(srcDir: File, corpus: String): Unit = {
+    val inflDir = madeDir(srcDir / s"parsers/${corpus}/inflection")
+
+
+    val nounFst = fstForNounRules(srcDir / s"datasets/${corpus}")
+    val nounFstFile = inflDir / "nouninfl.fst"
+    new PrintWriter(nounFstFile) { write(nounFst ); close }
+
+
+    
   }
 
 
@@ -20,12 +33,7 @@ object RulesInstaller {
       dir
     }
   }
-  def buildNounRules(srcDir: File, corpus: String): Unit = {
-    val fst = fstForNounRules(srcDir / s"datasets/${corpus}")
-    val inflDir = madeDir(srcDir / s"parsers/${corpus}/inflection")
-    val fstFile = inflDir / "nouninfl.fst"
-    new PrintWriter(fstFile) { write(fst ); close }
-  }
+
 
   def fstForNounRules(srcDir: File) : String = {
     val nounsDir = srcDir / "rules-tables/nouns"
