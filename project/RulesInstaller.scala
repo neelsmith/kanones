@@ -4,27 +4,33 @@ import java.io.PrintWriter
 
 object RulesInstaller {
 
+
+  /** Format compilable FST rules for a named corpus.
+  *
+  * @param repo Base directory of the Kanónes repository.
+  * @param corpus Name of corpus
+  */
   def apply(repo: File, corpus: String): Unit = {
-  //def cexToFst(srcDir: File): Unit = {
     println(s"\nConvert inflectional rules tables in ${repo} to FST")
-    buildRules(repo, corpus)
-
-  }
-
-  def buildRules(srcDir: File, corpus: String): Unit = {
-    val inflDir = madeDir(srcDir / s"parsers/${corpus}/inflection")
-    val srcCorpus = srcDir / s"datasets/${corpus}"
-
-    val nounFst = fstForNounRules(srcCorpus)
-    val nounFstFile = inflDir / "nouninfl.fst"
-    new PrintWriter(nounFstFile) { write(nounFst ); close }
 
 
+    val inflDir = madeDir(repo / s"parsers/${corpus}/inflection")
+    val srcCorpus = repo / s"datasets/${corpus}"
+
+    NounRulesInstaller(srcCorpus / "rules-tables/nouns", inflDir / "nouninfl.fst")
+
+
+    //val nounFst = fstForNounRules(srcCorpus)
+    //val nounFstFile = inflDir / "nouninfl.fst"
+    //new PrintWriter(nounFstFile) { write(nounFst ); close }
+
+/*
     val indeclFst = fstForIndeclRules(srcCorpus)
     val indeclFstFile = inflDir / "indeclinfl.fst"
     new PrintWriter(indeclFstFile) { write(indeclFst ); close }
-
+*/
   }
+
 
 
   def fstForIndeclRules(srcDir: File) : String = {

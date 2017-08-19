@@ -24,12 +24,14 @@ object VerbDataInstaller {
   }
 
 
-// model:
+// model of src cex
+// smyth.n23658_2#lexent.n23658#deic#w_pp3#
+// model of target fst:
 // <u>smyth.n62274_0</u><u>lexent.n62274</u><#>leip<verb><w_pp1>
 
   def verbLineToFst(line: String) : String = {
     val cols = line.split("#")
-    // 7th "comments" column is optional
+
     if (cols.size < 4) {
       println("Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
       throw new Exception(s"Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
@@ -37,11 +39,11 @@ object VerbDataInstaller {
 
       val fstBuilder = StringBuilder.newBuilder
       val ruleUrn = cols(0).replaceAll("_","\\\\_").replaceAll("\\.","\\\\.")
-      val inflClass = cols(1).replaceAll("_","\\_").replaceAll("\\.","\\\\.")
+      val lexent = cols(1).replaceAll("_","\\_").replaceAll("\\.","\\\\.")
       val inflString = DataInstaller.toFstAlphabet(cols(2))
-      val ptOfSpeech = cols(3)
+      val princPart = cols(3)
 
-      fstBuilder.append(s"<u>${ruleUrn}</u><u>${inflClass}</u>${inflString}<${ptOfSpeech}>")
+      fstBuilder.append(s"<u>${ruleUrn}</u><u>${lexent}</u>${inflString}<verb><${princPart}>")
 
       fstBuilder.toString
     }
