@@ -88,12 +88,10 @@ $acceptor$ || $stripsym$
     fst.append(nounAcceptor + "\n")
     fst.append(indeclAcceptor + "\n")
 
-    println("APPENDING INDECL ACCPTOR " + indeclAcceptor)
 
     fst.append(irregNounAcceptor + "\n")
     fst.append("\n\n" + topLevelAcceptor + "\n")
 
-println("FINAL AcCEPTOR " + fst.toString)
     val acceptorFile = projectDir / "acceptor.fst"
     new PrintWriter(acceptorFile) { write(fst.toString); close }
   }
