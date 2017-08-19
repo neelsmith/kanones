@@ -13,9 +13,6 @@ case class IndeclRule(ruleId: String, pos: String ) extends FstRule
 */
 object IndeclRule {
   def fromStrings(pos: String, urn: String): IndeclRule = {
-    println("MAKE INDECL FROM\n")
-    println(s"\tpos ${pos}")
-    println(s"\trem ${urn}")
     val dataRE  = "<u>(.+)<\\/u>".r
     val dataRE(ruleId) = urn
     IndeclRule( ruleId,pos)

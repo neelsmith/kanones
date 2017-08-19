@@ -21,7 +21,6 @@ object Form {
         NounForm(nr.gender, nr.grammaticalCase, nr.grammaticalNumber)
       }
       case ir: IndeclRule => {
-        println("ANALYZE IndeclRule " + ir)
         IndeclinableForm(ir.pos)
       }
       case _ => throw new Exception(s"Form ${inflection} not yet implemented.")
@@ -37,7 +36,6 @@ case class IndeclinableForm(pos: IndeclinablePoS) extends Form {}
 object IndeclinableForm {
 
   def apply(s: String): IndeclinableForm ={
-    println("CREATE INDECLINABEL FORM FROM " + s)
     IndeclinableForm(indeclinablePoSForFst(s))
   }
 }
