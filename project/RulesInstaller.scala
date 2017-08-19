@@ -35,7 +35,7 @@ object RulesInstaller {
 
     val rules = rulesFiles.flatMap(f => Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1))
     val fst = RulesInstaller.indeclRulesToFst(rules.toVector)
-    "$$indeclinfl$ = " + fst + "\n\n$indeclinfl$\n"
+    "$indeclinfl$ = " + fst + "\n\n$indeclinfl$\n"
   }
 
 

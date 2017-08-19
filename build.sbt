@@ -43,10 +43,10 @@ def currentTest: Def.Initialize[Task[Unit]] = Def.task {
   val conf = Configuration(configFile)
 
   // Install data and rules, converting tabular data to FST
-
+*/
    DataInstaller(baseDirectory.value, corpus)
-   */
-   RulesInstaller(baseDirectory.value, corpus)
+
+   //RulesInstaller(baseDirectory.value, corpus)
 
 
 /*
