@@ -61,9 +61,15 @@ $squashirregnounurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>{lexent}:<>
 """
 
 
+val indeclAcceptor = """
+% Indeclinable form acceptor:
+$=indeclclass$ = [#indeclclass#]
+$squashindeclurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>{lexent}:<>\.:<>[#urnchar#]:<>+</u> [#stemchars#]+  $=indeclclass$  $separator$+  $=indeclclass$ <indecl> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
+"""
+
   val topLevelAcceptor = """
 % Union of all URN squashers:
-$acceptor$ = $squashnounurn$ | $squashirregnounurn$
+$acceptor$ = $squashnounurn$ | $squashirregnounurn$ | $squashindeclurn$
 
 %% Put all symbols in 2 categories:  pass
 %% surface symbols through, suppress analytical symbols.
@@ -80,10 +86,14 @@ $acceptor$ || $stripsym$
     val fst = StringBuilder.newBuilder
     fst.append("#include \"" + projectDir.toString + "/symbols.fst\"\n")
     fst.append(nounAcceptor + "\n")
+    fst.append(indeclAcceptor + "\n")
+
+    println("APPENDING INDECL ACCPTOR " + indeclAcceptor)
 
     fst.append(irregNounAcceptor + "\n")
     fst.append("\n\n" + topLevelAcceptor + "\n")
 
+println("FINAL AcCEPTOR " + fst.toString)
     val acceptorFile = projectDir / "acceptor.fst"
     new PrintWriter(acceptorFile) { write(fst.toString); close }
   }

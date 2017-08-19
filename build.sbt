@@ -44,15 +44,15 @@ def currentTest: Def.Initialize[Task[Unit]] = Def.task {
 
   // Install data and rules, converting tabular data to FST
 */
-   DataInstaller(baseDirectory.value, corpus)
 
-   //RulesInstaller(baseDirectory.value, corpus)
+   ///DataInstaller(baseDirectory.value, corpus)
+   RulesInstaller(baseDirectory.value, corpus)
 
 
-/*
+
    // Compose makefiles and higher-order FST for build system
    BuildComposer(baseDirectory.value, corpus, "/usr/local/bin/fst-compiler")
-
+/*
    // Build it!
    val inflMakefile = buildDirectory / "inflection/makefile"
    val makeInfl = s"${conf.make} -f ${inflMakefile}"

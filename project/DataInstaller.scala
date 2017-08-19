@@ -8,11 +8,10 @@ object DataInstaller {
 
   def apply(repo: File, corpus: String): Unit = {
     println(s"Convert morphological lexicon tables in ${repo} to FST")
-    val projectDir = madeDir(repo / s"parsers/${corpus}")
-    val lexDir = madeDir(projectDir / "lexica")
+    val projectDir = DataInstaller.madeDir(repo / s"parsers/${corpus}")
+    val lexDir = DataInstaller.madeDir(projectDir / "lexica")
     NounDataInstaller(repo, corpus)
-    //buildNounStems(repo, corpus)
-    //buildIndeclStems(repo, corpus)
+    IndeclDataInstaller(repo, corpus)
   }
 
 

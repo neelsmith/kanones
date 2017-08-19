@@ -3,11 +3,11 @@ import scala.io.Source
 import java.io.PrintWriter
 
 
-object DataInstaller {
+object IndeclDataInstaller {
 
 
   def apply(repo: File, corpus: String) = {
-    val lexDirectory = madeDir(repo / s"parsers/${corpus}/indeclinable")
+    val lexDirectory = DataInstaller.madeDir(repo / s"parsers/${corpus}/lexica")
 
     val dir = repo / s"datasets/${corpus}/stems-tables/indeclinable"
     val rulesOpt = (dir) ** "*cex"
@@ -15,11 +15,10 @@ object DataInstaller {
     println("\tbuilding indeclinable stems from " + dir)
 
     for (f <- rulesFiles) {
-      val fstFile = lexDirectory / f.getName().replaceFirst(".cex$", ".fst")
+      val fstFile = lexDirectory / "lex-indecl-" + f.getName().replaceFirst(".cex$", ".fst")
       // omit empty lines and header
       val dataLines = Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1)
-      val fstLines = DataInstaller.indeclLinesToFst(dataLines)
-      println("INDECL LINES: \n" + fstLines)
+      val fstLines = IndeclDataInstaller.indeclLinesToFst(dataLines)
       new PrintWriter(fstFile) { write(fstLines); close }
     }
   }

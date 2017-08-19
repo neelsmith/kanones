@@ -18,13 +18,15 @@ object NounDataInstaller {
     val nounsDir = repo / s"datasets/${corpus}/stems-tables/nouns"
     val nounsOpt = (nounsDir) ** "*cex"
     val nounsFiles = nounsOpt.get
-    println("\tbuilding nouns stems from " + nounsDir)
-
+    println("\tbuilding noun stems from " + nounsDir)
     for (f <- nounsFiles) {
-      val fstFile = lexDirectory / f.getName().replaceFirst(".cex$", ".fst")
+      val lexName = "lex-nouns-"+ f.getName().replaceFirst(".cex$", ".fst")
+      val fstFile = lexDirectory /  lexName
+
       // omit empty lines and header
       val dataLines = Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1)
-      val fstLines = DataInstaller.nounLinesToFst(dataLines)
+      val fstLines = NounDataInstaller.nounLinesToFst(dataLines)
+
       new PrintWriter(fstFile) { write(fstLines); close }
     }
   }
