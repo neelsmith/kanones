@@ -46,6 +46,7 @@ case class SimpleTestHarness(conf: TestConfig)  {
 
     cols(1) match {
       case "noun" => NounForm(genderForTestLabel(cols(2)), caseForTestLabel(cols(3)), numberForTestLabel(cols(4)))
+      case "indeclinable" => IndeclinableForm(indeclinablePoSForTestLabel(cols(2)))
       case _ => throw new Exception ("Not yet implemented")
     }
   }

@@ -20,18 +20,33 @@ object Form {
       case nr: NounRule => {
         NounForm(nr.gender, nr.grammaticalCase, nr.grammaticalNumber)
       }
-      case _ => throw new Exception("Form class not yet implemented.")
+      case ir: IndeclRule => {
+        println("ANALYZE IndeclRule " + ir)
+        IndeclinableForm(ir.pos)
+      }
+      case _ => throw new Exception(s"Form ${inflection} not yet implemented.")
     }
   }
 }
 
+/** Indeclinable forms are identified only by their part of speech.
+*
+* @param pos Part of speech.
+*/
+case class IndeclinableForm(pos: IndeclinablePoS) extends Form {}
+object IndeclinableForm {
+
+  def apply(s: String): IndeclinableForm ={
+    println("CREATE INDECLINABEL FORM FROM " + s)
+    IndeclinableForm(indeclinablePoSForFst(s))
+  }
+}
+
+
 case class NounForm(gender: Gender, grammaticalCase: GrammaticalCase, grammaticalNumber: GrammaticalNumber) extends Form {}
 
-
 object NounForm {
-
-
-  /** Create [[NounForm]] from three FST symbols.
+  /** Create a [[NounForm]] from three FST symbols.
   */
   def apply(g: String, c: String, n: String): NounForm = {
     NounForm(genderForFstSymbol(g), caseForFstSymbol(c), numberForFstSymbol(n))

@@ -56,3 +56,8 @@ sealed trait Voice extends MorphologicalProperty
 case object Active extends Voice
 case object Middle extends Voice
 case object Passive extends Voice
+
+
+sealed trait IndeclinablePoS extends MorphologicalProperty
+case object Conjunction extends IndeclinablePoS
+case object Particle extends IndeclinablePoS

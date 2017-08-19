@@ -76,4 +76,15 @@ package object kanones {
     "dual" -> Dual,
     "plural" -> Plural
   )
+
+  /** Map string used in test data tables to [[IndeclinablePoS]].  */
+  val indeclinablePoSForTestLabel: Map[String, IndeclinablePoS] = Map(
+    "particle" -> Particle,
+    "conjunction" -> Conjunction
+  )
+
+  val indeclinablePoSForFst: Map[String, IndeclinablePoS] = Map(
+    "particle" -> Particle,
+    "conjunct" -> Conjunction
+  )
 }
