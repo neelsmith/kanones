@@ -3,6 +3,7 @@ package edu.holycross.shot.kanones
 
 import org.scalatest.FlatSpec
 import java.io.File
+import scala.io.Source
 
 class ViennaTestSuiteSpec extends FlatSpec {
 
@@ -25,10 +26,21 @@ class ViennaTestSuiteSpec extends FlatSpec {
       for (testFile <- cex) {
         val score = litTestHarness.score(testFile)
         scores.append("\t" + testFile.getName() + ": " + score.filter(_ == true).size + "/" + score.size + "\n")
+        val lines = Source.fromFile(testFile).getLines.toVector.drop(1)
+        for (l <- lines) {
+          if (litTestHarness.passes(l)) {
+            println("√ " + l)
+          } else {
+            println("x " + l)
+          }
+        }
+
+
       }
 
     }
-    println(scores.toString)
+    println("Final score: " + scores.toString)
+
   }
 
 
