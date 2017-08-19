@@ -12,6 +12,7 @@ object DataInstaller {
     val lexDir = DataInstaller.madeDir(projectDir / "lexica")
     NounDataInstaller(repo, corpus)
     IndeclDataInstaller(repo, corpus)
+    //VerbInstaller(repo, corpus)
   }
 
 

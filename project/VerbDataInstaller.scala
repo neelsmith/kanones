@@ -3,28 +3,31 @@ import scala.io.Source
 import java.io.PrintWriter
 
 
-object IndeclDataInstaller {
+object VerbDataInstaller {
 
 
   def apply(repo: File, corpus: String) = {
     val lexDirectory = DataInstaller.madeDir(repo / s"parsers/${corpus}/lexica")
 
-    val dir = repo / s"datasets/${corpus}/stems-tables/indeclinable"
+    val dir = repo / s"datasets/${corpus}/stems-tables/verbs-simplex"
     val rulesOpt = (dir) ** "*cex"
     val rulesFiles = rulesOpt.get
-    println("\tbuilding indeclinable stems from " + dir)
+    println("\tbuilding simplex verb stems from " + dir)
 
     for (f <- rulesFiles) {
-      val fstFile = lexDirectory / "lex-indecl-" + f.getName().replaceFirst(".cex$", ".fst")
+      val fstFile = lexDirectory / "lex-verbs-" + f.getName().replaceFirst(".cex$", ".fst")
       // omit empty lines and header
       val dataLines = Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1)
-      val fstLines = IndeclDataInstaller.indeclLinesToFst(dataLines)
+      val fstLines = VerbDataInstaller.verbLinesToFst(dataLines)
       new PrintWriter(fstFile) { write(fstLines); close }
     }
   }
 
 
-  def indeclLineToFst(line: String) : String = {
+// model:
+// <u>smyth.n62274_0</u><u>lexent.n62274</u><#>leip<verb><w_pp1>
+
+  def verbLineToFst(line: String) : String = {
     val cols = line.split("#")
     // 7th "comments" column is optional
     if (cols.size < 4) {
@@ -39,9 +42,7 @@ object IndeclDataInstaller {
       val ptOfSpeech = cols(3)
 
       fstBuilder.append(s"<u>${ruleUrn}</u><u>${inflClass}</u>${inflString}<${ptOfSpeech}>")
-      //<u>ruleUrn</u><u>LExENT</u>STRING<POS>
-//<u>lysias.n4357_0</u><u>lexent.n4357</u>a<sm>lla/<conjunct>
-      //fstBuilder.append(s"<u>${ruleUrn}</u><u>${inflClass}</u>${inflString}<noun><${grammGender}><${grammCase}><${grammNumber}>")
+
       fstBuilder.toString
     }
   }
@@ -52,8 +53,8 @@ object IndeclDataInstaller {
   * @param data Vector of strings in which each string
   * represents one noun stem in CEX form.
   */
-  def indeclLinesToFst(data: Vector[String]) : String = {
-    data.map(indeclLineToFst(_)).mkString("\n") + "\n"
+  def verbLinesToFst(data: Vector[String]) : String = {
+    data.map(verbLineToFst(_)).mkString("\n") + "\n"
   }
 
 
