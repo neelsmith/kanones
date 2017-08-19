@@ -2,4 +2,6 @@ RuleUrn#InflectionClasses#Ending#Gender#Case#Number
 
 nouninfl.h_hs3#h_hs#h|#fem#dat#sg
 
+
+nouninfl.os_ou1m#os_ou#os#masc#nom#sg
 nouninfl.os_ou3m#os_ou#w|#masc#dat#sg
