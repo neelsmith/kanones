@@ -13,15 +13,53 @@ object RulesInstaller {
 
   def buildRules(srcDir: File, corpus: String): Unit = {
     val inflDir = madeDir(srcDir / s"parsers/${corpus}/inflection")
+    val srcCorpus = srcDir / s"datasets/${corpus}"
 
-
-    val nounFst = fstForNounRules(srcDir / s"datasets/${corpus}")
+    val nounFst = fstForNounRules(srcCorpus)
     val nounFstFile = inflDir / "nouninfl.fst"
     new PrintWriter(nounFstFile) { write(nounFst ); close }
 
 
-    
+    val indeclFst = fstForIndeclRules(srcCorpus)
+    val indeclFstFile = inflDir / "indeclinfl.fst"
+    new PrintWriter(indeclFstFile) { write(indeclFst ); close }
+
   }
+
+
+  def fstForIndeclRules(srcDir: File) : String = {
+    val dir = srcDir / "rules-tables/indeclinable"
+    val rulesOpt = (dir) ** "*cex"
+    val rulesFiles = rulesOpt.get
+    println("\tbuilding inflection rules for indeclinables from " + dir)
+
+    val rules = rulesFiles.flatMap(f => Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1))
+    val fst = RulesInstaller.indeclRulesToFst(rules.toVector)
+    "$$indeclinfl$ = " + fst + "\n\n$indeclinfl$\n"
+  }
+
+
+  def indeclRuleToFst(line: String) : String = {
+    val cols = line.split("#")
+    if (cols.size < 2) {
+      println("Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
+      throw new Exception(s"Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
+    } else {
+
+      val fst = StringBuilder.newBuilder
+      val ruleUrn = cols(0).replaceAll("_","\\\\_").
+        replaceAll("\\.","\\\\.")
+      val inflClass = cols(1).replaceAll("_","\\_")
+
+      fst.append(s" <${inflClass}><indecl><u>${ruleUrn}</u>").toString
+    }
+  }
+
+
+  def indeclRulesToFst(data: Vector[String]) : String = {
+    data.map(indeclRuleToFst(_)).mkString(" |\\\n")
+  }
+
 
 
   // make sure directory exists

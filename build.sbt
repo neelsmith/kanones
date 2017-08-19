@@ -33,7 +33,7 @@ lazy val utils = inputKey[Unit]("Build utility transducers for a named corpus")
 
 lazy val kdebug = taskKey[Unit]("Run temporary build tests")
 def currentTest: Def.Initialize[Task[Unit]] = Def.task {
-  val corpus = "smyth"
+  val corpus = "vienna_lit"
   val configFile = file("config.properties")
 
 
