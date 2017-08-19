@@ -5,7 +5,7 @@ import java.io.PrintWriter
 
 /** Object for converting tabular source to FST statements.
 */
-object NounRulesInstaller {
+object IndeclRulesInstaller {
 
   /** Write FST rules for all noun data in a directory
   * of tabular files.
@@ -14,34 +14,34 @@ object NounRulesInstaller {
   * @param targetFile File to write FST statements to.
   */
   def apply(srcDir: File, targetFile: File): Unit = {
-    val nounFst = fstForNounRules(srcDir)
+    val nounFst = fstForIndeclRules(srcDir)
     new PrintWriter(targetFile) { write(nounFst ); close }
   }
 
 
   /** Compose FST statements for all tables of
-  * noun data found in a directory.
+  *  data for indeclinable forms found in a directory.
   *
   * @param srcDir Directory with lexical tables.
   */
-  def fstForNounRules(srcDir: File) : String = {
-    val nounsOpt = (srcDir) ** "*cex"
-    val nounsFiles = nounsOpt.get
-    println("\tbuilding inflection rules for nouns from " + srcDir)
+  def fstForIndeclRules(srcDir: File) : String = {
+    val rulesOpt = (srcDir) ** "*cex"
+    val rulesFiles = rulesOpt.get
+    println("\tbuilding inflection rules for indeclinables from " + srcDir)
 
-    val rules = nounsFiles.flatMap(f => Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1))
-    val fst = nounRulesToFst(rules.toVector)
-    "$nouninfl$ = " + fst + "\n\n$nouninfl$\n"
-  }
+    val rules = rulesFiles.flatMap(f => Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1))
+    val fst = indeclRulesToFst(rules.toVector)
+    "$indeclinfl$ = " + fst + "\n\n$indeclinfl$\n"
+    }
 
   /** Compose FST for a single delimited-text line of a lexical
   * data table.
   *
   * @param line Line of data.
   */
-  def nounRuleToFst(line: String) : String = {
+  def indeclRuleToFst(line: String) : String = {
     val cols = line.split("#")
-    if (cols.size < 6) {
+    if (cols.size < 2) {
       println("Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
       throw new Exception(s"Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
     } else {
@@ -50,12 +50,8 @@ object NounRulesInstaller {
       val ruleUrn = cols(0).replaceAll("_","\\\\_").
         replaceAll("\\.","\\\\.")
       val inflClass = cols(1).replaceAll("_","\\_")
-      val inflString = DataInstaller.toFstAlphabet(cols(2))
-      val grammGender = cols(3)
-      val grammCase = cols(4)
-      val grammNumber = cols(5)
 
-      fst.append(s" <${inflClass}><noun>${inflString}<${grammGender}><${grammCase}><${grammNumber}> <u>${ruleUrn}</u>").toString
+      fst.append(s" <${inflClass}><indecl><u>${ruleUrn}</u>").toString
     }
   }
 
@@ -64,8 +60,8 @@ object NounRulesInstaller {
   *
   * @param data Vector of rules strings.
   */
-  def nounRulesToFst(data: Vector[String]) : String = {
-    data.map(nounRuleToFst(_)).mkString(" |\\\n")
+  def indeclRulesToFst(data: Vector[String]) : String = {
+    data.map(indeclRuleToFst(_)).mkString(" |\\\n")
   }
 
 }
