@@ -36,7 +36,7 @@ object AcceptorComposer {
     val fst = StringBuilder.newBuilder
     fst.append("#include \"" + projectDir.toString + "/symbols.fst\"\n")
     fst.append("\n$augment$ = \"<" + projectDir.toString + "/acceptors/augment.a>\"\n")
-    fst.append("$verb_stems$ = \"<" + projectDir.toString + "/acceptors/verbstems.a>\n")
+    fst.append("$verb_stems$ = \"<" + projectDir.toString + "/acceptors/verbstems.a>\"\n")
 
 
     fst.append(mainVerbAcceptor)
@@ -76,7 +76,7 @@ object AcceptorComposer {
     fst.append(indeclAcceptor + "\n")
 
     fst.append(irregNounAcceptor + "\n")
-    fst.append("$verb_pipeline$ = \"<" + projectDir.toString + "/acceptors/verb.a>\n")
+    fst.append("$verb_pipeline$ = \"<" + projectDir.toString + "/verb.a>\n")
 
     fst.append("\n\n" + topLevelAcceptor + "\n")
 

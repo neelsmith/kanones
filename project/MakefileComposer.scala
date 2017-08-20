@@ -49,8 +49,12 @@ object MakefileComposer {
     makeFileText.append(s"${projectDir.toString}/greek.a: ${projectDir.toString}/symbols.fst ${projectDir.toString}/symbols/phonology.fst ${projectDir.toString}/inflection.a ${projectDir.toString}/acceptor.a \n")
 
     val dotAs = dotAsForFst(projectDir / "acceptors").mkString(" ")
-    makeFileText.append(s"${projectDir.toString}/acceptor.a: " + dotAs + "\n\n")
+    makeFileText.append(s"${projectDir.toString}/verb.a: " + dotAs + "\n\n")
+
+    makeFileText.append(s"${projectDir.toString}/acceptor.a: ${projectDir.toString}/verb.a\n\n")
     makeFileText.append(verbStemMake(projectDir, fstcompiler))
+
+
 
 /*
     for (d <- subDirs(projectDir / "acceptors")) {

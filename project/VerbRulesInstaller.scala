@@ -53,16 +53,16 @@ object VerbRulesInstaller {
       println("Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
       throw new Exception(s"Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
     } else {
-//verbinfl.w_pp3_aor_indic3b
-//#w_pp3
-// #e
+
+
+
 // #3rd
 // #sg#aor#indic#actj
       val fst = StringBuilder.newBuilder
       val ruleUrn = cols(0).replaceAll("_","\\\\_").
-        replaceAll("\\.","\\\\.")
-      val inflClass = cols(1).replaceAll("_","\\_")
-      val inflString = DataInstaller.toFstAlphabet(cols(2))
+        replaceAll("\\.","\\\\.")  //verbinfl.w_pp3_aor_indic3b
+      val inflClass = cols(1).replaceAll("_","\\_")  //#w_pp3
+      val inflString = DataInstaller.toFstAlphabet(cols(2)) // #e
       // PNTMV
       val pers = cols(3)
       val grammNumber = cols(4)
@@ -75,7 +75,7 @@ object VerbRulesInstaller {
       // e/tw
       //<3rd><sg><aor><imptv><act><u>verbinfl\.w\_pres\_imptv3</u>
 
-      fst.append(s" <${inflClass}><verb>${pers}<${grammNumber}><${tense}><${mood}><${voice}> <u>${ruleUrn}</u>").toString
+      fst.append(s" <${inflClass}><verb>${inflString}<${pers}><${grammNumber}><${tense}><${mood}><${voice}> <u>${ruleUrn}</u>").toString
     }
 
   }
