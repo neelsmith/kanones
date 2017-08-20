@@ -1,0 +1,16 @@
+LEX:
+
+<u>tinytiny.ex_0</u><u>lexent.n76586</u><#>paideu<verb><w_regular>
+
+END:
+ <w_regular><verb>a<1st><sg><aor><indic><act><u>verbinfl.wprindic1</u>
+
+
+DB:
+
+<u>tinytiny.ex_0</u><u>lexent.n76586</u><#>paideu<verb><w_regular>::<w_regular><verb>a<1st><sg><aor><indic><act><u>verbinfl.wprindic1</u>
+
+
+
+W-AUG
+<u>tinytiny.ex_0</u><u>lexent.n76586</u><#>paideu<verb><w_regular>::<w_regular><verb>a<1st><sg><aor><indic><act><u>verbinfl.wprindic1</u>
