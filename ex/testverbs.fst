@@ -28,4 +28,21 @@ $vb$ = "</Users/nsmith/repos/greek/kanones/ex/manualverb.a>"
 ALPHABET = [#surfacesymbol#] [#analysissymbol#]:<>
 $stripsym$ = .+
 
-$db$ || $vb$ || $stripsym$
+%% $db$ || $vb$ || $stripsym$
+
+
+
+
+
+% Dynamically loaded lexica of stems:
+$stems$ = "/data/repos/greek/kanones/parsers/vienna_lit/lexica/lex-indecl-example.fst" |\
+"/data/repos/greek/kanones/parsers/vienna_lit/lexica/lex-nouns-example.fst" |\
+"/data/repos/greek/kanones/parsers/vienna_lit/lexica/lex-verbs-examples.fst"
+
+% Dynamically loaded inflectional rules:
+$ends$ = "</data/repos/greek/kanones/parsers/vienna_lit/inflection.a>"
+
+% Morphology data is the crossing of stems and endings:
+$morph$ = $stems$ $separator$ $separator$ $ends$
+
+$morph$ || $vb$ || $stripsym$
