@@ -40,7 +40,7 @@ object VerbDataInstaller {
       val fstBuilder = StringBuilder.newBuilder
       val ruleUrn = cols(0).replaceAll("_","\\\\_").replaceAll("\\.","\\\\.")
       val lexent = cols(1).replaceAll("_","\\_").replaceAll("\\.","\\\\.")
-      val inflString = DataInstaller.toFstAlphabet(cols(2))
+      val inflString = "<#>" + DataInstaller.toFstAlphabet(cols(2))
       val princPart = cols(3)
 
       fstBuilder.append(s"<u>${ruleUrn}</u><u>${lexent}</u>${inflString}<verb><${princPart}>")

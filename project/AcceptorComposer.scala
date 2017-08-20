@@ -34,9 +34,17 @@ object AcceptorComposer {
   */
   def composeVerbAcceptor(projectDir: File): Unit = {
     val fst = StringBuilder.newBuilder
-    fst.append("#include \"" + projectDir.toString + "/symbols.fst\"\n")
-    fst.append("\n$augment$ = \"<" + projectDir.toString + "/acceptors/augment.a>\"\n")
-    fst.append("$verb_stems$ = \"<" + projectDir.toString + "/acceptors/verbstems.a>\"\n")
+    fst.append("#include \"" + projectDir.toString + "/symbols.fst\"\n\n")
+
+
+    fst.append("ALPHABET = [#editorial# #urntag# #urnchar# <verb> #morphtag# #stemtype#  #separator# #accent# #letter# #diacritic#  #breathing# \\. #stemchars# ]\n")
+    fst.append("#augmenttense# = <aor><impft><plupft>\n")
+    fst.append("#=ltr# = #consonant#\n")
+
+    fst.append("\n$augment$ =  { [#=ltr#]}:{e<sm>[#=ltr#]} ^-> (<#>__ [#stemchars#]+<verb>[#verbclass#]\\:\\:[#verbclass#]<verb>[#stemchars#]+[#person#][#number#][#augmenttense#]<indic>[#voice#]<u>[#urnchar#]+[#period#][#urnchar#]+</u>)\n")
+
+
+    fst.append("$stem_acceptors$ = \"<" + projectDir.toString + "/acceptors/verbstems.a>\"\n")
 
 
     fst.append(mainVerbAcceptor)
@@ -140,29 +148,29 @@ object AcceptorComposer {
   /** String defining final step of main verb acceptor.*/
   val mainVerbAcceptor = """
 $=verbclass$ = [#verbclass#]
-$squashverburn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>{lexent}:<>\.:<>[#urnchar#]:<>+</u>[#stemchars#]+<verb>$=verbclass$  $separator$+$=verbclass$ <verb>[#stemchars#]* [#person#] [#number#] [#tense#] [#mood#] [#voice#]<u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
+$squashverburn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>[#stemchars#]+<verb>$=verbclass$  $separator$+$=verbclass$ <verb>[#stemchars#]* [#person#] [#number#] [#tense#] [#mood#] [#voice#]<u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
 
-$verb_stems$ || $augment$ || $squashverburn$
+$stem_acceptors$ || $augment$ || $squashverburn$
 
 """
   /** String defining final noun acceptor transducer.  */
   val nounAcceptor = """
 % Noun acceptor:
 $=nounclass$ = [#nounclass#]
-$squashnounurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>{lexent}:<>\.:<>[#urnchar#]:<>+</u>[#stemchars#]+<noun>$=gender$ $=nounclass$  [#persistacc#]  $separator$+ $=nounclass$  <noun> [#stemchars#]* $=gender$ $case$ $number$ <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
+$squashnounurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>[#stemchars#]+<noun>$=gender$ $=nounclass$  [#persistacc#]  $separator$+ $=nounclass$  <noun> [#stemchars#]* $=gender$ $case$ $number$ <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
 """
 
   /** String defining final acceptor transducer for irregular nouns.  */
   val irregNounAcceptor = """
 % Irregular noun acceptor
-$squashirregnounurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>{lexent}:<>\.:<>[#urnchar#]:<>+</u>[#stemchars#]+ $gender$ $case$ $number$ <irregnoun>  $separator$+ <irregnoun><noun><u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
+$squashirregnounurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>[#stemchars#]+ $gender$ $case$ $number$ <irregnoun>  $separator$+ <irregnoun><noun><u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
 """
 
 /** String defining final acceptor transducer for indeclinable forms.  */
 val indeclAcceptor = """
 % Indeclinable form acceptor:
 $=indeclclass$ = [#indeclclass#]
-$squashindeclurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>{lexent}:<>\.:<>[#urnchar#]:<>+</u> [#stemchars#]+  $=indeclclass$  $separator$+  $=indeclclass$ <indecl> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
+$squashindeclurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> [#stemchars#]+  $=indeclclass$  $separator$+  $=indeclclass$ <indecl> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
 """
 
 
