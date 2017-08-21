@@ -35,19 +35,25 @@ object AcceptorComposer {
   def composeVerbAcceptor(projectDir: File): Unit = {
     val fst = StringBuilder.newBuilder
     fst.append("#include \"" + projectDir.toString + "/symbols.fst\"\n\n")
+    fst.append("%%%\n%%% Adjust stem  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%\n")
+    fst.append("$stems_acceptors$ = \"<" +  projectDir.toString +     "/acceptors/verbstems.a>\"\n")
 
-
-    fst.append("ALPHABET = [#editorial# #urntag# #urnchar# <verb> #morphtag# #stemtype#  #separator# #accent# #letter# #diacritic#  #breathing# \\. #stemchars# ]\n")
+    fst.append("%%%\n%%% Adjust augment  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%\nALPHABET = [#editorial# #urntag# #urnchar# <verb> #morphtag# #stemtype#  #separator# #accent# #letter# #diacritic#  #breathing# \\. #stemchars# ]\n\n")
     fst.append("#augmenttense# = <aor><impft><plupft>\n")
-    fst.append("#=ltr# = #consonant#\n")
 
-    fst.append("\n$augment$ =  { [#=ltr#]}:{e<sm>[#=ltr#]} ^-> (<#>__ [#stemchars#]+<verb>[#verbclass#]\\:\\:[#verbclass#]<verb>[#stemchars#]+[#person#][#number#][#augmenttense#]<indic>[#voice#]<u>[#urnchar#]+[#period#][#urnchar#]+</u>)\n")
+    fst.append("#=ltr# = #consonant#\n\n")
 
-
-    fst.append("$stem_acceptors$ = \"<" + projectDir.toString + "/acceptors/verbstems.a>\"\n")
+    fst.append("\n$aug$ =  { [#=ltr#]}:{e<sm>[#=ltr#]} ^-> (<#>__ [#stemchars#]+<verb>[#verbclass#]\\:\\:[#verbclass#]<verb>[#stemchars#]+[#person#][#number#][#augmenttense#]<indic>[#voice#]<u>[#urnchar#]+[#period#][#urnchar#]+</u>)\n")
 
 
-    fst.append(mainVerbAcceptor)
+    fst.append("%%%\n%%% The URN squasher for verbs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%\n")
+    fst.append("$=verbclass$ = [#verbclass#]\n")
+    fst.append("$squashverburn$ = <u>[#urnchar#]:<>+\\.:<>[#urnchar#]:<>+</u><u>[#urnchar#]:<>+\\.:<>[#urnchar#]:<>+</u>[#stemchars#]+<verb>$=verbclass$\\:\\:$=verbclass$ <verb>[#stemchars#]* [#person#] [#number#] [#tense#] [#mood#] [#voice#]<u>[#urnchar#]:<>+\\.:<>[#urnchar#]:<>+</u>\n\n")
+
+    fst.append("$stems_acceptors$ || $aug$ || $squashverburn$\n")
+
+
+    //fst.append(mainVerbAcceptor)
     val acceptorFile = projectDir / "verb.fst"
     new PrintWriter(acceptorFile) { write(fst.toString); close }
   }
@@ -84,7 +90,7 @@ object AcceptorComposer {
     fst.append(indeclAcceptor + "\n")
 
     fst.append(irregNounAcceptor + "\n")
-    fst.append("$verb_pipeline$ = \"<" + projectDir.toString + "/verb.a>\n")
+    fst.append("$verb_pipeline$ = \"<" + projectDir.toString + "/verb.a>\"\n")
 
     fst.append("\n\n" + topLevelAcceptor + "\n")
 
@@ -150,7 +156,7 @@ object AcceptorComposer {
 $=verbclass$ = [#verbclass#]
 $squashverburn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>[#stemchars#]+<verb>$=verbclass$  $separator$+$=verbclass$ <verb>[#stemchars#]* [#person#] [#number#] [#tense#] [#mood#] [#voice#]<u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
 
-$stem_acceptors$ || $augment$ || $squashverburn$
+$stem_acceptors$ || $aug$ || $squashverburn$
 
 """
   /** String defining final noun acceptor transducer.  */
