@@ -87,4 +87,67 @@ package object kanones {
     "particle" -> Particle,
     "conjunct" -> Conjunction
   )
+
+
+  /** Map string used in test data tables to [[Person]].  */
+  val personForFstSymbol: Map[String, Person] = Map(
+    "1st" -> First,
+    "2nd" -> Second,
+    "3rd" -> Third
+  )
+
+  /** Map string used in test data tables to [[Person]].  */
+  val personForTestLabel: Map[String, Person] = Map(
+    "first" -> First,
+    "second" -> Second,
+    "third" -> Third
+  )
+
+  /** Map string used in test data tables to [[Tense]].  */
+  val tenseForFstSymbol: Map[String, Tense] = Map(
+    "pres" -> Imperfect,
+    "fut" -> Future,
+    "aor" -> Aorist,
+    "pft" -> Perfect,
+    "plpft" -> Pluperfect
+  )
+
+  /** Map string used in test data tables to [[Tense]].  */
+  val tenseForTestLabel: Map[String, Tense] = Map(
+    "present" -> Imperfect,
+    "future" -> Future,
+    "aorist" -> Aorist,
+    "perfect" -> Perfect,
+    "pluperfect" -> Pluperfect
+  )
+
+  /** Map string used in test data tables to [[Mood]].  */
+  val moodForFstSymbol: Map[String, Mood] = Map(
+    "indic" -> Indicative,
+    "subj" -> Subjunctive,
+    "opt" -> Optative,
+    "imptv" -> Imperative
+  )
+
+  /** Map string used in test data tables to [[Mood]].  */
+  val moodForTestLabel: Map[String, Mood] = Map(
+    "indicative" -> Indicative,
+    "subjunctive" -> Subjunctive,
+    "optative" -> Optative,
+    "imperative" -> Imperative
+  )
+
+  /** Map string used in test data tables to [[Voice]].  */
+  val voiceForFstSymbol: Map[String, Voice] = Map(
+    "act" -> Active,
+    "mid" -> Middle,
+    "pass" -> Passive
+  )
+
+  /** Map string used in test data tables to [[Voice]].  */
+  val voiceForTestLabel: Map[String, Voice] = Map(
+    "active" -> Active,
+    "middle" -> Middle,
+    "passive" -> Passive
+  )
 }

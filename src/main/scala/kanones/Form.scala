@@ -23,10 +23,25 @@ object Form {
       case ir: IndeclRule => {
         IndeclinableForm(ir.pos)
       }
+      case vr: VerbRule => {
+        VerbForm(vr.person, vr.grammaticalNumber, vr.tense, vr.mood, vr.voice)
+      }
       case _ => throw new Exception(s"Form ${inflection} not yet implemented.")
     }
   }
 }
+
+case class VerbForm(person: Person, grammaticalNumber: GrammaticalNumber, tense: Tense, mood: Mood, voice: Voice) extends Form {}
+
+object VerbForm {
+  /** Create a [[VerbForm]] from five FST symbols.
+  */
+  def apply(p: String, n: String, t: String, m: String, v: String): VerbForm = {
+    VerbForm(personForFstSymbol(p), numberForFstSymbol(n), tenseForFstSymbol(t), moodForFstSymbol(m), voiceForFstSymbol(v))
+  }
+}
+
+
 
 /** Indeclinable forms are identified only by their part of speech.
 *

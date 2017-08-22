@@ -34,15 +34,18 @@ case object Positive extends Degree
 case object Comparative extends Degree
 case object Superlative extends Degree
 
+sealed trait Person extends MorphologicalProperty
+case object First extends Person
+case object Second extends Person
+case object Third extends Person
 
 sealed trait Tense extends MorphologicalProperty
-
 case object Present extends Tense
 case object Imperfect extends Tense
 case object Future extends Tense
 case object Aorist extends Tense
 case object Perfect extends Tense
-case object PluPerfect extends Tense
+case object Pluperfect extends Tense
 
 
 sealed trait Mood extends MorphologicalProperty

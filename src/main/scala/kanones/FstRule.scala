@@ -36,6 +36,28 @@ object NounRule {
   }
 }
 
+
+case class VerbRule(ruleId: String, person: String,
+grammaticalNumber:String, tense: String, mood: String,voice: String, inflClass: String, ending: String ) extends FstRule
+
+object VerbRule {
+  /** Create full [[VerbRule]] object from verb-specific FST.
+  *
+  */
+  def apply(inflClass: String, verbData: String): VerbRule = {
+    println("VERBDATA " +verbData)
+    //en<3rd><sg><aor><indic><act><u>verbinfl.w_pp3_aor_indic3b</u>
+    //val dataRE  = "([^<]+)<([^>]+)><([^>]+)><([^>]+)><([^>]+)><([^>]+)><([^>]+)> <([^>]+)><([^>]+)><([^>]+)><([^>]+)><u>(.+)<\\/u>".r
+    //val dataRE(ending, person, grammNumber,tense,mood,voice,ruleId) = verbData
+    //VerbRule(ruleId, person, grammNumber, tense, mood, voice, inflClass, ending)
+
+
+    val dataRE  = "([^<]+)<([^>]+)><([^>]+)><([^>]+)><([^>]+)><([^>]+)><u>(.+)<\\/u>".r
+    val dataRE(ending,person,grammNumber,tense,mood,voice,ruleId) =  verbData
+    VerbRule(ruleId, person, grammNumber, tense, mood, voice, inflClass, ending)
+
+  }
+}
 object FstRule {
 
   /** Create an [[FstRule]] object from the FST
@@ -52,6 +74,9 @@ object FstRule {
     stemType match {
       case "noun" => NounRule(inflClass,  remainder)
       case "indecl" => IndeclRule.fromStrings(inflClass, remainder)
+      case "verb" => {println("FORM VERB ON " + inflClass + " and " + remainder)
+        VerbRule(inflClass, remainder)
+      }
       case s: String => throw new Exception(s"Type ${s} not implemented")
     }
   }
