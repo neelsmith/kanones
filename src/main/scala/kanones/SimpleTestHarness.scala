@@ -48,7 +48,7 @@ case class SimpleTestHarness(conf: TestConfig)  {
   */
   def expectedForm(ln: String) : Form = {
     val cols = ln.split("#")
-    println("expectedForm " + cols(1))
+    
     cols(1) match {
       case "noun" => NounForm(genderForTestLabel(cols(2)), caseForTestLabel(cols(3)), numberForTestLabel(cols(4)))
       case "indeclinable" => IndeclinableForm(indeclinablePoSForTestLabel(cols(2)))
@@ -71,12 +71,12 @@ case class SimpleTestHarness(conf: TestConfig)  {
   def fstAnalyses (ln : String):Vector[String] = {
     val cols = ln.split("#")
     val token = asciiToFst(LiteraryGreekString(cols(0)).stripAccent.ascii)
-    println("TOKEN: " + token)
+
     val tmp = new File("kanonesTestHarness.txt")
     new PrintWriter(tmp) { write(token); close }
     val reply =  Process(conf.parseAction + " " + tmp.toString ).!!
     tmp.delete()
-    println("REPLY " + reply)
+
 
     val lines = reply.split("\n").drop(1).toVector
     val tidy = lines.map(_.replaceAll("\\\\:", ":"))
