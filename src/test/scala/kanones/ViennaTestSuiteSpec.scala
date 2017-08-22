@@ -32,6 +32,7 @@ class ViennaTestSuiteSpec extends FlatSpec {
             println("√ " + l)
           } else {
             println("x " + l)
+            
           }
         }
 
