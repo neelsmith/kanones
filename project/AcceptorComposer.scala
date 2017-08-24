@@ -43,7 +43,7 @@ object AcceptorComposer {
 
     fst.append("#=ltr# = #consonant#\n\n")
 
-    fst.append("\n$aug$ =  { [#=ltr#]}:{e<sm>[#=ltr#]} ^-> (<#>__ [#stemchars#]+<verb>[#verbclass#]\\:\\:[#verbclass#]<verb>[#stemchars#]+[#person#][#number#][#augmenttense#]<indic>[#voice#]<u>[#urnchar#]+[#period#][#urnchar#]+</u>)\n")
+    fst.append("\n$aug$ =  { [#=ltr#]}:{[#epsilon#]<sm>[#=ltr#]} ^-> (<#>__ [#stemchars#]+<verb>[#verbclass#]\\:\\:[#verbclass#]<verb>[#stemchars#]+[#person#][#number#][#augmenttense#]<indic>[#voice#]<u>[#urnchar#]+[#period#][#urnchar#]+</u>)\n")
 
 
     fst.append("%%%\n%%% The URN squasher for verbs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n%%%\n")
