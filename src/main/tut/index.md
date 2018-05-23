@@ -16,43 +16,54 @@ The data tables are accompanied by an explicit specification of the "alphabet" u
 
 The Kanónes github repository at <https://github.com/neelsmith/kanones> includes the basic logic for parsing Greek morphology, written in the language of the [Stuttgart Finite State Transducer toolbox](http://www.cis.uni-muenchen.de/~schmid/tools/SFST/) (*SFST*).  You supply data for a specific corpus in simple tables (as described below).  The Kanónes repository includes a build system that reads your data set, rewrites in the SFST notation, and combines this with the basic parsing logic to compile a parser.
 
-Technical prerequisites to use Kanónes are:
 
+## Detailed documentation
+
+### Technical prerequisites
 
 -   A POSIX-like environment with `sh`, `echo` and `make`
 -   The simple build tool, [sbt](https://github.com/sbt/sbt)
 -   The [Stuttgart FST toolbox](http://www.cis.uni-muenchen.de/~schmid/tools/SFST/)
 
 
-## Installing and using `kanónes`
+### Installing and using `kanónes`
 
 -   [Installation and configuration](configuration)
 -   Managing [your data sets](datasets)
 -   [Building and using a FST parser](parsing)
 -   [Using code libraries to work with parsed output](code-library)
 
+### The orthographic system
+
+Before you build the morphological datasets for a corpus, you need to specify the orthographic system you will use.
+
+-   defining the [orthographic system](Orthographic-systems) of a corpus
 
 
-## Datasets
 
-Data are read from tables of delimited-text data, and automatically converted to statements in the notation of the Stuttgart Finite State Transducer toolkit <http://www.cis.uni-muenchen.de/~schmid/tools/SFST/>.   Parsers are built from two kinds of datasets:
+### Morphological datasets
+
+Your principal in building a parser with kanónes is to compile the data needed to parse a given corpus.  These datasets are organized as simple tables in delimited-text forma, and are translated into statements in SFST notation in the compilation process.
+
+The string values for stems and endings in these tables must use the alphabet defined for this orthographic system.
+
+The values for 
+
+The layout of the tables described below is simple.  Parsers are built from two kinds of datasets:
 
 1.  [morphological lexica](Stem-tables) ("stems")
 2.  [inflectional rules](Rules-tables)
 
 
-## The orthographic system
 
--   defining the [orthographic system](Orthographic-systems) of a corpus
-
-## The parsing logic of the FST
+### The parsing logic of the FST
 
 The [logic of the finite state transducer](FST-logic) is independent of the data sets, and written in the Stuttgart Finite State Transducer notation.
 
-## The URN manager
+### The URN manager
 
 (TBA)
 
-## Debugging utilities
+### Debugging utilities
 
 (TBA)

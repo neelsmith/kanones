@@ -1,7 +1,7 @@
 % Characters for Greek character set:
 #consonant# = bgdzqklmncprstfxy
 #vowel# = aeiouhw<isub>
-#breathing# = <sm><ro>  %% Move these out of project-orthography?
+
 
 #letter# = #consonant# #vowel# #breathing#
 
