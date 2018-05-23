@@ -1,9 +1,11 @@
 ---
-title: User guide for Kanónes
+title: "User's guide for Kanónes"
 layout: page
 ---
 
-User documentation for building parsers with `kanónes` (source code at <https://github.com/neelsmith/kanones>).
+Build parsers with `kanónes` to parse a corpus of texts in a specified orthography.
 
+-   source code for kanónes: <https://github.com/neelsmith/kanones>
+-   beginnings of a [draft user's guide](current-draft) are coming online.
 
-Notes for a [draft text](current-draft) are coming online.
+See also notes in the [kanónes github wiki](https://github.com/neelsmith/kanones/wiki).

@@ -1,15 +1,14 @@
 
-
 # Permalinks
 permalink:        pretty
 
 # Setup
-title:            "Kanónes User Guide"
+title:            "Kanónes User's Guide"
 tagline:          'Build corpus-specific parsers for ancient Greek'
-description:      ''
+description:      "User's guide for morphological parsing of specific corpora of ancient Greek texts in a specified orthography"
 baseurl: '/kanones/'
 
 links:
   - title:  Github repository
-    url:  https://github.com/neelsmith/tabulae
+    url:  https://github.com/neelsmith/kanones
     external: true
