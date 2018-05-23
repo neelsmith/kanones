@@ -1,7 +1,7 @@
 import sbt._
 import java.io.PrintWriter
 import scala.io.Source
-
+import Path.rebase
 /** Factory object for composing and writing to file the top-level
 * acceptor transducer, acceptor.fst in the root of the project FST build.
 */

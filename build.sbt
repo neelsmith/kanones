@@ -1,11 +1,12 @@
 import complete.DefaultParsers._
+import scala.sys.process._
 
 lazy val root = (project in file(".")).
     settings(
       name := "kanones",
       organization := "edu.holycross.shot",
       version := "0.0.1",
-      scalaVersion := "2.12.3",
+      scalaVersion := "2.12.4",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
@@ -13,7 +14,7 @@ lazy val root = (project in file(".")).
         "org.scalatest" %% "scalatest" % "3.0.1" % "test",
         "edu.holycross.shot" %% "greek" % "1.3.5",
 
-        "edu.holycross.shot.cite" %% "xcite" % "2.7.1"
+        "edu.holycross.shot.cite" %% "xcite" % "3.3.0"
       ),
 
       fst := buildFst.evaluated,

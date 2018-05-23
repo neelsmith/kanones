@@ -1,7 +1,7 @@
 import sbt._
 import java.io.PrintWriter
 import scala.io.Source
-
+import Path.rebase
 /**
 */
 object SymbolsComposer {

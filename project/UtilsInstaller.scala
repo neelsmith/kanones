@@ -2,6 +2,10 @@ import sbt._
 import scala.io.Source
 import java.io.PrintWriter
 
+import scala.sys.process._
+
+import Path.rebase
+
 
 object UtilsInstaller {
 
