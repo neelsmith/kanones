@@ -80,6 +80,7 @@ lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
 
 // Generate data directory hierarchy for a new named corpus
 lazy val corpusImpl = Def.inputTaskDyn {
+  
   val args = spaceDelimited("corpus>").parsed
   args.size match {
     case 1 => {
