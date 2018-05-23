@@ -17,13 +17,16 @@ lazy val root = (project in file(".")).
         "edu.holycross.shot.cite" %% "xcite" % "3.3.0"
       ),
 
+      tutTargetDirectory := file("docs"),
+      tutSourceDirectory := file("src/main/tut"),
+
       fst := buildFst.evaluated,
       corpus := corpusImpl.evaluated,
       utils := utilsImpl.evaluated,
       cleanAll := cleanAllImpl.value,
 
       kdebug := currentTest.value
-    )
+    ).enablePlugins(TutPlugin)
 
 lazy val fst = inputKey[Unit]("Compile complete FST system for a named corpus")
 lazy val corpus = inputKey[Unit]("Generate data directory hierarchy for a new named corpus")
