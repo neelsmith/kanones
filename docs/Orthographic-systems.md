@@ -10,28 +10,27 @@ For a given morphological data set, the single file `orthography/alphabet.fst` d
 ## Understanding the specification
 The alphabet specification
 
-<sm><ro>
-<isub><lo><sh>
+`<sm><ro>`
+`<isub><lo><sh>`
 
 
-```shell
-#consonant# = bgdzqklmncprstfxy
-#vowel# = aeiouhw<isub>
+
+    #consonant# = bgdzqklmncprstfxy
+    #vowel# = aeiouhw<isub>
 
 
-#letter# = #consonant# #vowel# #breathing#
+    #letter# = #consonant# #vowel# #breathing#
 
 
-% Specific characters used in automatic formation of
-% stems of regular verbs:
-#alpha# = a
-#gamma# = g
-#epsilon# = e
-#eta# = h
-#theta# = q
-#kappa# = k
-#mu# = m
-#omicron# = o
-#sigma# = s
-#omega# = w
-```
+    % Specific characters used in automatic formation of
+    % stems of regular verbs:
+    #alpha# = a
+    #gamma# = g
+    #epsilon# = e
+    #eta# = h
+    #theta# = q
+    #kappa# = k
+    #mu# = m
+    #omicron# = o
+    #sigma# = s
+    #omega# = w
