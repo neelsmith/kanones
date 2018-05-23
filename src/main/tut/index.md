@@ -3,7 +3,7 @@ title: Overview
 layout: page
 ---
 
-*Kanónes* is a system for building corpus-specific morphological parsers for ancient Greek, represented in a specified orthographic system.  Parsers built with Kanónes take an "analysis by synthesis" approach.  Greek words are stripped of accent, and submitted to a finite state transducer (*FST*) that collects candidate analyses; an external program then adds the appropriate accent for the suggested form:  if it matches the original, accented word, then the analysis is valid.
+*Kanónes* is a system for building corpus-specific morphological parsers for ancient Greek, represented in a specified orthographic system.  Parsers built with kanónes take an "analysis by synthesis" approach.  Greek words are stripped of accent, and submitted to a finite state transducer (*FST*) that collects candidate analyses; an external program then adds the appropriate accent for the suggested form:  if it matches the original, accented word, then the analysis is valid.
 
 (For a fuller description of Kanónes' approach to parsing, see "Morphological Analysis of Historical Languages" in *Bulletin of the Institute for Classical Studies* 59-2, 2016, 89-102.)
 
@@ -14,7 +14,7 @@ The data tables are accompanied by an explicit specification of the "alphabet" u
 
 ## Building blocks
 
-The Kanónes github repository at <https://github.com/neelsmith/kanones> includes the basic logic for parsing Greek morphology, written in the language of the [Stuttgart Finite State Transducer toolbox](http://www.cis.uni-muenchen.de/~schmid/tools/SFST/) (*SFST*).  You supply data for a specific corpus in simple tables (as described below).  The Kanónes repository includes a build system that reads your data set, rewrites in the SFST notation, and combines this with the basic parsing logic to compile a parser.
+The kanónes github repository at <https://github.com/neelsmith/kanones> includes the basic logic for parsing Greek morphology, written in the language of the [Stuttgart Finite State Transducer toolbox](http://www.cis.uni-muenchen.de/~schmid/tools/SFST/) (*SFST*).  You supply data for a specific corpus in simple tables (as described below).  The Kanónes repository includes a build system that reads your data set, rewrites in the SFST notation, and combines this with the basic parsing logic to compile a parser.
 
 
 ## Detailed documentation
@@ -30,8 +30,7 @@ The Kanónes github repository at <https://github.com/neelsmith/kanones> include
 
 -   [Installation and configuration](configuration)
 -   Managing [your data sets](datasets)
--   [Building and using a FST parser](parsing)
--   [Using code libraries to work with parsed output](code-library)
+-   [Building and applying a FST parser](parsing)
 
 ### The orthographic system
 
@@ -47,18 +46,28 @@ Your principal task in building a parser with kanónes is to compile the data ne
 
 The string values for stems and endings in these tables must use the alphabet defined for this [orthographic system](Orthographic-systems).
 
-The values for grammatical categories (analytical values, such as gender, case and number for nouns, or classificaitons such as what declension pattern a noun belongs to) must be drawn from the set of symbols defined in the core parser.  These are documented in the linked discussion of stem tables and inflectional rules.
+The values for grammatical categories (analytical values, such as gender, case and number for nouns, or classificaitons such as what declension pattern a noun belongs to) must be drawn from the set of symbols defined in the core parser.  They are [sumarrized here](morph-symbols).
 
 The layout of the tables described below is simple.  Parsers are built from two kinds of datasets:
 
 1.  [morphological lexica](Stem-tables) ("stems")
 2.  [inflectional rules](Rules-tables)
 
+### `sbt` tasks
+
+-   [summary of sbt tasks](sbt-tasks)
+
+### Analyzing output of the parser
+
+Alongside its build system for compiling parsers, kanónes includes a code library for the JVM written in Scala for working with the output of a FST parser built by kanónes.
+
+-   [Using code libraries to work with parsed output](code-library)
+
 
 
 ### The parsing logic of the FST
 
-The [logic of the finite state transducer](FST-logic) is independent of the data sets, and written in the Stuttgart Finite State Transducer notation.
+In order to use kanónes, it is not necessary to understand the internal logic that the FST follows in parsing morphlogy.  For those who are curious about how morphological can be  expressed independently of any specific data sets, it is briefly [described here](FST-logic).
 
 ### The URN manager
 
