@@ -7,16 +7,9 @@ permalink:        pretty
 title:            "Kanónes User Guide"
 tagline:          'Build corpus-specific parsers for ancient Greek'
 description:      ''
-url: "https://neelsmith.github.io/kanones-docs"
-
-
-
-
-
+baseurl: '/kanones/'
 
 links:
-  - title: Home
-    url: /
-  - title: Source
-    url: https://github.com/neelsmith/kanones
+  - title:  Github repository
+    url:  https://github.com/neelsmith/tabulae
     external: true
