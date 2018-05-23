@@ -17,7 +17,7 @@ The transducers that do this work are organized in the following directories:
 
 
 - inflection
-- [acceptors](Acceptors)
+- [acceptors](../Acceptors)
 
 
-The definition of the corpus-specific set of symbols used by the FST is described [here](FST-symbols).
+The definition of the corpus-specific set of symbols used by the FST is described [here](../FST-symbols).
