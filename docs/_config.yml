@@ -9,6 +9,9 @@ description:      "User's guide for morphological parsing of specific corpora of
 baseurl: '/kanones/'
 
 links:
+  - title: API docs
+    url: https://github.com/neelsmith/kanones/api/edu/holycross/shot/kanones/index.html
+    external:  true
   - title:  Github repository
     url:  https://github.com/neelsmith/kanones
     external: true
