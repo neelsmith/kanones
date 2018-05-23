@@ -1,0 +1,22 @@
+
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            "Kanónes User Guide"
+tagline:          'Build corpus-specific parsers for ancient Greek'
+description:      ''
+url: "https://neelsmith.github.io/kanones-docs"
+
+
+
+
+
+
+links:
+  - title: Home
+    url: /
+  - title: Source
+    url: https://github.com/neelsmith/kanones
+    external: true
