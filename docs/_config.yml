@@ -10,7 +10,7 @@ baseurl: '/kanones/'
 
 links:
   - title: API docs
-    url: https://github.com/neelsmith/kanones/api/edu/holycross/shot/kanones/index.html
+    url: https://neelsmith.github.io/kanones/api/edu/holycross/shot/kanones/index.html
     external:  true
   - title:  Github repository
     url:  https://github.com/neelsmith/kanones
