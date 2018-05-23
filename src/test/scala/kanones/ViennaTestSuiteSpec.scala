@@ -29,10 +29,12 @@ class ViennaTestSuiteSpec extends FlatSpec {
         val lines = Source.fromFile(testFile).getLines.toVector.drop(1)
         for (l <- lines) {
           if (litTestHarness.passes(l)) {
-            println("√ " + l)
+            val cols = l.split({"#"})
+            val str = cols(0)
+            println("√ " + str + " analyzed as " + cols.drop(1).mkString(", "))
           } else {
             println("x " + l)
-            
+
           }
         }
 
@@ -45,7 +47,7 @@ class ViennaTestSuiteSpec extends FlatSpec {
   }
 
 
-  "A harness for archalic and classica Attic Greek" should "score files one at a time" in pending /*{
+  "A harness for archaic and classica Attic Greek" should "score files one at a time" in pending /*{
     val testSrc = new File("src/test/resources/unit_tests_data/vienna_attic")
     val subDirs =  testSrc.listFiles().toVector.filter(_.isDirectory())
 
