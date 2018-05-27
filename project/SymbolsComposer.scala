@@ -6,7 +6,6 @@ import Path.rebase
 */
 object SymbolsComposer {
 
-
   def apply(repo: File, corpus: String) : Unit = {
     composeMainFile(repo / s"parsers/${corpus}")
     copySecondaryFiles(repo, corpus)
