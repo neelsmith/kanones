@@ -46,7 +46,7 @@ def xmlDirToGreekCex(dir: File) = {
   for (f <- filesList) {
       val outFile = f.toString.replaceFirst(".xml", ".cex")
       //println("Parse " + f + " and write to " + outFile)
-      println("Preparing " +  outFile + "...") 
+      println("Preparing " +  outFile + "...")
       val xmlString = scala.io.Source.fromFile(f).getLines.mkString("\n")
 
       val root = XML.loadString(xmlString)
@@ -88,12 +88,12 @@ def collectText(n: xml.Node, s: String): String = {
 * convert to simple CEX.
 *
 * @param dir Directory to look in for XML files.
-*//*
+*/
 
-def xmlToPlainTextCex(dir: File) = {
+def xmlToAsciiCex(dir: File) = {
   val filesList = dir.listFiles.filter(_.isFile).toVector.filter(_.toString.contains(".xml"))
   for (f <- filesList) {
-    val outFile = f.toString.replaceFirst(".xml", ".cex")
+    val outFile = f.toString.replaceFirst(".xml", "-ascii.cex")
 
     //println("Parse " + f + " and write to " + outFile)
 
@@ -111,4 +111,4 @@ def xmlToPlainTextCex(dir: File) = {
     }
     new PrintWriter(outFile){write(entryStrings.mkString("\n")); close;}
   }
-}*/
+}
