@@ -18,7 +18,7 @@ def testList = List(
   ("Test composing phonology symbols", testPhonologyComposer(_, _), "" ),
 
   // Top-level acceptors
-  ("Test empty union of squashers", testEmptySquashers(_, _), "pending" ),
+  ("Test empty union of squashers", testEmptySquashers(_, _), "" ),
   ("Test writing union of squashers string", testUnionOfSquashers(_, _), "pending" ),
   ("Test writing top-level acceptor string", testTopLevelAcceptor(_, _), "pending" ),
   ("Test composing final acceptor acceptor.fst", testMainAcceptorComposer(_, _), "" ),
@@ -190,6 +190,7 @@ def testEmptySquashers(conf: Configuration, repo : ScalaFile) :  Boolean= {
   } catch {
     case t: Throwable => true
   }
+  //(repo/"datasets/minimum").delete()
   noData
 }
 
@@ -197,14 +198,14 @@ def testUnionOfSquashers(conf: Configuration, repo : ScalaFile) :  Boolean= {
   val corpusDir = mkdirs(repo/"parsers/minimum")
 
   // Install some verb stem data.
-  val verbData = repo/"datasets/minimum/stems-tables/verbs"
+  val verbData = repo/"datasets/minimum/stems-tables/verbs-simplex"
   if (!verbData.exists) {mkdirs(verbData)}
   installVerbStemTable(repo/"datasets/minimum")
   DataInstaller(repo/"datasets", repo, "minimum")
   val actual = AcceptorComposer.unionOfSquashers(corpusDir).split("\n").filter(_.nonEmpty).toVector
   val expected  =   "$acceptor$ = $squashverburn$"
   // tidy up:
-  (repo/"datasets/minimum").delete()
+  (verbData/"madeupdata.cex").delete()
   actual(1).trim == expected
 }
 
@@ -214,18 +215,17 @@ def testTopLevelAcceptor(conf: Configuration, repo : ScalaFile) = {
   val corpusData = mkdirs(datasets/"minimum")
 
   // Install some verb stem data.
-  val verbData = repo/"datasets/minimum/stems-tables/verbs"
+  val verbData = repo/"datasets/minimum/stems-tables/verbs-simplex"
   if (!verbData.exists) {mkdirs(verbData)}
   installVerbStemTable(repo/"datasets/minimum")
   DataInstaller(repo/"datasets", repo, "minimum")
 
   val expandedAcceptorFst = AcceptorComposer.topLevelAcceptor(corpusData)
   val lines = expandedAcceptorFst.split("\n").toVector.filter(_.nonEmpty)
-
   val expected = "$acceptor$ = $squashverburn$"
 
   // tidy
-  corpusData.delete()
+  (verbData/"madeupdata.cex").delete()
 
   lines(1).trim == expected
 }
@@ -235,11 +235,12 @@ def testMainAcceptorComposer(conf: Configuration, repo : ScalaFile) = {
   val corpusData = mkdirs(datasets/"minimum")
 
   // Install some verb stem data.
-  val verbData = repo/"datasets/minimum/stems-tables/verbs"
+  val verbData = repo/"datasets/minimum/stems-tables/verbs-simplex"
   if (!verbData.exists) {mkdirs(verbData)}
   installVerbStemTable(repo/"datasets/minimum")
   DataInstaller(repo/"datasets", repo, "minimum")
 
+  println("\n\nCHECK FOR VERB DATA: exists?  " + (verbData/"madeupdata.cex").exists())
   // 1. Should omit indeclinables if not data present.
   val projectDir = repo/"parsers/minimum"
   AcceptorComposer.composeMainAcceptor(projectDir)
@@ -248,7 +249,9 @@ def testMainAcceptorComposer(conf: Configuration, repo : ScalaFile) = {
 
   //val expected = "$acceptor$ = $squashverburn$"
   val expected = "$=verbclass$ = [#verbclass#]"
-  println("COMPARE: " + lines(2))
+  //  println("COMPARE: " + lines(2))
+  //tidy
+  (verbData/"madeupdata.cex").delete()
   lines(2).trim == expected.trim
 }
 /*
@@ -316,7 +319,7 @@ def testInflectionMakefileComposer(conf: Configuration, repo : ScalaFile) = {
   RulesInstaller(repo/"datasets", repo, "minimum")
 
   MakefileComposer.composeInflectionMake(projectDir, compiler)
-
+  (verbData/"madeupdata.cex").delete()
   val mkfile = projectDir/"inflection/makefile"
   mkfile.exists
 }
