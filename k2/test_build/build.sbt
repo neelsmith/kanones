@@ -45,13 +45,13 @@ def testList = List(
 
 
 /** Triples of description, function and status. */
-/*
+
 def integrationList = {
   List(
-    ("Test output of FST parser", testParserOutput(_, _, _), "pending" ),
+    ("Test output of FST parser", testParserOutput(_, _), "" ),
   )
 }
-*/
+
 
 
 /** "s" or no "s"? */
@@ -385,9 +385,10 @@ def testBuildWithAG(corpusName: String, conf: Configuration, repo : ScalaFile) =
   val parser = repo/"parsers"/cName/"greek.a"
   parser.exists
 }
+*/
 
-def testParserOutput(corpusName: String, conf: Configuration, repo : ScalaFile) = {
-    val cName = "a-g"
+def testParserOutput(conf: Configuration, repo : ScalaFile) = {
+    val cName = "indeclcorpus"
     val dataDirectory = repo/"datasets"
     val conf = Configuration("/usr/local/bin/fst-compiler", "/usr/local/bin/fst-infl", "/usr/bin/make")
 
@@ -397,7 +398,7 @@ def testParserOutput(corpusName: String, conf: Configuration, repo : ScalaFile) 
 
     val parser = repo/"parsers"/cName/"greek.a"
     val fstparse = "/usr/local/bin/fst-parse"
-    val words = "amo\namas\namabam\nnoli\namavi\n"
+    val words = "kai/\n"
     val wordList = repo/"parsers/tempwords.txt"
     val parsedOutput = repo/"parsers/tempoutput.txt"
     wordList.overwrite(words)
@@ -407,17 +408,17 @@ def testParserOutput(corpusName: String, conf: Configuration, repo : ScalaFile) 
     val rslts = parsedOutput.lines.toVector
     println("Results: " + rslts.mkString("\n\n"))
 
-
-    (rslts.size == 5) && (rslts.filter(_.contains( "no analysis")).size == 1)
+    false
+    //(rslts.size == 5) && (rslts.filter(_.contains( "no analysis")).size == 1)
 }
-*/
+
 
 lazy val listEm = inputKey[Unit]("get a list")
 listEm in Test := {
   println("Do universe with " + testList)
 }
 
-/*
+
 lazy val integrationTests = inputKey[Unit]("Integration tests")
 integrationTests in Test := {
 
@@ -427,10 +428,8 @@ integrationTests in Test := {
     val f = file(conf.datadir).toScala
 
     if (f.exists) {
-      val corpusName = "x"
       val baseDir = baseDirectory.value.toScala
       println("\nExecuting tests of build system with settings:" +
-        "\n\tcorpus:          " + corpusName +
         "\n\tdata source:     " + conf.datadir +
         "\n\trepository base: " + baseDir +
         "\n"
@@ -442,7 +441,7 @@ integrationTests in Test := {
         }
 
         print(t._1 + "...")
-        val reslt = t._2(corpusName, conf, baseDir)
+        val reslt = t._2(conf, baseDir)
         if (reslt) { println ("success.") } else { println("failed.")}
         reslt
       }
@@ -460,7 +459,46 @@ integrationTests in Test := {
     }
   }
 }
-*/
+/*
+  try {
+    val confFile = file("conf.properties").toScala
+    val conf = Configuration(confFile)
+    val f = file(conf.datadir).toScala
+
+    if (f.exists) {
+      val baseDir = baseDirectory.value.toScala
+      println("\nExecuting tests of build system with settings:" +
+        "\n\tdata source:     " + conf.datadir +
+        "\n\trepository base: " + baseDir +
+        "\n"
+      )
+      val results = for (t <- integrationList.filter(_._3 != "pending")) yield {
+        val subdirs = (baseDir/"parsers").children.filter(_.isDirectory)
+        for (d <- subdirs) {
+          d.delete()
+        }
+
+        print(t._1 + "...")
+        val reslt = t._2( conf, baseDir)
+        if (reslt) { println ("success.") } else { println("failed.")}
+        reslt
+      }
+      reportResults(results)
+
+    } else {
+      println("Failed.")
+      println(s"No configuration file ${conf.datadir} exists.")
+    }
+
+  } catch {
+    case t: Throwable => {
+      println("Failed.")
+      println(t)
+    }
+  }
+  */
+
+
 lazy val bldTests = inputKey[Unit]("Unit tests")
 bldTests in Test := {
 
