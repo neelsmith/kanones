@@ -35,7 +35,7 @@ lazy val root = (project in file(".")).
     settings( commonSettings:_*).enablePlugins(TutPlugin)
 
 lazy val testPoS = (project in file("test_pos"))
-
+lazy val testBuild = (project in file("test_build"))
 
 lazy val fst = inputKey[Unit]("Compile complete FST system for a named corpus")
 lazy val parse = inputKey[Unit]("Run a binary parse against a word list")
