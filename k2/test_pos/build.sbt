@@ -209,6 +209,7 @@ def testConvertIndeclStem(corpusName: String, conf: Configuration, repo :  Scala
   // cum n11872 prep
   val goodLine = "demo.indecl2#lexent.n51951#kai/#indeclconj"
   val goodFst = IndeclDataInstaller.indeclLineToFst(goodLine)
+
   val expected = "<u>demo\\.indecl2</u><u>lexent\\.n51951</u>kai/<indeclconj>"
   goodFst.trim ==  expected
 }

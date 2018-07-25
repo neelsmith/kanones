@@ -408,7 +408,8 @@ def testParserOutput(conf: Configuration, repo : ScalaFile) = {
     val rslts = parsedOutput.lines.toVector
     println("Results: " + rslts.mkString("\n\n"))
 
-    false
+    val expected = "<u>demo.indecl1</u><u>lexent.n51951</u>kai/<indeclconj><div><indeclconj><u>indeclinfl.2</u>"
+    rslts.mkString == expected
     //(rslts.size == 5) && (rslts.filter(_.contains( "no analysis")).size == 1)
 }
 
