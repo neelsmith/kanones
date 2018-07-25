@@ -65,7 +65,7 @@ def testList = List(
   // inflectional rules for nouns
   ("Test converting bad inflectional rules for nouns", testBadNounsInflRulesConvert( _,_, _), "" ),
   ("Test converting  inflectional rules for nouns", testConvertNounInflRules( _, _, _), "" ),
-  ("Test converting  inflectional rules for nouns from files in dir", testNounInflRulesFromDir( _,_, _), "pending" ),
+  ("Test converting  inflectional rules for nouns from files in dir", testNounInflRulesFromDir( _,_, _), "" ),
 
   // noun stems
   ("Test converting bad stem data to fst for nouns", testBadNounStemDataConvert(  _,_, _), "" ),
@@ -809,15 +809,14 @@ def testConvertNounInflRules(corpusName: String,conf: Configuration, repo :  Sca
 
   val expected = "<os\\_ou><noun>os<masc><nom><sg><u>nouninfl\\.os\\_ou1m</u>"
     //"<a_ae><noun>a<fem><nom><sg><u>nouninfl\\.a\\_ae1</u>"
-  println("\n\nGOOD FST/expected:\n" + goodFst)
-  println(expected)
+
 
   goodFst.trim ==  expected
 }
 def testNounInflRulesFromDir(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
-    val goodLine = "nouninfl.a_ae1#a_ae#a#fem#nom#sg"
-
-    val nounDir = mkdirs(repo/"datasets/minimum/rules-tables/nouns")
+    //val goodLine = "nouninfl.a_ae1#a_ae#a#fem#nom#sg"
+    val goodLine = "nouninfl.os_ou1m#os_ou#os#masc#nom#sg"
+    val nounDir = mkdirs(repo/"datasets"/corpusName/"rules-tables/nouns")
     val nounFile = nounDir/"madeupdata.cex"
     val text = s"header line, omitted in parsing\n${goodLine.trim}"
     nounFile.overwrite(text + "\n")
@@ -826,8 +825,10 @@ def testNounInflRulesFromDir(corpusName: String,conf: Configuration, repo :  Sca
     // tidy up
     //(repo/"datasets").delete()
 
-    val expected = "$nouninfl$ =  <a_ae><noun>a<fem><nom><sg><u>nouninfl\\.a\\_ae1</u>"
-
+    //val expected = "$nouninfl$ =  <a_ae><noun>a<fem><nom><sg><u>nouninfl\\.a\\_ae1</u>"
+    val expected = "$nouninfl$ =  <os\\_ou><noun>os<masc><nom><sg><u>nouninfl\\.os\\_ou1m</u>"
+    println("RESLT:\n" + lines(0))
+    println(expected)
     lines(0) == expected
 }
 
