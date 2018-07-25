@@ -103,8 +103,6 @@ def testCorpusObject(conf: Configuration, repo : ScalaFile) = {
   val corpDir = corpus.dir
   val madeOk = corpDir.exists
   val expectedDir = repo/"datasets/minimum"
-  // tidy up
-  corpDir.delete()
 
   madeOk && (corpDir == expectedDir)
 }
@@ -115,7 +113,7 @@ def testAlphabetInstall(conf: Configuration, repo : ScalaFile) : Boolean = {
 
   val expectedFile = repo/"parsers/minimum/symbols/alphabet.fst"
   val alphabetLines = expectedFile.lines.toVector
-  val expectedLine = "#consonant# = bcdfghjklmnpqrstvxz"
+  val expectedLine = "#consonant# = bgdzqklmncprstfxy"
 
   alphabetLines(1) == expectedLine
 }
