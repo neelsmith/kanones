@@ -28,6 +28,13 @@
 #vadj# =  <vadj1><vadj2>
 #finiteform# = <infin><ptcpl><vadj1><vadj2>
 
+%
+% 4. Indeclinable forms:
+%
+#indecl# = <indeclprep><indeclconj><indeclinterj>
+
+
+
 #morphtag# = #pos# #gender# #case# #number# #person# #tense# #mood# #voice# #degree# #finiteform#
 
 
