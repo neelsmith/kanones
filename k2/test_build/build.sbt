@@ -19,8 +19,8 @@ def testList = List(
 
   // Top-level acceptors
   ("Test empty union of squashers", testEmptySquashers(_, _), "" ),
-  ("Test writing union of squashers string", testUnionOfSquashers(_, _), "pending" ),
-  ("Test writing top-level acceptor string", testTopLevelAcceptor(_, _), "pending" ),
+  ("Test writing union of squashers string", testUnionOfSquashers(_, _), "" ),
+  ("Test writing top-level acceptor string", testTopLevelAcceptor(_, _), "" ),
   ("Test composing final acceptor acceptor.fst", testMainAcceptorComposer(_, _), "" ),
 
 
@@ -204,9 +204,10 @@ def testUnionOfSquashers(conf: Configuration, repo : ScalaFile) :  Boolean= {
   DataInstaller(repo/"datasets", repo, "minimum")
   val actual = AcceptorComposer.unionOfSquashers(corpusDir).split("\n").filter(_.nonEmpty).toVector
   val expected  =   "$acceptor$ = $squashverburn$"
+
   // tidy up:
   (verbData/"madeupdata.cex").delete()
-  actual(1).trim == expected
+  actual(1).trim.startsWith(expected)
 }
 
 def testTopLevelAcceptor(conf: Configuration, repo : ScalaFile) = {
@@ -227,7 +228,7 @@ def testTopLevelAcceptor(conf: Configuration, repo : ScalaFile) = {
   // tidy
   (verbData/"madeupdata.cex").delete()
 
-  lines(1).trim == expected
+  lines(1).trim.startsWith(expected)
 }
 
 def testMainAcceptorComposer(conf: Configuration, repo : ScalaFile) = {
@@ -240,7 +241,6 @@ def testMainAcceptorComposer(conf: Configuration, repo : ScalaFile) = {
   installVerbStemTable(repo/"datasets/minimum")
   DataInstaller(repo/"datasets", repo, "minimum")
 
-  println("\n\nCHECK FOR VERB DATA: exists?  " + (verbData/"madeupdata.cex").exists())
   // 1. Should omit indeclinables if not data present.
   val projectDir = repo/"parsers/minimum"
   AcceptorComposer.composeMainAcceptor(projectDir)
