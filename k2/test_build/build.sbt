@@ -16,13 +16,13 @@ def testList = List(
   ("Test composing files in symbols dir", testSymbolsDir(_, _), "" ),
   ("Test composing symbols.fst", testMainSymbolsComposer(_, _), "" ),
   ("Test composing phonology symbols", testPhonologyComposer(_, _), "" ),
-/*
+
   // Top-level acceptors
-  ("Test empty union of squashers", testEmptySquashers(_, _, _), "" ),
-  ("Test writing union of squashers string", testUnionOfSquashers(_, _, _), "" ),
-  ("Test writing top-level acceptor string", testTopLevelAcceptor(_, _, _), "" ),
-  ("Test composing final acceptor acceptor.fst", testMainAcceptorComposer(_, _, _), "" ),
-*/
+  ("Test empty union of squashers", testEmptySquashers(_, _), "pending" ),
+  ("Test writing union of squashers string", testUnionOfSquashers(_, _), "pending" ),
+  ("Test writing top-level acceptor string", testTopLevelAcceptor(_, _), "pending" ),
+  ("Test composing final acceptor acceptor.fst", testMainAcceptorComposer(_, _), "" ),
+
 
   ("Test composing inflection.fst", testInflectionComposer( _, _), "" ),
 
@@ -31,11 +31,11 @@ def testList = List(
   ("Test composing parser for empty lexica", testParserComposerForEmptyLexica(_, _, _), "" ),
 
   ("Test composing parser", testParserComposer(_, _, _), "" ),
-
-  ("Test composing inflection makefile for empty directory", testEmptyInflectionMakefileComposer(_, _, _), "" ),
-  ("Test composing inflection makefile", testInflectionMakefileComposer(_, _, _), "" ),
-  ("Test composing main makefile", testMainMakefileComposer(_, _, _), "" ),
-
+*/
+  ("Test composing inflection makefile for empty directory", testEmptyInflectionMakefileComposer(_, _), "" ),
+  ("Test composing inflection makefile", testInflectionMakefileComposer(_, _), "" ),
+  ("Test composing main makefile", testMainMakefileComposer(_, _), "" ),
+/*
 
   // These may not be relevant
   ("Test assemblingAcceptorsDir", testAcceptorDirectory(_, _, _), "pending" ),
@@ -78,7 +78,6 @@ def reportResults(results: List[Boolean]) : Unit = {
   }
 }
 
-/*
 def installVerbStemTable(corpusDir:  ScalaFile) : Unit = {
 
   val stems = corpusDir/"stems-tables"
@@ -86,16 +85,16 @@ def installVerbStemTable(corpusDir:  ScalaFile) : Unit = {
   if (! verbs.exists) {mkdirs(verbs)}
   val verbFile = verbs/"madeupdata.cex"
 
-  val goodLine = "ag.v1#lexent.n2280#am#conj1"
+  val goodLine = "vienna.n5_0#lexent.n5#doc#w_pp3#"
   val text = s"header line, omitted in parsing\n${goodLine}"
   verbFile.overwrite(text)
 }
 def installVerbRuleTable(verbsDir:  ScalaFile) : Unit = {
   val verbFile = verbsDir/"madeupdata.cex"
-  val goodLine = "RuleUrn#InflectionClasses#Ending#Person#Number#Tense#Mood#Voice\nlverbinfl.are_presind1#conj1#o#1st#sg#pres#indic#act\n"
+  val goodLine =   "RuleUrn#InflectionClasses#Ending#Person#Number#Tense#Mood#Voice\nverbinfl.w_pp3_aor_indic3b#w_pp3#en#3rd#sg#aor#indic#act\n"
   verbFile.overwrite(goodLine)
 }
-*/
+
 ////////////////// Tests //////////////////////////////
 //
 
@@ -180,9 +179,9 @@ def testInflectionComposer(conf: Configuration, repo : ScalaFile) :  Boolean= {
   val expectedStart  = "$ending$ = " + "\"<" + repo + "/parsers/minimum/inflection/indeclinfl.a>\""
   (outputFile.exists && actualLines(3).trim.startsWith(expectedStart) )
 }
-/*
+
 def testEmptySquashers(conf: Configuration, repo : ScalaFile) :  Boolean= {
-  val corpusDir = mkdirs(repo/"parsers"/corpusName)
+  val corpusDir = mkdirs(repo/"parsers/minimum")
 
   // 1. should throw Exception if no data.
   val noData =  try {
@@ -194,31 +193,31 @@ def testEmptySquashers(conf: Configuration, repo : ScalaFile) :  Boolean= {
   noData
 }
 
-def testUnionOfSquashers(corpusName: String, conf: Configuration, repo : ScalaFile) :  Boolean= {
-  val corpusDir = mkdirs(repo/"parsers"/corpusName)
+def testUnionOfSquashers(conf: Configuration, repo : ScalaFile) :  Boolean= {
+  val corpusDir = mkdirs(repo/"parsers/minimum")
 
   // Install some verb stem data.
-  val verbData = repo/"datasets"/corpusName/"stems-tables/verbs"
+  val verbData = repo/"datasets/minimum/stems-tables/verbs"
   if (!verbData.exists) {mkdirs(verbData)}
-  installVerbStemTable(repo/"datasets"/corpusName)
-  DataInstaller(repo/"datasets", repo, corpusName)
+  installVerbStemTable(repo/"datasets/minimum")
+  DataInstaller(repo/"datasets", repo, "minimum")
   val actual = AcceptorComposer.unionOfSquashers(corpusDir).split("\n").filter(_.nonEmpty).toVector
   val expected  =   "$acceptor$ = $squashverburn$"
   // tidy up:
-  (repo/"datasets"/corpusName).delete()
+  (repo/"datasets/minimum").delete()
   actual(1).trim == expected
 }
 
-def testTopLevelAcceptor(corpusName: String, conf: Configuration, repo : ScalaFile) = {
+def testTopLevelAcceptor(conf: Configuration, repo : ScalaFile) = {
   // Install one data file:
   val datasets = repo/"parsers"
-  val corpusData = mkdirs(datasets/corpusName)
+  val corpusData = mkdirs(datasets/"minimum")
 
   // Install some verb stem data.
-  val verbData = repo/"datasets"/corpusName/"stems-tables/verbs"
+  val verbData = repo/"datasets/minimum/stems-tables/verbs"
   if (!verbData.exists) {mkdirs(verbData)}
-  installVerbStemTable(repo/"datasets"/corpusName)
-  DataInstaller(repo/"datasets", repo, corpusName)
+  installVerbStemTable(repo/"datasets/minimum")
+  DataInstaller(repo/"datasets", repo, "minimum")
 
   val expandedAcceptorFst = AcceptorComposer.topLevelAcceptor(corpusData)
   val lines = expandedAcceptorFst.split("\n").toVector.filter(_.nonEmpty)
@@ -231,29 +230,28 @@ def testTopLevelAcceptor(corpusName: String, conf: Configuration, repo : ScalaFi
   lines(1).trim == expected
 }
 
-def testMainAcceptorComposer(corpusName: String, conf: Configuration, repo : ScalaFile) = {
+def testMainAcceptorComposer(conf: Configuration, repo : ScalaFile) = {
   val datasets = repo/"parsers"
-  val corpusData = mkdirs(datasets/corpusName)
+  val corpusData = mkdirs(datasets/"minimum")
 
   // Install some verb stem data.
-  val verbData = repo/"datasets"/corpusName/"stems-tables/verbs"
+  val verbData = repo/"datasets/minimum/stems-tables/verbs"
   if (!verbData.exists) {mkdirs(verbData)}
-  installVerbStemTable(repo/"datasets"/corpusName)
-  DataInstaller(repo/"datasets", repo, corpusName)
+  installVerbStemTable(repo/"datasets/minimum")
+  DataInstaller(repo/"datasets", repo, "minimum")
 
   // 1. Should omit indeclinables if not data present.
-  val projectDir = repo/"parsers"/corpusName
+  val projectDir = repo/"parsers/minimum"
   AcceptorComposer.composeMainAcceptor(projectDir)
   val acceptor = projectDir/"acceptor.fst"
   val lines = acceptor.lines.toVector.filter(_.nonEmpty)
 
-  // tidy
-  (repo/"datasets"/corpusName).delete()
-
-  val expected = "$acceptor$ = $squashverburn$"
-  lines(4).trim == expected.trim
+  //val expected = "$acceptor$ = $squashverburn$"
+  val expected = "$=verbclass$ = [#verbclass#]"
+  println("COMPARE: " + lines(2))
+  lines(2).trim == expected.trim
 }
-
+/*
 def testEmptyParserComposer(corpusName: String, conf: Configuration, repo : ScalaFile) = {
   val projectDir = repo/"parsers"/corpusName
 
@@ -296,9 +294,9 @@ def testParserComposer(corpusName: String, conf: Configuration, repo : ScalaFile
   val expected = "%% latin.fst : a Finite State Transducer for ancient latin morphology"
   lines(0).trim == expected
 }
-
-def testEmptyInflectionMakefileComposer(corpusName: String, conf: Configuration, repo : ScalaFile) = {
-  val projectDir = mkdirs(repo/"parsers"/corpusName)
+*/
+def testEmptyInflectionMakefileComposer( conf: Configuration, repo : ScalaFile) = {
+  val projectDir = mkdirs(repo/"parsers/minimum")
   val compiler = conf.fstcompile
   try {
     MakefileComposer.composeInflectionMake(projectDir, compiler)
@@ -308,14 +306,14 @@ def testEmptyInflectionMakefileComposer(corpusName: String, conf: Configuration,
   }
 }
 
-def testInflectionMakefileComposer(corpusName: String, conf: Configuration, repo : ScalaFile) = {
-  val projectDir = mkdirs(repo/"parsers"/corpusName)
+def testInflectionMakefileComposer(conf: Configuration, repo : ScalaFile) = {
+  val projectDir = mkdirs(repo/"parsers/minimum")
   val compiler = conf.fstcompile
 
   // install some inflectional rules;
-  val verbData = mkdirs(repo/"datasets"/corpusName/"rules-tables/verbs")
+  val verbData = mkdirs(repo/"datasets/minimum/rules-tables/verbs")
   installVerbRuleTable(verbData)
-  RulesInstaller(repo/"datasets", repo, corpusName)
+  RulesInstaller(repo/"datasets", repo, "minimum")
 
   MakefileComposer.composeInflectionMake(projectDir, compiler)
 
@@ -323,8 +321,8 @@ def testInflectionMakefileComposer(corpusName: String, conf: Configuration, repo
   mkfile.exists
 }
 
-def testAcceptorDirectory(corpusName: String, conf: Configuration, repo : ScalaFile) = {
-  val projectDir = mkdirs(repo/"parsers"/corpusName)
+def testAcceptorDirectory(conf: Configuration, repo : ScalaFile) = {
+  val projectDir = mkdirs(repo/"parsers/minimum")
 
   // install some data
   val lexDir = projectDir/"lexica"
@@ -334,13 +332,13 @@ def testAcceptorDirectory(corpusName: String, conf: Configuration, repo : ScalaF
   val goodFst = VerbRulesInstaller.verbRuleToFst(goodLine)
   verbLexicon.overwrite(goodFst)
 
-  AcceptorComposer(repo, corpusName)
+  AcceptorComposer(repo, "minimum")
 
   false
 }
 
-def testMainMakefileComposerEmptyAcceptors(corpusName: String, conf: Configuration, repo : ScalaFile) = {
-  val projectDir = mkdirs(repo/"parsers"/corpusName)
+def testMainMakefileComposerEmptyAcceptors(conf: Configuration, repo : ScalaFile) = {
+  val projectDir = mkdirs(repo/"parsers/minimum")
   val compiler = conf.fstcompile
   try {
     MakefileComposer.composeMainMake(projectDir, compiler)
@@ -350,8 +348,8 @@ def testMainMakefileComposerEmptyAcceptors(corpusName: String, conf: Configurati
   }
 }
 
-def testMainMakefileComposer(corpusName: String, conf: Configuration, repo : ScalaFile) = {
-  val projectDir = mkdirs(repo/"parsers"/corpusName)
+def testMainMakefileComposer(conf: Configuration, repo : ScalaFile) = {
+  val projectDir = mkdirs(repo/"parsers/minimum")
 
   // install some data
   val lexDir = projectDir/"lexica"
@@ -360,7 +358,7 @@ def testMainMakefileComposer(corpusName: String, conf: Configuration, repo : Sca
   val goodLine = "lverbinfl.are_presind1#conj1#o#1st#sg#pres#indic#act"
   val goodFst = VerbRulesInstaller.verbRuleToFst(goodLine)
   verbLexicon.overwrite(goodFst)
-  val acceptorFst = AcceptorComposer(repo, corpusName)
+  val acceptorFst = AcceptorComposer(repo, "minimum")
 
 
   val compiler = conf.fstcompile
@@ -369,7 +367,7 @@ def testMainMakefileComposer(corpusName: String, conf: Configuration, repo : Sca
   val mkfile = projectDir/"makefile"
   mkfile.exists
 }
-
+/*
 // test comopiling and executing a final parser
 def testBuildWithAG(corpusName: String, conf: Configuration, repo : ScalaFile) = {
 
