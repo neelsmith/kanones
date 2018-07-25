@@ -60,21 +60,21 @@ def testList = List(
   ("Test converting stem files in directory to fst for irregular adjectives", testIrregAdjectiveStemFstFromDir(_, _, _), "pending" ),
   ("Test converting apply method for adjectives stem data installer", testIrregAdjectiveStemDataApplied(_, _, _), "pending" ),
 
-
+*/
   /////////
   // inflectional rules for nouns
-  ("Test converting bad inflectional rules for nouns", testBadNounsInflRulesConvert(_, _, _), "pending" ),
-  ("Test converting  inflectional rules for nouns", testConvertNounInflRules(_, _, _), "pending" ),
-  ("Test converting  inflectional rules for nouns from files in dir", testNounInflRulesFromDir(_, _, _), "pending" ),
+  ("Test converting bad inflectional rules for nouns", testBadNounsInflRulesConvert( _,_, _), "" ),
+  ("Test converting  inflectional rules for nouns", testConvertNounInflRules( _, _, _), "" ),
+  ("Test converting  inflectional rules for nouns from files in dir", testNounInflRulesFromDir( _,_, _), "pending" ),
 
   // noun stems
-  ("Test converting bad stem data to fst for nouns", testBadNounStemDataConvert(_, _, _), "pending" ),
-  ("Test converting stem data to fst for nouns", testNounStemDataConvert(_, _, _), "pending" ),
-  ("Test converting stem files in directory to fst for nouns", testNounStemFstFromDir(_, _, _), "pending" ),
-  ("Test converting apply method for noun stem data installer", testNounStemDataApplied(_, _, _), "pending" ),
+  ("Test converting bad stem data to fst for nouns", testBadNounStemDataConvert(  _,_, _), "" ),
+  ("Test converting stem data to fst for nouns", testNounStemDataConvert(  _,_, _), "pending" ),
+  ("Test converting stem files in directory to fst for nouns", testNounStemFstFromDir( _, _, _), "pending" ),
+  ("Test converting apply method for noun stem data installer", testNounStemDataApplied( _, _, _), "pending" ),
 
 
-
+/*
   /////////
   // inflectional rules for adjectives
   ("Test converting bad inflectional rules for adjectives", testBadAdjsInflRulesConvert(_, _, _), "pending" ),
@@ -802,31 +802,36 @@ def testBadNounsInflRulesConvert(corpusName: String, conf: Configuration, repo :
     case t : Throwable => true
   }
 }
-def testConvertNounInflRules(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
+def testConvertNounInflRules(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
   // Should correctly convert good data.
-  val goodLine = "nouninfl.a_ae1#a_ae#a#fem#nom#sg"
+  val goodLine = "nouninfl.os_ou1m#os_ou#os#masc#nom#sg"
   val goodFst = NounRulesInstaller.nounRuleToFst(goodLine)
-  val expected = "<a_ae><noun>a<fem><nom><sg><u>nouninfl\\.a\\_ae1</u>"
+
+  val expected = "<os\\_ou><noun>os<masc><nom><sg><u>nouninfl\\.os\\_ou1m</u>"
+    //"<a_ae><noun>a<fem><nom><sg><u>nouninfl\\.a\\_ae1</u>"
+  println("\n\nGOOD FST/expected:\n" + goodFst)
+  println(expected)
+
   goodFst.trim ==  expected
 }
-def testNounInflRulesFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
+def testNounInflRulesFromDir(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
     val goodLine = "nouninfl.a_ae1#a_ae#a#fem#nom#sg"
 
-    val nounDir = mkdirs(repo/"datasets"/corpusName/"rules-tables/nouns")
+    val nounDir = mkdirs(repo/"datasets/minimum/rules-tables/nouns")
     val nounFile = nounDir/"madeupdata.cex"
     val text = s"header line, omitted in parsing\n${goodLine.trim}"
     nounFile.overwrite(text + "\n")
     val fstFromDir = NounRulesInstaller.fstForNounRules(nounDir)
     val lines = fstFromDir.split("\n").toVector
     // tidy up
-    (repo/"datasets").delete()
+    //(repo/"datasets").delete()
 
     val expected = "$nouninfl$ =  <a_ae><noun>a<fem><nom><sg><u>nouninfl\\.a\\_ae1</u>"
 
     lines(0) == expected
 }
 
-def testBadNounStemDataConvert(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
+def testBadNounStemDataConvert(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
   //  Test conversion of delimited text to FST.
   // Should object to bad data
   try {
@@ -836,42 +841,43 @@ def testBadNounStemDataConvert(corpusName: String, conf: Configuration, repo :  
     case t : Throwable => true
   }
 }
-def testNounStemDataConvert(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
+def testNounStemDataConvert(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
   // should correctly convert good data.
+  //al goodLine = "smyth\\.n47039_0#lexent\\.n47039#ni_k#fem#h_hs#stemultacc
   val goodLine = "ag.nom1#lexent.n43951#serv#masc#us_i"
   val goodFst = NounDataInstaller.nounLineToFst(goodLine)
   val expected = "<u>ag\\.nom1</u><u>lexent\\.n43951</u>serv<noun><masc><us_i>"
   goodFst.trim ==  expected
 }
-def testNounStemFstFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
+def testNounStemFstFromDir(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
   // Should create FST for all files in a directory
   val goodLine = "ag.nom1#lexent.n43951#serv#masc#us_i"
 
-  val nounSource = mkdirs(repo/"datasets"/corpusName/"stems-tables/nouns")
+  val nounSource = mkdirs(repo/"datasets/minimum/stems-tables/nouns")
   val testData = nounSource/"madeuptestdata.cex"
   val text = s"header line, omitted in parsing\n${goodLine}"
   testData.overwrite(text)
 
   val fstFromDir = NounDataInstaller.fstForNounData(nounSource)
   // Tidy up
-  (repo/"datasets").delete()
+  //(repo/"datasets").delete()
   val expected = "<u>ag\\.nom1</u><u>lexent\\.n43951</u>serv<noun><masc><us_i>"
   fstFromDir.trim == expected
 }
-def testNounStemDataApplied(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
+def testNounStemDataApplied(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
     val goodLine = "ag.nom1#lexent.n43951#serv#masc#us_i"
-    val nounSource = mkdirs(repo/"datasets"/corpusName/"stems-tables/nouns")
+    val nounSource = mkdirs(repo/"datasets/minimum/stems-tables/nouns")
     val testData = nounSource/"madeuptestdata.cex"
     val text = s"header line, omitted in parsing\n${goodLine}"
     testData.overwrite(text)
 
-    val destDir = mkdirs(repo/"parsers"/corpusName/"lexica")
+    val destDir = mkdirs(repo/"parsers/minimum/lexica")
 
     // Write some test data in the source work space:
     NounDataInstaller(nounSource, destDir/"lexicon-nouns.fst")
 
     // check the results:
-    val resultFile = repo/"parsers"/corpusName/"lexica/lexicon-nouns.fst"
+    val resultFile = repo/"parsers/minimum/lexica/lexicon-nouns.fst"
     val output = resultFile.lines.toVector
 
     // clean up:
@@ -883,7 +889,7 @@ def testNounStemDataApplied(corpusName: String, conf: Configuration, repo :  Sca
 
 
 def testNounAcceptor(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val projectDir = repo/"parsers"/corpusName
+  val projectDir = repo/"parsers/minimum"
 
   // 1. Should  return empty string if no data:
   val emptyFst = AcceptorComposer.nounAcceptor(projectDir)

@@ -5,7 +5,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Noun stem types
-#noun1# = <a_as><a_as_comp><a_as_long><a_as_short><a_hs><as_ou><as_ou_comp><h_hs><h_hs_comp><hs_ou><hs_ou_comp>
+#noun1# = <a_as><a_as_contr><a_as_long><a_as_short><a_hs><as_ou><as_ou_contr><h_hs><h_hs_contr><hs_ou><hs_ou_contr>
 
 #noun2# = <os_ou><ous_ou><ous_ou_ult>
 

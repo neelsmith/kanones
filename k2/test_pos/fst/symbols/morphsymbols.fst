@@ -28,7 +28,14 @@
 #vadj# =  <vadj1><vadj2>
 #finiteform# = <infin><ptcpl><vadj1><vadj2>
 
-#morphtag# = #pos# #gender# #case# #number# #person# #tense# #mood# #voice# #degree# #finiteform#
+%
+% 4. Indeclinable forms:
+%
+#indecl# = <preposition><conjunction><interjection><particle>
+
+
+
+#morphtag# = #pos# #gender# #case# #number# #person# #tense# #mood# #voice# #degree# #finiteform# #indecl#
 
 
 % Consider whether those belong here or elsewhere...?

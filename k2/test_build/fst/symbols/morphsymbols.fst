@@ -35,7 +35,7 @@
 
 
 
-#morphtag# = #pos# #gender# #case# #number# #person# #tense# #mood# #voice# #degree# #finiteform#
+#morphtag# = #pos# #gender# #case# #number# #person# #tense# #mood# #voice# #degree# #finiteform# #indecl#
 
 
 % Consider whether those belong here or elsewhere...?
