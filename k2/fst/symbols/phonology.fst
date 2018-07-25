@@ -9,19 +9,23 @@
 
 
 #diaeresis# = \+
-#diacritic# = #diaeresis#
+#accent# = \/\=
+#diacritic# = #diaeresis# #accent#
+#breathing# = <sm><ro>
 
+% Accents should only be included in entries for
+% irregular forms!
 
-#character# = #letter# #diacritic#
+#character# = #letter# #diacritic# #accent# #breathing#
 $character$ = [#character#]
 
 % Additional editorial symbols used in stem files:
 #vowelquant# = <lo><sh>
 #morpheme# = <#>
-
-#editorial# = #morpheme#  #vowelquant#
+#persistacc# = <stemultacc><stempenacc><inflacc><irregacc>
+#editorial# = #morpheme# #persistacc#  #vowelquant#
 
 
 % All valid chars used in stem file:
 #stemchars# = #character# #editorial#
-#inmorpheme# = #character# #vowelquant#
+#inmorpheme# = #character# #vowelquant# #persistacc#
