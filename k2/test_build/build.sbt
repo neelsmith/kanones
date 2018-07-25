@@ -13,18 +13,20 @@ def testList = List(
   ("Test Corpus object", testCorpusObject(_, _), "" ),
   // FST symbol system
   ("Test installing the alphabet", testAlphabetInstall(_, _), "" ),
-  ("Test composing files in symbols dir", testSymbolsDir(_, _), "pending" ),
-  ("Test composing symbols.fst", testMainSymbolsComposer(_, _), "pending" ),
-  ("Test composing phonology symbols", testPhonologyComposer(_, _), "pending" ),
+  ("Test composing files in symbols dir", testSymbolsDir(_, _), "" ),
+  ("Test composing symbols.fst", testMainSymbolsComposer(_, _), "" ),
+  ("Test composing phonology symbols", testPhonologyComposer(_, _), "" ),
 /*
   // Top-level acceptors
   ("Test empty union of squashers", testEmptySquashers(_, _, _), "" ),
   ("Test writing union of squashers string", testUnionOfSquashers(_, _, _), "" ),
   ("Test writing top-level acceptor string", testTopLevelAcceptor(_, _, _), "" ),
   ("Test composing final acceptor acceptor.fst", testMainAcceptorComposer(_, _, _), "" ),
+*/
 
-  ("Test composing inflection.fst", testInflectionComposer(_, _, _), "" ),
+  ("Test composing inflection.fst", testInflectionComposer( _, _), "" ),
 
+/*
   ("Test composing empty parser", testEmptyParserComposer(_, _, _), "" ),
   ("Test composing parser for empty lexica", testParserComposerForEmptyLexica(_, _, _), "" ),
 
@@ -76,7 +78,7 @@ def reportResults(results: List[Boolean]) : Unit = {
   }
 }
 
-
+/*
 def installVerbStemTable(corpusDir:  ScalaFile) : Unit = {
 
   val stems = corpusDir/"stems-tables"
@@ -93,6 +95,7 @@ def installVerbRuleTable(verbsDir:  ScalaFile) : Unit = {
   val goodLine = "RuleUrn#InflectionClasses#Ending#Person#Number#Tense#Mood#Voice\nlverbinfl.are_presind1#conj1#o#1st#sg#pres#indic#act\n"
   verbFile.overwrite(goodLine)
 }
+*/
 ////////////////// Tests //////////////////////////////
 //
 
@@ -154,7 +157,7 @@ def testPhonologyComposer(conf: Configuration, repo : ScalaFile) = {
   val cookedLines = phono.lines.toVector
 
   //tidy up
-  projectDir.delete()
+  //projectDir.delete()
 
   val expectedCooked = s"""#include "${projectDir}/symbols/alphabet.fst""""
   (rawLines(7) == expectedRaw && cookedLines(7) == expectedCooked)
@@ -162,25 +165,22 @@ def testPhonologyComposer(conf: Configuration, repo : ScalaFile) = {
 
 
 
-/*
+
 def testInflectionComposer(conf: Configuration, repo : ScalaFile) :  Boolean= {
-  val verbData = mkdirs(repo/"datasets/minimum/rules-tables/verbs")
-  installVerbRuleTable(verbData)
 
-  RulesInstaller(repo/"datasets", repo, corpusName)
-  InflectionComposer(repo/"parsers"/corpusName)
+  RulesInstaller(repo/"datasets", repo, "minimum")
+  InflectionComposer(repo/"parsers/minimum")
 
-  val outputFile = repo/"parsers"/corpusName/"inflection.fst"
+  val outputFile = repo/"parsers/minimum/inflection.fst"
   val actualLines = outputFile.lines.toVector.filter(_.nonEmpty)
 
   // tidy up
-  (repo/"datasets"/corpusName).delete()
+  //(repo/"datasets"/corpusName).delete()
 
-  val expectedStart  = "$ending$ = " + "\"<" + repo + "/parsers/" + corpusName + "/inflection/indeclinfl.a>\""
+  val expectedStart  = "$ending$ = " + "\"<" + repo + "/parsers/minimum/inflection/indeclinfl.a>\""
   (outputFile.exists && actualLines(3).trim.startsWith(expectedStart) )
-
 }
-
+/*
 def testEmptySquashers(conf: Configuration, repo : ScalaFile) :  Boolean= {
   val corpusDir = mkdirs(repo/"parsers"/corpusName)
 
