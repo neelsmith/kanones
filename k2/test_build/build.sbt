@@ -12,7 +12,7 @@ def testList = List(
   // utilities
   ("Test Corpus object", testCorpusObject(_, _), "" ),
   // FST symbol system
-  ("Test installing the alphabet", testAlphabetInstall(_, _), "pending" ),
+  ("Test installing the alphabet", testAlphabetInstall(_, _), "" ),
   ("Test composing files in symbols dir", testSymbolsDir(_, _), "pending" ),
   ("Test composing symbols.fst", testMainSymbolsComposer(_, _), "pending" ),
   ("Test composing phonology symbols", testPhonologyComposer(_, _), "pending" ),
