@@ -26,12 +26,12 @@ def testList = List(
 
   ("Test composing inflection.fst", testInflectionComposer( _, _), "" ),
 
-/*
-  ("Test composing empty parser", testEmptyParserComposer(_, _, _), "" ),
-  ("Test composing parser for empty lexica", testParserComposerForEmptyLexica(_, _, _), "" ),
 
-  ("Test composing parser", testParserComposer(_, _, _), "" ),
-*/
+  ("Test composing empty parser", testEmptyParserComposer(_, _), "" ),
+  ("Test composing parser for empty lexica", testParserComposerForEmptyLexica(_, _), "" ),
+
+  ("Test composing parser", testParserComposer(_, _), "" ),
+
   ("Test composing inflection makefile for empty directory", testEmptyInflectionMakefileComposer(_, _), "" ),
   ("Test composing inflection makefile", testInflectionMakefileComposer(_, _), "" ),
   ("Test composing main makefile", testMainMakefileComposer(_, _), "" ),
@@ -254,9 +254,9 @@ def testMainAcceptorComposer(conf: Configuration, repo : ScalaFile) = {
   (verbData/"madeupdata.cex").delete()
   lines(2).trim == expected.trim
 }
-/*
-def testEmptyParserComposer(corpusName: String, conf: Configuration, repo : ScalaFile) = {
-  val projectDir = repo/"parsers"/corpusName
+
+def testEmptyParserComposer(conf: Configuration, repo : ScalaFile) = {
+  val projectDir = repo/"parsers/minimum"
 
   try {
     ParserComposer(projectDir)
@@ -266,8 +266,8 @@ def testEmptyParserComposer(corpusName: String, conf: Configuration, repo : Scal
   }
 }
 
-def testParserComposerForEmptyLexica(corpusName: String, conf: Configuration, repo : ScalaFile) = {
-  val projectDir = mkdirs(repo/"parsers"/corpusName)
+def testParserComposerForEmptyLexica(conf: Configuration, repo : ScalaFile) = {
+  val projectDir = mkdirs(repo/"parsers/minimum")
   try {
     ParserComposer(projectDir)
     false
@@ -276,28 +276,28 @@ def testParserComposerForEmptyLexica(corpusName: String, conf: Configuration, re
   }
 }
 
-def testParserComposer(corpusName: String, conf: Configuration, repo : ScalaFile) = {
-  val projectDir = repo/"parsers"/corpusName
+def testParserComposer(conf: Configuration, repo : ScalaFile) = {
+  val projectDir = repo/"parsers/minimum"
   if (!projectDir.exists) {mkdirs(projectDir)}
 
   // Only works if we've installed a lexicon with some data...
-  val verbData = repo/"datasets"/corpusName/"stems-tables/verbs"
+  val verbData = repo/"datasets/minimum/stems-tables/verbs-simplex"
   if (!verbData.exists) {mkdirs(verbData)}
-  installVerbStemTable(repo/"datasets"/corpusName)
-  DataInstaller(repo/"datasets", repo, corpusName)
+  installVerbStemTable(repo/"datasets/minimum")
+  DataInstaller(repo/"datasets", repo, "minimum")
 
   ParserComposer(projectDir)
 
-  val parserFst = projectDir/"latin.fst"
+  val parserFst = projectDir/"greek.fst"
   val lines = parserFst.lines.toVector.filter(_.nonEmpty)
 
   // tidy up
-  (repo/"datasets"/corpusName).delete()
+  (verbData/"madeupdata.cex").delete()
 
-  val expected = "%% latin.fst : a Finite State Transducer for ancient latin morphology"
+  val expected = "%% greek.fst : a Finite State Transducer for ancient greek morphology"
   lines(0).trim == expected
 }
-*/
+
 def testEmptyInflectionMakefileComposer( conf: Configuration, repo : ScalaFile) = {
   val projectDir = mkdirs(repo/"parsers/minimum")
   val compiler = conf.fstcompile
@@ -382,7 +382,7 @@ def testBuildWithAG(corpusName: String, conf: Configuration, repo : ScalaFile) =
   mkdirs(target)
   FstCompiler.compile(dataDirectory, repo, cName, conf)
 
-  val parser = repo/"parsers"/cName/"latin.a"
+  val parser = repo/"parsers"/cName/"greek.a"
   parser.exists
 }
 
@@ -395,7 +395,7 @@ def testParserOutput(corpusName: String, conf: Configuration, repo : ScalaFile) 
     mkdirs(target)
     FstCompiler.compile(dataDirectory, repo, cName, conf)
 
-    val parser = repo/"parsers"/cName/"latin.a"
+    val parser = repo/"parsers"/cName/"greek.a"
     val fstparse = "/usr/local/bin/fst-parse"
     val words = "amo\namas\namabam\nnoli\namavi\n"
     val wordList = repo/"parsers/tempwords.txt"
