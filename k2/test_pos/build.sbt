@@ -17,8 +17,8 @@ def testList = List(
   ("Test converting  stem data for invariants", testConvertIndeclStem(_, _, _), "" ),
 
 
-  ("Test converting stem files in directory to fst for verbs", testIndeclStemFstFromDir(_, _, _), "pending" ),
-  ("Test converting apply method for indeclinable stem data installer", testIndeclStemDataApplied(_, _, _), "pending" ),
+  ("Test converting stem files in directory to fst for verbs", testIndeclStemFstFromDir(_, _, _), "" ),
+  ("Test converting apply method for indeclinable stem data installer", testIndeclStemDataApplied(_, _, _), "" ),
 
 /*
   // inflectional rules for verbs
@@ -209,14 +209,13 @@ def testConvertIndeclStem(corpusName: String, conf: Configuration, repo :  Scala
   // cum n11872 prep
   val goodLine = "demo.indecl2#lexent.n51951#kai/#indeclconj"
   val goodFst = IndeclDataInstaller.indeclLineToFst(goodLine)
-  println("GOOD FST: " + goodFst)
   val expected = "<u>demo\\.indecl2</u><u>lexent\\.n51951</u>kai/<indeclconj>"
   goodFst.trim ==  expected
 }
 
 def testIndeclStemFstFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
   // Should create FST for all files in a directory
-  val goodLine = "demo.n1#lexent.n11872#cum#indeclprep"
+  val goodLine = "demo.indecl2#lexent.n51951#kai/#indeclconj"
   val indeclSource = mkdirs(repo/"datasets"/corpusName/"stems-tables/indeclinables")
   val testData = indeclSource/"madeuptestdata.cex"
   val text = s"header line, omitted in parsing\n${goodLine}"
@@ -224,14 +223,14 @@ def testIndeclStemFstFromDir(corpusName: String, conf: Configuration, repo :  Sc
   val fstFromDir = IndeclDataInstaller.fstForIndeclData(indeclSource)
   // Tidy up
   (repo/"datasets").delete()
-  val expected = "<u>demo\\.n1</u><u>lexent\\.n11872</u>cum<indeclprep>"
+  val expected = "<u>demo\\.indecl2</u><u>lexent\\.n51951</u>kai/<indeclconj>"
   fstFromDir.trim == expected
 }
 
 def testIndeclStemDataApplied(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
   // Install one data file:
   val indeclsDir = repo/"datasets"/corpusName/"stems-tables/indeclinables"
-  val goodLine = "demo.n1#lexent.n11872#cum#indeclprep"
+  val goodLine = "demo.indecl2#lexent.n51951#kai/#indeclconj"
   val indeclSource = mkdirs(repo/"datasets"/corpusName/"stems-tables/indeclinables")
   val testData = indeclSource/"madeuptestdata.cex"
   val text = s"header line, omitted in parsing\n${goodLine}"
@@ -249,8 +248,7 @@ def testIndeclStemDataApplied(corpusName: String, conf: Configuration, repo :  S
   // clean up:
   (repo/"datasets").delete()
 
-  //val expected = "<u>ag\\.v1</u><u>lexent\\.n2280</u><#>am<verb><conj1>"
-  val expected = "<u>demo\\.n1</u><u>lexent\\.n11872</u>cum<indeclprep>"
+  val expected = "<u>demo\\.indecl2</u><u>lexent\\.n51951</u>kai/<indeclconj>"
   output(0) == expected
 }
 
