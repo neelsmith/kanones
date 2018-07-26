@@ -69,9 +69,9 @@ def testList = List(
 
   // noun stems
   ("Test converting bad stem data to fst for nouns", testBadNounStemDataConvert(  _,_, _), "" ),
-  ("Test converting stem data to fst for nouns", testNounStemDataConvert(  _,_, _), "pending" ),
-  ("Test converting stem files in directory to fst for nouns", testNounStemFstFromDir( _, _, _), "pending" ),
-  ("Test converting apply method for noun stem data installer", testNounStemDataApplied( _, _, _), "pending" ),
+  ("Test converting stem data to fst for nouns", testNounStemDataConvert(  _,_, _), "" ),
+  ("Test converting stem files in directory to fst for nouns", testNounStemFstFromDir( _, _, _), "" ),
+  ("Test converting apply method for noun stem data installer", testNounStemDataApplied( _, _, _), "" ),
 
 
 /*
@@ -808,9 +808,6 @@ def testConvertNounInflRules(corpusName: String,conf: Configuration, repo :  Sca
   val goodFst = NounRulesInstaller.nounRuleToFst(goodLine)
 
   val expected = "<os\\_ou><noun>os<masc><nom><sg><u>nouninfl\\.os\\_ou1m</u>"
-    //"<a_ae><noun>a<fem><nom><sg><u>nouninfl\\.a\\_ae1</u>"
-
-
   goodFst.trim ==  expected
 }
 def testNounInflRulesFromDir(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
@@ -823,12 +820,9 @@ def testNounInflRulesFromDir(corpusName: String,conf: Configuration, repo :  Sca
     val fstFromDir = NounRulesInstaller.fstForNounRules(nounDir)
     val lines = fstFromDir.split("\n").toVector
     // tidy up
-    //(repo/"datasets").delete()
+    nounFile.delete()
 
-    //val expected = "$nouninfl$ =  <a_ae><noun>a<fem><nom><sg><u>nouninfl\\.a\\_ae1</u>"
     val expected = "$nouninfl$ =  <os\\_ou><noun>os<masc><nom><sg><u>nouninfl\\.os\\_ou1m</u>"
-    println("RESLT:\n" + lines(0))
-    println(expected)
     lines(0) == expected
 }
 
@@ -844,16 +838,15 @@ def testBadNounStemDataConvert(corpusName: String,conf: Configuration, repo :  S
 }
 def testNounStemDataConvert(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
   // should correctly convert good data.
-  //al goodLine = "smyth\\.n47039_0#lexent\\.n47039#ni_k#fem#h_hs#stemultacc
-  val goodLine = "ag.nom1#lexent.n43951#serv#masc#us_i"
+  //StemUrn#LexicalEntity#Stem#Gender#InflClass#Accent#Notes
+  val goodLine = "smyth.n47039_0#lexent.n47039#ni_k#fem#h_hs#stemultacc"
   val goodFst = NounDataInstaller.nounLineToFst(goodLine)
-  val expected = "<u>ag\\.nom1</u><u>lexent\\.n43951</u>serv<noun><masc><us_i>"
+  val expected =     "<u>smyth\\.n47039\\_0</u><u>lexent\\.n47039</u>ni_k<noun><fem><stemultacc><h_hs>"
   goodFst.trim ==  expected
 }
 def testNounStemFstFromDir(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
   // Should create FST for all files in a directory
-  val goodLine = "ag.nom1#lexent.n43951#serv#masc#us_i"
-
+  val goodLine = "smyth.n47039_0#lexent.n47039#ni_k#fem#h_hs#stemultacc"
   val nounSource = mkdirs(repo/"datasets/minimum/stems-tables/nouns")
   val testData = nounSource/"madeuptestdata.cex"
   val text = s"header line, omitted in parsing\n${goodLine}"
@@ -861,12 +854,12 @@ def testNounStemFstFromDir(corpusName: String,conf: Configuration, repo :  Scala
 
   val fstFromDir = NounDataInstaller.fstForNounData(nounSource)
   // Tidy up
-  //(repo/"datasets").delete()
-  val expected = "<u>ag\\.nom1</u><u>lexent\\.n43951</u>serv<noun><masc><us_i>"
+  testData.delete()
+  val expected =     "<u>smyth\\.n47039\\_0</u><u>lexent\\.n47039</u>ni_k<noun><fem><stemultacc><h_hs>"
   fstFromDir.trim == expected
 }
 def testNounStemDataApplied(corpusName: String,conf: Configuration, repo :  ScalaFile):  Boolean = {
-    val goodLine = "ag.nom1#lexent.n43951#serv#masc#us_i"
+    val goodLine = "smyth.n47039_0#lexent.n47039#ni_k#fem#h_hs#stemultacc"
     val nounSource = mkdirs(repo/"datasets/minimum/stems-tables/nouns")
     val testData = nounSource/"madeuptestdata.cex"
     val text = s"header line, omitted in parsing\n${goodLine}"
@@ -882,9 +875,9 @@ def testNounStemDataApplied(corpusName: String,conf: Configuration, repo :  Scal
     val output = resultFile.lines.toVector
 
     // clean up:
-    (repo/"datasets").delete()
+    (nounSource/"madeuptestdata.cex").delete()
 
-    val expected = "<u>ag\\.nom1</u><u>lexent\\.n43951</u>serv<noun><masc><us_i>"
+    val expected =     "<u>smyth\\.n47039\\_0</u><u>lexent\\.n47039</u>ni_k<noun><fem><stemultacc><h_hs>"
     output(0) == expected
 }
 
