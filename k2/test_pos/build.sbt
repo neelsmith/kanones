@@ -37,14 +37,14 @@ def testList = List(
   ("Test converting stem files in directory to fst for irregular verbs", testIrregVerbStemFstFromDir(_, _, _), "pending" ),
   ("Test converting apply method for irregular verb stem data installer", testIrregVerbStemDataApplied(_, _, _), "pending" ),
 
-
+  */
 
   //irreg adverbs:
-  ("Test converting bad stem data to fst for adverbs", testBadIrregAdvStemDataConvert(_, _, _), "pending" ),
-  ("Test converting stem data to fst for irregular adverbs", testIrregAdvStemDataConvert(_, _, _), "pending" ),
+  ("Test converting bad stem data to fst for adverbs", testBadIrregAdvStemDataConvert(_, _, _), "" ),
+  ("Test converting stem data to fst for irregular adverbs", testIrregAdvStemDataConvert(_, _, _), "" ),
   ("Test converting stem files in directory to fst for irregular adverbs", testIrregAdvStemFstFromDir(_, _, _), "pending" ),
   ("Test converting apply method for adverb stem data installer", testIrregAdvStemDataApplied(_, _, _), "pending" ),
-  */
+
   // irreg nouns:
   ("Test converting bad stem data to fst for nouns", testBadIrregNounStemDataConvert(_, _, _), "" ),
   ("Test converting stem data to fst for irregular nouns", testIrregNounStemDataConvert(_, _, _), "" ),
@@ -55,12 +55,13 @@ def testList = List(
   ("Test converting stem data to fst for irregular pronouns", testIrregPronounStemDataConvert(_, _, _), "pending" ),
   ("Test converting stem files in directory to fst for irregular pronouns", testIrregPronounStemFstFromDir(_, _, _), "pending" ),
   ("Test converting apply method for pronouns stem data installer", testIrregPronounStemDataApplied(_, _, _), "pending" ),
+  /*
   // irreg adjs:
   ("Test converting bad stem data to fst for irregular adjectives", testBadIrregAdjectiveStemDataConvert(_, _, _), "pending" ),
   ("Test converting stem data to fst for irregular adjectives", testIrregAdjectiveStemDataConvert(_, _, _), "pending" ),
   ("Test converting stem files in directory to fst for irregular adjectives", testIrregAdjectiveStemFstFromDir(_, _, _), "pending" ),
   ("Test converting apply method for adjectives stem data installer", testIrregAdjectiveStemDataApplied(_, _, _), "pending" ),
-
+*/
 
   /////////
   // inflectional rules for nouns
@@ -401,9 +402,12 @@ def testBadIrregAdvStemDataConvert(corpusName: String, conf: Configuration, repo
 }
 def testIrregAdvStemDataConvert(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
 
-  val goodLine = "ag.irradv1#lexent.n31151#non#pos"
+  val goodLine = "demo.irradv1#lexent.n43309#eu<sm>#pos"
   val goodFst = IrregAdverbDataInstaller.adverbLineToFst(goodLine)
-  val expected = "<u>ag\\.irradv1</u><u>lexent\\.n31151</u>non<pos><irregadv>"
+  val expected = "<u>demo\\.irradv1</u><u>lexent\\.n43309</u>eu<sm><pos><irregadv>"
+
+
+  println("\n\nIRREG ADV\n" + goodFst + "\n" + expected)
   goodFst.trim ==  expected
 
 }
