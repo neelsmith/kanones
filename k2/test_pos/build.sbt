@@ -105,7 +105,9 @@ def testList = List(
 
   // acceptor
   ("Test writing verbs acceptor string", testVerbAcceptor(_, _, _), "pending" ),
-  ("Test writing nouns acceptor string", testNounAcceptor(_, _, _), "pending" ),
+  */
+  ("Test writing nouns acceptor string", testNounAcceptor(_, _, _), "" ),
+  /*
   ("Test writing adjectives acceptor string", testAdjAcceptor(_, _, _), "pending" ),
   ("Test writing adverbs acceptor string", testAdvAcceptor(_, _, _), "pending" ),
 
@@ -875,7 +877,7 @@ def testNounStemDataApplied(corpusName: String,conf: Configuration, repo :  Scal
     val output = resultFile.lines.toVector
 
     // clean up:
-    (nounSource/"madeuptestdata.cex").delete()
+    (testData).delete()
 
     val expected =     "<u>smyth\\.n47039\\_0</u><u>lexent\\.n47039</u>ni_k<noun><fem><stemultacc><h_hs>"
     output(0) == expected
@@ -889,12 +891,13 @@ def testNounAcceptor(corpusName: String, conf: Configuration, repo :  ScalaFile)
   val emptyFst = AcceptorComposer.nounAcceptor(projectDir)
   val emptiedOk = emptyFst.isEmpty
 
-  val goodStemLine = "ag.nom1#lexent.nX#femin#fem#a_ae"
+  val goodStemLine = "smyth.n47039_0#lexent.n47039#ni_k#fem#h_hs#stemultacc"
+
 
   // 2. Now try after building some data:
   val lexDir = projectDir/"lexica"
   mkdirs(lexDir)
-  val nounLexicon= lexDir/"lexicon-nouns.fst"
+  val nounLexicon = lexDir/"lexicon-nouns.fst"
 
   val goodFst = NounDataInstaller.nounLineToFst(goodStemLine)
   nounLexicon.overwrite(goodFst)
