@@ -9,7 +9,7 @@
 
 
 #diaeresis# = \+
-#accent# = \/\=
+#accent# = \/<circ>
 #diacritic# = #diaeresis# #accent#
 #breathing# = <sm><ro>
 

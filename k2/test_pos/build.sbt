@@ -44,9 +44,10 @@ def testList = List(
   ("Test converting stem data to fst for irregular adverbs", testIrregAdvStemDataConvert(_, _, _), "pending" ),
   ("Test converting stem files in directory to fst for irregular adverbs", testIrregAdvStemFstFromDir(_, _, _), "pending" ),
   ("Test converting apply method for adverb stem data installer", testIrregAdvStemDataApplied(_, _, _), "pending" ),
+  */
   // irreg nouns:
-  ("Test converting bad stem data to fst for nouns", testBadIrregNounStemDataConvert(_, _, _), "pending" ),
-  ("Test converting stem data to fst for irregular nouns", testIrregNounStemDataConvert(_, _, _), "pending" ),
+  ("Test converting bad stem data to fst for nouns", testBadIrregNounStemDataConvert(_, _, _), "" ),
+  ("Test converting stem data to fst for irregular nouns", testIrregNounStemDataConvert(_, _, _), "" ),
   ("Test converting stem files in directory to fst for irregular nouns", testIrregNounStemFstFromDir(_, _, _), "pending" ),
   ("Test converting apply method for nouns stem data installer", testIrregNounStemDataApplied(_, _, _), "pending" ),
   // irreg pronouns
@@ -60,7 +61,7 @@ def testList = List(
   ("Test converting stem files in directory to fst for irregular adjectives", testIrregAdjectiveStemFstFromDir(_, _, _), "pending" ),
   ("Test converting apply method for adjectives stem data installer", testIrregAdjectiveStemDataApplied(_, _, _), "pending" ),
 
-*/
+
   /////////
   // inflectional rules for nouns
   ("Test converting bad inflectional rules for nouns", testBadNounsInflRulesConvert( _,_, _), "" ),
