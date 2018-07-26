@@ -44,6 +44,7 @@
 $gender$ = [#gender#]
 $case$ = [#case#]
 $number$ = [#number#]
+$degree$ = [#degree#]
 
 $person$ = [#person#]
 $tense$ = [#tense#]
