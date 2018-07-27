@@ -48,7 +48,7 @@ def testList = List(
   // irreg nouns:
   ("Test converting bad stem data to fst for nouns", testBadIrregNounStemDataConvert(_, _, _), "" ),
   ("Test converting stem data to fst for irregular nouns", testIrregNounStemDataConvert(_, _, _), "" ),
-  ("Test converting stem files in directory to fst for irregular nouns", testIrregNounStemFstFromDir(_, _, _), "pending" ),
+  ("Test converting stem files in directory to fst for irregular nouns", testIrregNounStemFstFromDir(_, _, _), "" ),
   ("Test converting apply method for nouns stem data installer", testIrregNounStemDataApplied(_, _, _), "pending" ),
   // irreg pronouns
   ("Test converting bad stem data to fst for pronouns", testBadIrregPronounStemDataConvert(_, _, _), "pending" ),
@@ -405,30 +405,37 @@ def testIrregAdvStemDataConvert(corpusName: String, conf: Configuration, repo : 
   val goodLine = "demo.irradv1#lexent.n43309#eu<sm>#pos"
   val goodFst = IrregAdverbDataInstaller.adverbLineToFst(goodLine)
   val expected = "<u>demo\\.irradv1</u><u>lexent\\.n43309</u>eu<sm><pos><irregadv>"
-
   goodFst.trim ==  expected
-
 }
 def testIrregAdvStemFstFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
   // Should create FST for all files in a directory
   val goodLine = "demo.irradv1#lexent.n43309#eu<sm>#pos"
   val goodFst = IrregAdverbDataInstaller.adverbLineToFst(goodLine)
-  val adverbSource = mkdirs(repo/"datasets"/corpusName/"irregular-stems/adverbs")
+
+  val corpusDir = file(s"datasets/${corpusName}")
+  val path = s"datasets/${corpusName}/irregular-stems/adverbs"
+  val adverbSource = repo/path
+  mkdirs(adverbSource)
+
+
+
   val testData = adverbSource/"madeuptestdata.cex"
   val text = s"header line, omitted in parsing\n${goodLine}"
   testData.overwrite(text)
 
   val fstFromDir = IrregAdverbDataInstaller.fstForIrregAdverbData(adverbSource)
-  // Tidy up
-  testData.delete()
   val expected = "<u>demo\\.irradv1</u><u>lexent\\.n43309</u>eu<sm><pos><irregadv>"
-  fstFromDir.trim == expected
+
+
+  // Tidy up
+  (corpusDir).delete()
+  println("\n\nDeleted " + corpusDir + "\n\n")
+  (fstFromDir.trim == expected)
+
 }
 def testIrregAdvStemDataApplied(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val ds = mkdir(repo/"datasets")
-  val cdir = mkdir(ds/corpusName)
-  val irregDir = mkdir(cdir/"irregular-stems")
-  val adverbsDir = mkdir(irregDir/"adverbs")
+  val adverbsDir = mkdirs(repo/"datasets"/corpusName/"irregular-stems/adverbs")
+
 
   val goodLine = "demo.irradv1#lexent.n43309#eu<sm>#pos"
   val goodFst = IrregAdverbDataInstaller.adverbLineToFst(goodLine)
@@ -446,11 +453,12 @@ def testIrregAdvStemDataApplied(corpusName: String, conf: Configuration, repo : 
   val output = resultFile.lines.toVector
 
   // clean up:
-  testData.delete()
+  (repo/"datasets"/corpusName).delete()
 
   val expected = "<u>demo\\.irradv1</u><u>lexent\\.n43309</u>eu<sm><pos><irregadv>"
   val rslt = output(0) == expected
   rslt
+
 }
 
 // irreg nouns
@@ -464,14 +472,15 @@ def testBadIrregNounStemDataConvert(corpusName: String, conf: Configuration, rep
 }
 
 def testIrregNounStemDataConvert(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val goodLine = "ag.irrn1m#lexent.n5575#bos#masc#nom#sg"
+  val goodLine = "demo.irrn1m#lexent.n23069#gunh/#fem#nom#sg#irregacc#"
   val goodFst = IrregNounDataInstaller.nounLineToFst(goodLine)
-  val expected = "<u>ag\\.irrn1m</u><u>lexent\\.n5575</u>bos<masc><nom><sg><irregnoun>"
+  val expected = "<u>demo\\.irrn1m</u><u>lexent\\.n23069</u>gunh/<fem><nom><sg><irregacc><irregnoun>"
+  println("ACTU/EXP\n" + goodFst + "\n" + expected)
   goodFst.trim ==  expected
 }
 
 def testIrregNounStemFstFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val goodLine = "ag.irrn1m#lexent.n5575#bos#masc#nom#sg"
+  val goodLine = "demo.irrn1m#lexent.n23069#gunh/#fem#nom#sg#irregacc#"
   val goodFst = IrregNounDataInstaller.nounLineToFst(goodLine)
 
   val nounSource = mkdirs(repo/"datasets"/corpusName/"irregular-stems/nouns")
@@ -480,8 +489,8 @@ def testIrregNounStemFstFromDir(corpusName: String, conf: Configuration, repo : 
   testData.overwrite(text)
   val fstFromDir = IrregNounDataInstaller.fstForIrregNounData(nounSource)
   // Tidy up
-  (repo/"datasets").delete()
-  val expected = "<u>ag\\.irrn1m</u><u>lexent\\.n5575</u>bos<masc><nom><sg><irregnoun>"
+  (repo/"datasets"/corpusName).delete()
+  val expected = "<u>demo\\.irrn1m</u><u>lexent\\.n23069</u>gunh/<fem><nom><sg><irregacc><irregnoun>"
   fstFromDir.trim == expected
 }
 def testIrregNounStemDataApplied(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
@@ -826,7 +835,7 @@ def testNounInflRulesFromDir(corpusName: String,conf: Configuration, repo :  Sca
     val fstFromDir = NounRulesInstaller.fstForNounRules(nounDir)
     val lines = fstFromDir.split("\n").toVector
     // tidy up
-    nounFile.delete()
+    (repo/"datasets"/corpusName).delete()
 
     val expected = "$nouninfl$ =  <os\\_ou><noun>os<masc><nom><sg><u>nouninfl\\.os\\_ou1m</u>"
     lines(0) == expected
