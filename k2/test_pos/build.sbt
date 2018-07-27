@@ -49,7 +49,7 @@ def testList = List(
   ("Test converting bad stem data to fst for nouns", testBadIrregNounStemDataConvert(_, _, _), "" ),
   ("Test converting stem data to fst for irregular nouns", testIrregNounStemDataConvert(_, _, _), "" ),
   ("Test converting stem files in directory to fst for irregular nouns", testIrregNounStemFstFromDir(_, _, _), "" ),
-  ("Test converting apply method for nouns stem data installer", testIrregNounStemDataApplied(_, _, _), "pending" ),
+  ("Test converting apply method for nouns stem data installer", testIrregNounStemDataApplied(_, _, _), "" ),
   // irreg pronouns
   ("Test converting bad stem data to fst for pronouns", testBadIrregPronounStemDataConvert(_, _, _), "pending" ),
   ("Test converting stem data to fst for irregular pronouns", testIrregPronounStemDataConvert(_, _, _), "pending" ),
@@ -494,11 +494,9 @@ def testIrregNounStemFstFromDir(corpusName: String, conf: Configuration, repo : 
   fstFromDir.trim == expected
 }
 def testIrregNounStemDataApplied(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val ds = mkdir(repo/"datasets")
-  val cdir = mkdir(ds/corpusName)
-  val irregDir = mkdir(cdir/"irregular-stems")
-  val nounsDir = mkdir(irregDir/"nouns")
-  val goodLine = "ag.irrn1m#lexent.n5575#bos#masc#nom#sg"
+  val cdir = mkdir(repo/"datasets"/corpusName)
+  val nounsDir = mkdirs(cdir/"irregular-stems/nouns")
+  val goodLine = "demo.irrn1m#lexent.n23069#gunh/#fem#nom#sg#irregacc#"
   val goodFst = IrregNounDataInstaller.nounLineToFst(goodLine)
 
 
@@ -515,9 +513,9 @@ def testIrregNounStemDataApplied(corpusName: String, conf: Configuration, repo :
   val output = resultFile.lines.toVector
 
   // clean up:
-  (repo/"datasets").delete()
+  cdir.delete()
 
-  val expected = "<u>ag\\.irrn1m</u><u>lexent\\.n5575</u>bos<masc><nom><sg><irregnoun>"
+  val expected = "<u>demo\\.irrn1m</u><u>lexent\\.n23069</u>gunh/<fem><nom><sg><irregacc><irregnoun>"
   val rslt = output(0) == expected
   rslt
 }
