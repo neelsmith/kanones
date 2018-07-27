@@ -54,7 +54,7 @@ def testList = List(
   ("Test converting bad stem data to fst for irregular pronouns/article", testBadIrregPronounStemDataConvert(_, _, _), "" ),
   ("Test converting stem data to fst for irregular pronouns", testIrregPronounStemDataConvert(_, _, _), "" ),
   ("Test converting stem files in directory to fst for irregular pronouns", testIrregPronounStemFstFromDir(_, _, _), "" ),
-  ("Test converting apply method for pronouns stem data installer", testIrregPronounStemDataApplied(_, _, _), "pending" ),
+  ("Test converting apply method for irregular pronouns stem data installer", testIrregPronounStemDataApplied(_, _, _), "" ),
   /*
   // irreg adjs:
   ("Test converting bad stem data to fst for irregular adjectives", testBadIrregAdjectiveStemDataConvert(_, _, _), "pending" ),
@@ -554,15 +554,14 @@ def testIrregPronounStemFstFromDir(corpusName: String, conf: Configuration, repo
   fstFromDir.trim == expected
 }
 def testIrregPronounStemDataApplied(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val goodLine = "ag.irrpron1#lexent.n20640#hic#masc#nom#sg"
+  val goodLine = "demo.irrpron1#lexent.n71882#o<ro>#masc#nom#sg"
   val goodFst = IrregPronounDataInstaller.pronounLineToFst(goodLine)
-  val expected = "<u>ag\\.irrpron1</u><u>lexent\\.n20640</u>hic<masc><nom><sg><irregpron>"
+  val expected =   "<u>demo\\.irrpron1</u><u>lexent\\.n71882</u>o<ro><masc><nom><sg><irregacc><irregpron>"
 
 
-  val ds = mkdir(repo/"datasets")
-  val cdir = mkdir(ds/corpusName)
-  val irregDir = mkdir(cdir/"irregular-stems")
-  val nounsDir = mkdir(irregDir/"pronouns")
+
+  val cdir = mkdirs(repo/"datasets"/corpusName)
+  val nounsDir = mkdirs(cdir/"irregular-stems/pronouns")
 
   val testData = nounsDir/"madeuptestdata.cex"
   val text = s"header line, omitted in parsing\n${goodLine}"
@@ -577,7 +576,7 @@ def testIrregPronounStemDataApplied(corpusName: String, conf: Configuration, rep
   val output = resultFile.lines.toVector
 
   // clean up:
-  (repo/"datasets").delete()
+  cdir.delete()
 
   val rslt = output(0) == expected
   rslt
