@@ -36,7 +36,7 @@ object IrregPronounDataInstaller {
   def pronounLineToFst(line: String) : String = {
     val cols = line.split("#")
 
-    if (cols.size < 4) {
+    if (cols.size < 6) {
       println(s"${cols.size} is the wrong number of columns for an pronoun\nCould not parse data line:\n${line}")
       throw new Exception(s"Wrong number of columns ${cols.size}.\nCould not parse data line:\n${line}")
     } else {
@@ -51,7 +51,7 @@ object IrregPronounDataInstaller {
       val num = cols(5)
 
 
-      fstBuilder.append(s"<u>${ruleUrn}</u><u>${lexent}</u>${inflString}<${gender}><${cse}><${num}><irregpron>")
+      fstBuilder.append(s"<u>${ruleUrn}</u><u>${lexent}</u>${inflString}<${gender}><${cse}><${num}><irregacc><irregpron>")
       fstBuilder.toString
     }
   }

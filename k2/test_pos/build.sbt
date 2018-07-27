@@ -40,20 +40,20 @@ def testList = List(
   */
 
   //irreg adverbs:
-  ("Test converting bad stem data to fst for adverbs", testBadIrregAdvStemDataConvert(_, _, _), "" ),
+  ("Test converting bad stem data to fst for irregular adverbs", testBadIrregAdvStemDataConvert(_, _, _), "" ),
   ("Test converting stem data to fst for irregular adverbs", testIrregAdvStemDataConvert(_, _, _), "" ),
   ("Test converting stem files in directory to fst for irregular adverbs", testIrregAdvStemFstFromDir(_, _, _), "" ),
-  ("Test converting apply method for adverb stem data installer", testIrregAdvStemDataApplied(_, _, _), "" ),
+  ("Test converting apply method for irregular adverb stem data installer", testIrregAdvStemDataApplied(_, _, _), "" ),
 
   // irreg nouns:
-  ("Test converting bad stem data to fst for nouns", testBadIrregNounStemDataConvert(_, _, _), "" ),
+  ("Test converting bad stem data to fst for irregular nouns", testBadIrregNounStemDataConvert(_, _, _), "" ),
   ("Test converting stem data to fst for irregular nouns", testIrregNounStemDataConvert(_, _, _), "" ),
   ("Test converting stem files in directory to fst for irregular nouns", testIrregNounStemFstFromDir(_, _, _), "" ),
-  ("Test converting apply method for nouns stem data installer", testIrregNounStemDataApplied(_, _, _), "" ),
+  ("Test converting apply method for irregular nouns stem data installer", testIrregNounStemDataApplied(_, _, _), "" ),
   // irreg pronouns
-  ("Test converting bad stem data to fst for pronouns", testBadIrregPronounStemDataConvert(_, _, _), "pending" ),
-  ("Test converting stem data to fst for irregular pronouns", testIrregPronounStemDataConvert(_, _, _), "pending" ),
-  ("Test converting stem files in directory to fst for irregular pronouns", testIrregPronounStemFstFromDir(_, _, _), "pending" ),
+  ("Test converting bad stem data to fst for irregular pronouns/article", testBadIrregPronounStemDataConvert(_, _, _), "" ),
+  ("Test converting stem data to fst for irregular pronouns", testIrregPronounStemDataConvert(_, _, _), "" ),
+  ("Test converting stem files in directory to fst for irregular pronouns", testIrregPronounStemFstFromDir(_, _, _), "" ),
   ("Test converting apply method for pronouns stem data installer", testIrregPronounStemDataApplied(_, _, _), "pending" ),
   /*
   // irreg adjs:
@@ -472,7 +472,7 @@ def testBadIrregNounStemDataConvert(corpusName: String, conf: Configuration, rep
 }
 
 def testIrregNounStemDataConvert(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val goodLine = "demo.irrn1m#lexent.n23069#gunh/#fem#nom#sg#irregacc#"
+  val goodLine = "demo.irrn1m#lexent.n23069#gunh/#fem#nom#sg#"
   val goodFst = IrregNounDataInstaller.nounLineToFst(goodLine)
   val expected = "<u>demo\\.irrn1m</u><u>lexent\\.n23069</u>gunh/<fem><nom><sg><irregacc><irregnoun>"
   println("ACTU/EXP\n" + goodFst + "\n" + expected)
@@ -480,7 +480,7 @@ def testIrregNounStemDataConvert(corpusName: String, conf: Configuration, repo :
 }
 
 def testIrregNounStemFstFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val goodLine = "demo.irrn1m#lexent.n23069#gunh/#fem#nom#sg#irregacc#"
+  val goodLine = "demo.irrn1m#lexent.n23069#gunh/#fem#nom#sg#"
   val goodFst = IrregNounDataInstaller.nounLineToFst(goodLine)
 
   val nounSource = mkdirs(repo/"datasets"/corpusName/"irregular-stems/nouns")
@@ -496,7 +496,7 @@ def testIrregNounStemFstFromDir(corpusName: String, conf: Configuration, repo : 
 def testIrregNounStemDataApplied(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
   val cdir = mkdir(repo/"datasets"/corpusName)
   val nounsDir = mkdirs(cdir/"irregular-stems/nouns")
-  val goodLine = "demo.irrn1m#lexent.n23069#gunh/#fem#nom#sg#irregacc#"
+  val goodLine = "demo.irrn1m#lexent.n23069#gunh/#fem#nom#sg#"
   val goodFst = IrregNounDataInstaller.nounLineToFst(goodLine)
 
 
@@ -531,16 +531,17 @@ def testBadIrregPronounStemDataConvert(corpusName: String, conf: Configuration, 
 }
 
 def testIrregPronounStemDataConvert(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val goodLine = "ag.irrpron1#lexent.n20640#hic#masc#nom#sg"
+  val goodLine = "demo.irrpron1#lexent.n71882#o<ro>#masc#nom#sg"
   val goodFst = IrregPronounDataInstaller.pronounLineToFst(goodLine)
-  val expected = "<u>ag\\.irrpron1</u><u>lexent\\.n20640</u>hic<masc><nom><sg><irregpron>"
+
+  val expected =   "<u>demo\\.irrpron1</u><u>lexent\\.n71882</u>o<ro><masc><nom><sg><irregacc><irregpron>"
   goodFst.trim ==  expected
 }
 
 def testIrregPronounStemFstFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  val goodLine = "ag.irrpron1#lexent.n20640#hic#masc#nom#sg"
+  val goodLine = "demo.irrpron1#lexent.n71882#o<ro>#masc#nom#sg"
   val goodFst = IrregPronounDataInstaller.pronounLineToFst(goodLine)
-  val expected = "<u>ag\\.irrpron1</u><u>lexent\\.n20640</u>hic<masc><nom><sg><irregpron>"
+  val expected =   "<u>demo\\.irrpron1</u><u>lexent\\.n71882</u>o<ro><masc><nom><sg><irregacc><irregpron>"
 
   val pronounSource = mkdirs(repo/"datasets"/corpusName/"irregular-stems/pronouns")
   val testData = pronounSource/"madeuptestdata.cex"
