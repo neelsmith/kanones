@@ -18,8 +18,9 @@
 #sigma3# = <hs_ous><as_ws>
 #iu3# = <is_ews><us_ews><us_uos>
 #diphth3# = <eus_ews><w_ous>
+#iustems# = <is_ews>
 
-#noun3# = #labialpalatal3#  #dental3# #neuttau3# #liquidnasal3# #rho3# #iu3#  #diphth3#
+#noun3# = #labialpalatal3#  #dental3# #neuttau3# #liquidnasal3# #rho3# #iu3#  #diphth3# #iustems# 
 
 #nounclass# = #noun1# #noun2# #noun3#
 
