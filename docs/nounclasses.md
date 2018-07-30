@@ -6,7 +6,10 @@ layout: page
 | Stem class | Description | Example |
 | :------------- | :------------- | :------------- |
 | `h_hs` | **1st declension** (Smyth ¶216) | *ni_k*- | 
-| `os_ou` | **2nd declension** | *STEM*- | 
+| `as_ou` | **1st declension** masculines(Smyth ¶222) | *nea_ni*- | 
+| `h_hs_contr` | **1st declension** masculines(Smyth ¶222) | *poli_t*- | 
+| `os_ou` | **2nd declension** (Smyth ¶230) | *a<sm>nqrwp*- | 
+| `ous_ou` | **2nd declension** contracted substantive (Smyth ¶235) | *n*- | 
 | `s_tos` | **3rd declension** dental stem (Smyth ¶257) | *qh*- | 
 | `is_idos` | **3rd declension** dental stem (Smyth ¶257) | *e<sm>lp*- | 
 | `is_itos` | **3rd declension** dental stem (Smyth ¶257) | *xar*- | 
@@ -38,14 +41,11 @@ layout: page
 | `a_as_long` | No description for stem class a_as_long | *STEM*- | 
 | `a_as_short` | No description for stem class a_as_short | *STEM*- | 
 | `a_hs` | No description for stem class a_hs | *STEM*- | 
-| `as_ou` | No description for stem class as_ou | *STEM*- | 
 | `as_ou_contr` | No description for stem class as_ou_contr | *STEM*- | 
 | `c_xos` | No description for stem class c_xos | *STEM*- | 
-| `h_hs_contr` | No description for stem class h_hs_contr | *STEM*- | 
 | `hr_ros` | No description for stem class hr_ros | *STEM*- | 
 | `hs_ou` | No description for stem class hs_ou | *STEM*- | 
 | `hs_ou_contr` | No description for stem class hs_ou_contr | *STEM*- | 
 | `null_os` | No description for stem class null_os | *STEM*- | 
-| `ous_ou` | No description for stem class ous_ou | *STEM*- | 
 | `ous_ou_ult` | No description for stem class ous_ou_ult | *STEM*- | 
 | `s_ws` | No description for stem class s_ws | *STEM*- | 
