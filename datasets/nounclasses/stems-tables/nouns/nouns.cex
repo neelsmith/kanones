@@ -1,4 +1,4 @@
-StemUrn#LexicalEntity#Stem#Gender#InflClass#ACC#ent#Notes
+StemUrn#LexicalEntity#Stem#Gender#InflClass#Accent#Notes
 
 STEM#LEX#STEM#GENDER#a_as#ACC#
 STEM#LEX#STEM#GENDER#a_as_contr#ACC#
@@ -14,7 +14,7 @@ STEM#LEX#STEM#GENDER#hs_ou_contr#ACC#
 STEM#LEX#STEM#GENDER#os_ou#ACC#
 STEM#LEX#STEM#GENDER#ous_ou#ACC#
 STEM#LEX#STEM#GENDER#ous_ou_ult#ACC#
-STEM#LEX#STEM#GENDER#y_pos#ACC#3rd declension labial stem
+nounclasses.15#LEX#ai<sm>qio#masc#y_pos#stemultacc#3rd declension labial stem
 STEM#LEX#STEM#GENDER#y_bos#ACC#
 STEM#LEX#STEM#GENDER#c_kos#ACC#
 STEM#LEX#STEM#GENDER#gc_ggos#ACC#
