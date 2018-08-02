@@ -8,4 +8,4 @@ title:  Release notes
 
 **0.2.0**:  adds support for conjugated verbs
 
-**0.1.0**:  packaged binary library capable of building parsers for nouns.
+**0.1.0**:  packaged binary library capable of building parsers for nouns published on bintray.
