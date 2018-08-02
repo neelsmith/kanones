@@ -16,7 +16,7 @@ def greekFromXml(n: xml.Node, s: String = "", inGreek: Boolean = false) : String
   n match {
     case t: xml.Text => {
       if (inGreek) {
-        buff.append(LiteraryGreekString(t.text).ucode.replaceAll("#", "?"))
+        buff.append(LiteraryGreekString(t.text).ucode.replaceAll("#", ""))
       } else {
         buff.append(t.text)
       }
