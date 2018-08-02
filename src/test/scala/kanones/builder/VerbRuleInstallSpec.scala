@@ -8,7 +8,7 @@ import better.files.Dsl._
 class VerbDataInstallSpec extends FlatSpec {
 
 
-  "The VerbDataInstaller object" should "throw an exception if given bad data" in {
+  "The VerbRulesInstaller object" should "throw an exception if given bad data" in {
     try {
       val fst = VerbRulesInstaller.verbRuleToFst("Not a real line")
       fail("Should not have created verb data.")
@@ -20,8 +20,11 @@ class VerbDataInstallSpec extends FlatSpec {
     }
   }
 
+
+  /*
+
   it should "compose FST for a valid CEX string" in {
-    val goodLine = "lverbinfl.are_presind1#conj1#o#1st#sg#pres#indic#act"
+    val goodLine = "lex.verb1#lexent.n76586#paideu#w_regular#"
     val goodFst = VerbRulesInstaller.verbRuleToFst(goodLine)
     val expected = "<conj1><verb>o<1st><sg><pres><indic><act><u>lverbinfl\\.are\\_presind1</u>"
     assert(goodFst.trim ==  expected)
@@ -31,7 +34,7 @@ class VerbDataInstallSpec extends FlatSpec {
     val repo = File(".")
     val corpusName = "testCorpus"
     val verbDataDir = mkdirs(repo/"datasets"/corpusName/"rules-tables/verbs")
-    val goodLine = "lverbinfl.are_presind1#conj1#o#1st#sg#pres#indic#act"
+    val goodLine = "lex.verb1#lexent.n76586#paideu#w_regular#"
     val cexFile = verbDataDir/"madeuptestdata.cex"
     cexFile.overwrite(goodLine)
 
@@ -44,4 +47,32 @@ class VerbDataInstallSpec extends FlatSpec {
 
     lines(0) == expected
   }
+
+  it should "install FST in the appropriate build directory" in {
+    val repo = File(".")
+    val corpusName = "testCorpus"
+    val verbsDataDir = mkdirs(repo/"datasets"/corpusName/"stems-tables/verbs-simplex")
+    val goodLine = "lex.verb1#lexent.n76586#paideu#w_regular#"
+    val cexFile = verbsDataDir/"madeuptestdata.cex"
+    cexFile.overwrite(s"headerline\n${goodLine}")
+
+    val destDir = mkdirs(repo/"parsers"/corpusName/"lexica")
+
+    // Write some test data in the source work space:
+    VerbDataInstaller(verbsDataDir, destDir/"lexicon-verbs.fst")
+
+    // check the results:
+    val resultFile = repo/"parsers"/corpusName/"lexica/lexicon-verbs.fst"
+    val output = resultFile.lines.toVector
+    println("REUSLT FILE: " + resultFile)
+
+    // clean up:
+    //(repo/"datasets"/corpusName).delete()
+
+    val expected = ""
+
+
+    assert(output(0) == expected)
+  }
+  */
 }
