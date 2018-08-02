@@ -13,15 +13,15 @@ import java.io.File
 import scala.io.Source
 
 class ViennaPosSpec extends FlatSpec {
-
+/*
   val litConf = TestConfig("/bin/echo", "/usr/local/bin/fst-infl", "parsers/vienna_lit/greek.a")
   val litTestHarness = SimpleTestHarness(litConf)
 
   val atticConf = TestConfig("/bin/echo", "/usr/local/bin/fst-infl", "parsers/vienna_attic/greek.a")
   val atticTestHarness = SimpleTestHarness(atticConf)
 
-
-  "A TestConfig" should "parse a file of forms" in {
+*/
+  "A TestConfig" should "parse a file of forms" in pending /*{
     val token = asciiToFst(LiteraryGreekString("καί").stripAccent.ascii)
     val tmp = new File("kanonesTestHarness.txt")
     new PrintWriter(tmp) { write(token); close }
@@ -30,7 +30,7 @@ class ViennaPosSpec extends FlatSpec {
     println("reply: " + reply)
   }
 
-  "A TestHarness" should "read specs from a file" in pending /* {
+  "A TestHarness" should "read specs from a file" in pending  {
       val testFile = new File("src/test/resources/unit_tests_data/vienna_lit/literary/literaryGreek.cex")
       val testHarness = SimpleTestHarness(litConf)
 

@@ -5,7 +5,7 @@ import better.files._
 import java.io.{File => JFile}
 import better.files.Dsl._
 
-class VerbDataInstallSpec extends FlatSpec {
+class VerbRuleInstallSpec extends FlatSpec {
 
 
   "The VerbRulesInstaller object" should "throw an exception if given bad data" in {
