@@ -14,7 +14,8 @@ lazy val root = (project in file(".")).
         "org.scalatest" %% "scalatest" % "3.0.1" % "test",
         "edu.holycross.shot" %% "greek" % "1.3.5",
 
-        "edu.holycross.shot.cite" %% "xcite" % "3.3.0"
+        "edu.holycross.shot.cite" %% "xcite" % "3.3.0",
+        "com.github.pathikrit" %% "better-files" % "3.5.0"
       ),
 
       tutTargetDirectory := file("docs"),
@@ -80,7 +81,7 @@ lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {
 
 // Generate data directory hierarchy for a new named corpus
 lazy val corpusImpl = Def.inputTaskDyn {
-  
+
   val args = spaceDelimited("corpus>").parsed
   args.size match {
     case 1 => {
