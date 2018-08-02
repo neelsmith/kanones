@@ -14,8 +14,6 @@ def testList = List(
 
   // Stem rules for indeclinables
 
-  ("Test converting  stem data for invariants", testConvertIndeclStem(_, _, _), "" ),
-
 
   ("Test converting stem files in directory to fst for verbs", testIndeclStemFstFromDir(_, _, _), "" ),
   ("Test converting apply method for indeclinable stem data installer", testIndeclStemDataApplied(_, _, _), "" ),
@@ -185,16 +183,7 @@ def installVerbStemTable(verbsDir:  ScalaFile) : Unit = {
 
 
 
-def testConvertIndeclStem(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  // should correctly convert good data.
-  //  //StemUrn#LexicalEntity#Stem#PoS
-  // cum n11872 prep
-  val goodLine = "demo.indecl2#lexent.n51951#kai/#indeclconj"
-  val goodFst = IndeclDataInstaller.indeclLineToFst(goodLine)
 
-  val expected = "<u>demo\\.indecl2</u><u>lexent\\.n51951</u>kai/<indeclconj>"
-  goodFst.trim ==  expected
-}
 
 def testIndeclStemFstFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
   // Should create FST for all files in a directory
@@ -700,24 +689,7 @@ def testBadVerbStemDataConvert(corpusName: String, conf: Configuration, repo :  
   }
 }
 
-def testBadVerbsInflRulesConvert(corpusName: String, conf: Configuration, repo :  ScalaFile): Boolean = {
-  //  Test conversion of delimited text to FST.
-  // Should object to bad data
-  try {
-    val fst = VerbRulesInstaller.verbRuleToFst("Not a real line")
-    false
-  } catch {
-    case t : Throwable => true
-  }
-}
 
-def testConvertVerbInflRules(corpusName: String, conf: Configuration, repo :  ScalaFile): Boolean = {
-  // Should correctly convert good data.
-  val goodLine = "lverbinfl.are_presind1#conj1#o#1st#sg#pres#indic#act"
-  val goodFst = VerbRulesInstaller.verbRuleToFst(goodLine)
-  val expected = "<conj1><verb>o<1st><sg><pres><indic><act><u>lverbinfl\\.are\\_presind1</u>"
-  goodFst.trim ==  expected
-}
 
 def testVerbInflRulesFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile): Boolean = {
   // Install inflectional table of data
@@ -735,30 +707,7 @@ def testVerbInflRulesFromDir(corpusName: String, conf: Configuration, repo :  Sc
 }
 
 
-def testVerbStemDataConvert(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-  // should correctly convert good data.
-  val goodLine = "ag.v1#lexent.n2280#am#conj1"
-  val goodFst = VerbDataInstaller.verbLineToFst(goodLine)
-  val expected = "<u>ag\\.v1</u><u>lexent\\.n2280</u><#>am<verb><conj1>"
-  goodFst.trim ==  expected
-}
 
-def testVerbStemFstFromDir(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
-
-
-  // Should create FST for all files in a directory
-  val goodLine = "ag.v1#lexent.n2280#am#conj1"
-  val verbSource = mkdirs(repo/"datasets"/corpusName/"stems-tables/verbs-simplex")
-  val testData = verbSource/"madeuptestdata.cex"
-  val text = s"header line, omitted in parsing\n${goodLine}"
-  testData.overwrite(text)
-  val fstFromDir = VerbDataInstaller.fstForVerbData(verbSource)
-  // Tidy up
-  (repo/"datasets").delete()
-  val expected = "<u>ag\\.v1</u><u>lexent\\.n2280</u><#>am<verb><conj1>"
-  fstFromDir.trim == expected
-
-}
 def testVerbStemDataApplied(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
   // Install one data file:
 
