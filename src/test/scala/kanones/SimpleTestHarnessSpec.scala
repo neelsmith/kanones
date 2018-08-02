@@ -10,7 +10,8 @@ class SimpleTestHarnessSpec extends FlatSpec {
   val conf = TestConfig("/bin/echo", "/usr/local/bin/fst-infl", "parsers/dev/greek.a")
   val testHarness = SimpleTestHarness(conf)
 
-  "A SimpleTestHarness" should "collect FST reply for a single line of delimited text" in {
+  "A SimpleTestHarness" should "collect FST reply for a single line of delimited text" in pending
+  /*{
     val testLine = "χώρα#noun#feminine#nominative#singular#stempenacc#"
     val fstLines = testHarness.fstAnalyses(testLine)
     val expectedAnalyses = 5
@@ -49,5 +50,5 @@ class SimpleTestHarnessSpec extends FlatSpec {
 
     val results = testHarness.score(testFile)
     assert(results.filter(_ == true).size == expectedSpecs)
-  }
+  }*/
 }

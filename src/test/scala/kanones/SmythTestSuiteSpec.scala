@@ -10,7 +10,7 @@ class SmythTestSuiteSpec extends FlatSpec {
   val testHarness = SimpleTestHarness(conf)
 
 
-  "A SimpleTestHarness" should "score files one at a time" in {
+  "A SimpleTestHarness" should "score files one at a time" in pending /* {
     val testSrc = new File("src/test/resources/unit_tests_data/smyth")
     val subDirs =  testSrc.listFiles().toVector.filter(_.isDirectory())
 
@@ -28,5 +28,5 @@ class SmythTestSuiteSpec extends FlatSpec {
     println(scores.toString)
 
   }
-
+*/
 }

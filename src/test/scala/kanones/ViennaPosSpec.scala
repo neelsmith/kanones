@@ -30,7 +30,7 @@ class ViennaPosSpec extends FlatSpec {
     println("reply: " + reply)
   }
 
-  "A TestHarness" should "read specs from a file" in {
+  "A TestHarness" should "read specs from a file" in pending /* {
       val testFile = new File("src/test/resources/unit_tests_data/vienna_lit/literary/literaryGreek.cex")
       val testHarness = SimpleTestHarness(litConf)
 
@@ -41,6 +41,6 @@ class ViennaPosSpec extends FlatSpec {
       println(results)
       //assert(results.filter(_ == true).size == expectedSpecs)
   }
-
+*/
 
 }

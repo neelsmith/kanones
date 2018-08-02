@@ -6,15 +6,19 @@ import java.io.File
 import scala.io.Source
 
 class ViennaTestSuiteSpec extends FlatSpec {
-
+/*
   val litConf = TestConfig("/bin/echo", "/usr/local/bin/fst-infl", "parsers/vienna_lit/greek.a")
-  val litTestHarness = SimpleTestHarness(litConf)
+  //val litTestHarness = SimpleTestHarness(litConf)
 
   val atticConf = TestConfig("/bin/echo", "/usr/local/bin/fst-infl", "parsers/vienna_attic/greek.a")
-  val atticTestHarness = SimpleTestHarness(atticConf)
+  //val atticTestHarness = SimpleTestHarness(atticConf)
+*/
 
+  "A harness for literary Attic Greek" should "score files one at a time" in  pending
 
-  "A harness for literary Attic Greek" should "score files one at a time" in  {
+}
+
+  /* {
     val testSrc = new File("src/test/resources/unit_tests_data/vienna_lit")
     val subDirs =  testSrc.listFiles().toVector.filter(_.isDirectory())
 
@@ -47,7 +51,7 @@ class ViennaTestSuiteSpec extends FlatSpec {
   }
 
 
-  "A harness for archaic and classica Attic Greek" should "score files one at a time" in pending /*{
+  "A harness for archaic and classica Attic Greek" should "score files one at a time" in pending {
     val testSrc = new File("src/test/resources/unit_tests_data/vienna_attic")
     val subDirs =  testSrc.listFiles().toVector.filter(_.isDirectory())
 
@@ -64,6 +68,3 @@ class ViennaTestSuiteSpec extends FlatSpec {
     }
     println(scores.toString)
   }*/
-
-
-}
