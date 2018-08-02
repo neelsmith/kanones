@@ -11,9 +11,9 @@ name := "postest"
 def testList = List(
 
   // Test all inflectional rules installers
-  ("Test copying FST inflection rules for invariants", testInvariantCopy(_,_,_), ""),
+
   // Stem rules for indeclinables
-  ("Test converting bad stem data for invariants", testBadIndeclStemData(_, _, _), "" ),
+
   ("Test converting  stem data for invariants", testConvertIndeclStem(_, _, _), "" ),
 
 
@@ -182,31 +182,9 @@ def installVerbStemTable(verbsDir:  ScalaFile) : Unit = {
 ////////////////// Tests //////////////////////////////
 //
 // Invariants: rules
-def testInvariantCopy(corpusName: String, conf: Configuration, repo : ScalaFile): Boolean = {
-  val parser = repo/"parsers"/corpusName
-  val inflTarget = parser/"inflection"
-  val inflSrc = repo/"fst/inflection"
-
-  RulesInstaller.installInvariants(inflSrc,inflTarget )
-
-  val expectedFiles = Set (
-    inflTarget/"indeclinfl.fst",
-    inflTarget/"irreginfl.fst"
-  )
-  val actualFiles = inflTarget.glob("*.fst").toSet
-  actualFiles == expectedFiles
-}
 
 
-// Invariants: stems
-def testBadIndeclStemData(corpusName: String, conf: Configuration, repo : ScalaFile): Boolean = {
-  try {
-    val fst = IndeclDataInstaller.indeclLineToFst("Not a real line")
-    false
-  } catch {
-    case t : Throwable => true
-  }
-}
+
 def testConvertIndeclStem(corpusName: String, conf: Configuration, repo :  ScalaFile):  Boolean = {
   // should correctly convert good data.
   //  //StemUrn#LexicalEntity#Stem#PoS
