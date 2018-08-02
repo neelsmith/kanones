@@ -5,7 +5,7 @@ lazy val root = (project in file(".")).
     settings(
       name := "kanones",
       organization := "edu.holycross.shot",
-      version := "0.0.1",
+      version := "0.3.0",
       scalaVersion := "2.12.4",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
@@ -24,9 +24,7 @@ lazy val root = (project in file(".")).
       fst := buildFst.evaluated,
       corpus := corpusImpl.evaluated,
       utils := utilsImpl.evaluated,
-      cleanAll := cleanAllImpl.value,
-
-      kdebug := currentTest.value
+      cleanAll := cleanAllImpl.value
     ).enablePlugins(TutPlugin)
 
 lazy val fst = inputKey[Unit]("Compile complete FST system for a named corpus")
@@ -35,35 +33,6 @@ lazy val cleanAll = taskKey[Unit]("Delete all compiled parsers")
 lazy val utils = inputKey[Unit]("Build utility transducers for a named corpus")
 
 
-
-lazy val kdebug = taskKey[Unit]("Run temporary build tests")
-def currentTest: Def.Initialize[Task[Unit]] = Def.task {
-  val corpus = "vienna_lit"
-  val configFile = file("config.properties")
-
-
-
-  /*
-  val buildDirectory = baseDirectory.value / s"parsers/${corpus}"
-  val conf = Configuration(configFile)
-
-  // Install data and rules, converting tabular data to FST
-*/
-
-   ///DataInstaller(baseDirectory.value, corpus)
-   RulesInstaller(baseDirectory.value, corpus)
-
-
-
-   // Compose makefiles and higher-order FST for build system
-   BuildComposer(baseDirectory.value, corpus, "/usr/local/bin/fst-compiler")
-/*
-   // Build it!
-   val inflMakefile = buildDirectory / "inflection/makefile"
-   val makeInfl = s"${conf.make} -f ${inflMakefile}"
-   makeInfl !
-   */
-}
 
 // Delete all compiled parsers
 lazy val cleanAllImpl: Def.Initialize[Task[Unit]] = Def.task {

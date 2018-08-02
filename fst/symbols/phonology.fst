@@ -9,7 +9,7 @@
 
 
 #diaeresis# = \+
-#accent# = \/\=
+#accent# = \/<circ>
 #diacritic# = #diaeresis# #accent#
 #breathing# = <sm><ro>
 
@@ -20,11 +20,14 @@
 $character$ = [#character#]
 
 % Additional editorial symbols used in stem files:
-#vowelquant# = <lo><sh>
+%#vowelquant# = <lo><sh>
+#vowelquant# = _^
 #morpheme# = <#>
 #persistacc# = <stemultacc><stempenacc><inflacc><irregacc>
 #editorial# = #morpheme# #persistacc#  #vowelquant#
-
+% Transducer for persistent accent for convenenient
+% composition
+$persistacc$ = [#persistacc#]
 
 % All valid chars used in stem file:
 #stemchars# = #character# #editorial#
