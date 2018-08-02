@@ -37,8 +37,9 @@ def docs = {
 }
 
 def writeTable(f: String) = {
+  val pageOpen = "---\ntitle: Table of noun stem classes\nlayout: page\n---\n\n"
   val hdr = "| Stem class | Description | Example |\n| :------------- | :------------- | :------------- |\n"
-  new PrintWriter(f){write(hdr + docs.sortBy(_.description).map(_.markdown).mkString("\n")); close;}
+  new PrintWriter(f){write(pageOpen + hdr + docs.sortBy(_.description).map(_.markdown).mkString("\n")); close;}
 }
 
 println("\n\nWrite a markdown table documenting noun stem classes:")
