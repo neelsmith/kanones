@@ -13,7 +13,7 @@ object MakefileComposer {
   */
   def apply(projectDir: File, fstcompiler: String) : Unit = {
     val inflDir = projectDir / "inflection"
-
+    println("\n\nMAKING INFLECTION MAKEFIEL ...")
 
     composeInflectionMake(projectDir, fstcompiler)
     //composeVerbStemMake(projectDir, fstcompiler)
@@ -103,7 +103,7 @@ object MakefileComposer {
   /** Compose makefile for inflection subdirectory.
   */
   def composeInflectionMake(projectDir: File, fstcompiler: String) : Unit = {
-      (s"\nWrite makefile for inflection rules in project ${projectDir}\n")
+      println(s"\nWrite makefile for inflection rules in project ${projectDir}\n")
       val makeFileText = StringBuilder.newBuilder
       makeFileText.append(s"${projectDir.toString}/inflection.a: ")
 
