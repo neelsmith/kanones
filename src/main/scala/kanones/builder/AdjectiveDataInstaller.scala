@@ -31,7 +31,7 @@ object AdjectiveDataInstaller {
   def adjectiveLineToFst(line: String) : String = {
     val cols = line.split("#")
 
-    if (cols.size < 4) {
+    if (cols.size < 5) {
       //ag.adj1#lexent.n42553#san#us_a_um
       println(s"Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
       throw new Exception(s"Wrong number of columns ${cols.size}.\nCould not parse data line:\n s${line}")
@@ -41,7 +41,8 @@ object AdjectiveDataInstaller {
       val lexEntity = cols(1).replaceAll("_","\\_").replaceAll("\\.","\\\\.")
       val  stem = cols(2)
       val  declClass = cols(3)
-      fstBuilder.append(s"<u>${ruleUrn}</u><u>${lexEntity}</u>${stem}<adj><${declClass}>")
+      val acc = cols(4)
+      fstBuilder.append(s"<u>${ruleUrn}</u><u>${lexEntity}</u>${stem}<adj><${acc}><${declClass}>")
       fstBuilder.toString
     }
   }

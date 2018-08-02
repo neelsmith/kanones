@@ -11,7 +11,7 @@ Data for a particular parser are read from simple tables in delimited-text forma
 
 The data tables are accompanied by an explicit specification of the "alphabet" used to record the data.   This makes it possible to apply the same parsing logic to corpora of Greek texts in the orthography familiar from printed editions, orthographies seen in medieval manuscripts, or even in the epichoric alphabets of the Classical and Archaic periods.
 
-## Current version: *0.1.0*
+## Current version: *0.3.0*
 
 See [release notes](releases)
 
