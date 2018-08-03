@@ -20,4 +20,6 @@ class CompleteBuildSpec extends FlatSpec {
     val parser = repo/"parsers/analytical-types/greek.a"
     assert(parser.exists())
   }
+
+  it should "run the parser and capture output" in pending
 }

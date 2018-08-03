@@ -9,16 +9,17 @@ layout: page
 
 Data for a particular parser are read from simple tables in delimited-text format, and a FST is compiled using that dataset.
 
-The data tables are accompanied by an explicit specification of the "alphabet" used to record the data.   This makes it possible to apply the same parsing logic to corpora of Greek texts in the orthography familiar from printed editions, orthographies seen in medieval manuscripts, or even in the epichoric alphabets of the Classical and Archaic periods.
+The data tables are accompanied by an explicit specification of the "alphabet" used to record the data.  This makes it possible to apply the same parsing logic to corpora of Greek texts in the orthography familiar from printed editions, orthographies seen in medieval manuscripts, or even in the epichoric alphabets of the Classical and Archaic periods.
 
 ## Current version: **0.3.0**
 
 See [release notes](releases)
 
+[API docs for version 0.3.0](api/edu/holycross/shot/kanones/index.html)
 
 ## Building blocks
 
-The kanónes github repository at <https://github.com/neelsmith/kanones> includes the basic logic for parsing Greek morphology, written in the language of the [Stuttgart Finite State Transducer toolbox](http://www.cis.uni-muenchen.de/~schmid/tools/SFST/) (*SFST*).  You supply data for a specific corpus in simple tables (as described below).  The Kanónes repository includes a build system that reads your data set, rewrites in the SFST notation, and combines this with the basic parsing logic to compile a parser.
+The kanónes github repository at <https://github.com/neelsmith/kanones> includes the basic logic for parsing Greek morphology, written in the language of the [Stuttgart Finite State Transducer toolbox](http://www.cis.uni-muenchen.de/~schmid/tools/SFST/) (*SFST*).  You supply data for a specific corpus in simple tables (as described below).  The Kanónes library can read your data set, rewrite it in the SFST notation, and combine this with the basic parsing logic to compile a parser.
 
 
 ## Detailed documentation
