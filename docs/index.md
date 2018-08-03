@@ -3,7 +3,7 @@ title: Overview
 layout: page
 ---
 
-*Kanónes* is a system for building corpus-specific morphological parsers for ancient Greek, represented in a specified orthographic system.  Parsers built with kanónes take an "analysis by synthesis" approach.  Greek words are stripped of accent, and submitted to a finite state transducer (*FST*) that collects candidate analyses; an external program then adds the appropriate accent for the suggested form:  if it matches the original, accented word, then the analysis is valid.
+*Kanónes* is a library for building corpus-specific morphological parsers for ancient Greek represented in a specified orthographic system.  Parsers built with kanónes take an "analysis by synthesis" approach.  Greek words are stripped of accent, and submitted to a finite state transducer (*FST*) that collects candidate analyses; an external program then adds the appropriate accent for the suggested form:  if it matches the original, accented word, then the analysis is valid.
 
 (For a fuller description of Kanónes' approach to parsing, see "Morphological Analysis of Historical Languages" in *Bulletin of the Institute for Classical Studies* 59-2, 2016, 89-102.)
 

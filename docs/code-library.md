@@ -7,7 +7,7 @@ Alongside its build system for compiling parsers, kanónes includes a code libra
 
 
 -   package: `edu.holycross.shot.kanones`
--   [API docs](../api/edu/holycross/shot/kanones/index.html) for version 0.0.1.
+-   [API docs](../api/edu/holycross/shot/kanones/index.html) for version 0.3.0.
 -   examples (TBA):
     -   read parser output from a file and construct parse objects from it
     -   find unparseable tokens
