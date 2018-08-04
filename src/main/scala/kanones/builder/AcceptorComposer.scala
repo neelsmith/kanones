@@ -41,6 +41,7 @@ object AcceptorComposer {
     fst.append(verbAcceptor(projectDir) + "\n")
     fst.append(infinitiveAcceptor(projectDir) + "\n")
     fst.append(participleAcceptor(projectDir) + "\n")
+    fst.append(vadjAcceptor(projectDir) + "\n")
 
     fst.append(nounAcceptor(projectDir) + "\n")
     fst.append(adjectiveAcceptor(projectDir) + "\n")
@@ -69,6 +70,9 @@ object AcceptorComposer {
     includeVerbs(dir)
   }
 
+  def includeVadjs(dir: ScalaFile): Boolean = {
+    includeVerbs(dir)
+  }
 
   /** Rewrite a single file by replacing all occurrences of
   * the variable name `@workDir` with the string value for the
@@ -243,6 +247,17 @@ $squashptcplurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>[#urnchar#]:<>+
 """ } else { "" }
 }
 
+def vadjAcceptor(dir: ScalaFile): String = {
+if (includeVadjs(dir)) {
+  """
+% Verbal adjective acceptor
+$=verbclass$ = [#verbclass#]
+$squashvadjurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>[#stemchars#]+ <verb> $=verbclass$   <div> $=verbclass$  [#vadj#]  [#stemchars#]* $gender$ $case$ $number$ <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
+"""
+} else {
+  ""
+}
+}
 
 /** String defining final noun acceptor transducer.*/
 def adverbAcceptor(dir : ScalaFile): String = {
@@ -298,6 +313,7 @@ $squashadjurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>[#urnchar#]:<>+\.
       (includeVerbs(_),"$squashverburn$" ),
       (includeInfinitives(_),"$squashinfurn$" ),
       (includeParticiples(_),"$squashptcplurn$" ),
+      (includeVadjs(_),"$squashvadjurn$" ),
 
       (includeNouns(_),"$squashnounurn$" ),
       (includeAdjectives(_),"$squashadjurn$" ),

@@ -50,7 +50,9 @@ object RulesInstaller {
     val ptcplFst = inflDir/"ptcplinfl.fst"
     ParticipleRulesInstaller( ptcplSrc,ptcplFst  )
 
-
+    val vadjSrc = srcCorpus/"rules-tables/verbaladjectives"
+    val vadjFst = inflDir/"vadjinfl.fst"
+    VerbalAdjectiveRulesInstaller( vadjSrc,vadjFst  )
 
 
   }
