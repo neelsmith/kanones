@@ -9,5 +9,5 @@ Kanónes is a system for building Greek morphological parsers.
 ## Prerequisites
 
 -   A POSIX-like environment with `sh`, `echo` and `make`
--   [Scala](https://www.scala-lang.org/) and [sbt](https://github.com/sbt/sbt)
--   [Stuttgart FST toolbox](http://www.cis.uni-muenchen.de/~schmid/tools/SFST/).
+-   [sbt](https://github.com/sbt/sbt)
+-   [Stuttgart FST tools](http://www.cis.uni-muenchen.de/~schmid/tools/SFST/)
