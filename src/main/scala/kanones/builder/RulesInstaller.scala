@@ -63,8 +63,11 @@ object RulesInstaller {
   def installInvariants(fstSrc: File, fstTarget: File) = {
     if (! fstTarget.exists) {
       mkdirs(fstTarget)
+    } else {
+      fstTarget.clear()
     }
     val fsts = fstSrc.glob("*.fst").toVector
+
     for (fst <- fsts) {
       cp(fst, fstTarget)
     }

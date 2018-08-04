@@ -21,9 +21,30 @@ class SymbolsComposerSpec extends FlatSpec {
     assert(written)
   }
 
-  it should "copy files from source to build area" in pending
+  it should "copy files from source to build area" in {
+    val symbolsDir = repo/"parsers"/corpus/"symbols"
+    SymbolsComposer.copyFst(repo/"fst/symbols", symbolsDir )
+    val fstFiles = symbolsDir.glob("*.fst").toSet
+    val expectedFiles = Set(
+      symbolsDir/"markup.fst",
+      symbolsDir/"morphsymbols.fst",
+      symbolsDir/"phonology.fst",
+      symbolsDir/"stemtypes.fst"
+    )
+    //tidy up
+    (repo/"parsers"/corpus).delete()
+    assert(fstFiles == expectedFiles)
+  }
 
-  it should "rewrite phonology files" in pending
+  it should "rewrite phonology files" in {
+    val symbolsDir = repo/"parsers"/corpus/"symbols"
+    SymbolsComposer.copyFst(repo/"fst/symbols", symbolsDir )
+    SymbolsComposer.rewritePhonologyFile(repo/"parsers"/corpus/"symbols/phonology.fst", repo/"parsers"/corpus)
+    val rewritten = (symbolsDir/"stemtypes.fst").exists()
+    //tidy up
+    (repo/"parsers"/corpus).delete()
+    assert( rewritten )
+  }
 
   it should "install correct set of files from source" in pending /*{
       SymbolsComposer(repo, corpus)

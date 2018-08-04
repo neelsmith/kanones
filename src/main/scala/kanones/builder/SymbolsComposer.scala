@@ -6,25 +6,21 @@ import better.files.Dsl._
 /**
 */
 object SymbolsComposer {
-
-  // Works with a repository directory and a corpus name
-  // to compose files of FST symbols.
-  //
   /** Create all FST files defining symbols of a
   * parser's FST alphabet.
   *
   * @param repo Root of tabulae repository.  Source data
   * will be drawn from repo/fst/symbols.
   * @param corpus Name of corpus.  Output will be written
-  * in the pasers/CORPUS build space.
+  * in the parsers/CORPUS build space.
   */
   def apply(repo: ScalaFile, corpus: String) : Unit = {
     val corpusDir = repo/"parsers"/corpus
     composeMainFile(corpusDir)
+
     val symbolDir = repo/"parsers"/corpus/"symbols"
     if (! symbolDir.exists) {mkdirs(symbolDir)}
     val symbolSrc = repo/"fst/symbols"
-
     copyFst(repo/"fst/symbols", symbolDir )
 
     rewritePhonologyFile(repo/"parsers"/corpus/"symbols/phonology.fst", repo/"parsers"/corpus)
@@ -47,7 +43,11 @@ object SymbolsComposer {
   * will be parsers/CORPUS/symbols.
   */
   def copyFst(src: ScalaFile, dest: ScalaFile) : Unit = {
-    if (! dest.exists()) {mkdirs(dest)}
+    if (! dest.exists()) {
+      mkdirs(dest)
+    } else {
+      dest.clear()
+    }
      val fstFiles = src.glob("*.fst").toVector
      for (f <- fstFiles) {
        f.copyToDirectory(dest)

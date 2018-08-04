@@ -5,6 +5,7 @@ import better.files.Dsl._
 
 
 /** Write makefiles to compile all FST source to binary transducers.
+* NB: data files must already be installed for this to work!
 */
 object MakefileComposer {
 
@@ -51,8 +52,8 @@ object MakefileComposer {
 
     val acceptorDir = projectDir/"acceptors"
     val makeFileText = StringBuilder.newBuilder
-    makeFileText.append(s"${projectDir.toString}/greek.a: ${projectDir.toString}/symbols.fst ${projectDir.toString}/symbols/phonology.fst ${projectDir.toString}/inflection.a ${projectDir.toString}/acceptor.a \n")
-
+    makeFileText.append(s"${projectDir.toString}/greek.a: ${projectDir.toString}/symbols.fst ${projectDir.toString}/morph.a \n")
+    makeFileText.append(s"${projectDir.toString}/morph.a: ${projectDir.toString}/symbols.fst ${projectDir.toString}/symbols/phonology.fst    ${projectDir.toString}/inflection.a ${projectDir.toString}/acceptor.a \n")
 
     if (acceptorDir.exists) {
       val dotAs = dotAsForFst(acceptorDir).mkString(" ")
@@ -94,5 +95,10 @@ object MakefileComposer {
       makefile.overwrite(makeFileText.toString)
   }
 
+/*
+/Users/nsmith/Desktop/morphology-repos/kanones/parsers/minimal/greek.a: /Users/nsmith/Desktop/morphology-repos/kanones/parsers/minimal/symbols.fst /Users/nsmith/Desktop/morphology-repos/kanones/parsers/minimal/morph.a
+
+/Users/nsmith/Desktop/morphology-repos/kanones/parsers/minimal/morph.a:   /Users/nsmith/Desktop/morphology-repos/kanones/parsers/minimal/symbols.fst /Users/nsmith/Desktop/morphology-repos/kanones/parsers/minimal/symbols/phonology.fst /Users/nsmith/Desktop/morphology-repos/kanones/parsers/minimal/inflection.a /Users/nsmith/Desktop/morphology-repos/kanones/parsers/minimal/acceptor.a
+*/
 
 }

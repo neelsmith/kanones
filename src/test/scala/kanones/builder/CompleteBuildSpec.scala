@@ -8,7 +8,7 @@ import java.io.{File => JFile}
 class CompleteBuildSpec extends FlatSpec {
 
 
-  "The FstCompiler object" should "compile a binary FST parser" in pending /*{
+  "The FstCompiler object" should "compile a binary FST parser" in {
     val repo = File(".")
     val datasource = repo/"datasets"
     val c = "analytical-types"
@@ -20,6 +20,6 @@ class CompleteBuildSpec extends FlatSpec {
     val parser = repo/"parsers/analytical-types/greek.a"
     assert(parser.exists())
   }
-*/
+
   it should "run the parser and capture output" in pending
 }
