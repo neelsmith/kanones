@@ -265,6 +265,10 @@
                         <span class="separator"></span>
                         <a class="object" href="VerbRulesInstaller$.html" title="Object for converting tabular source to FST statements."></a>
                         <a href="VerbRulesInstaller$.html" title="Object for converting tabular source to FST statements.">VerbRulesInstaller</a>
+                      </li><li class="current-entities indented5">
+                        <span class="separator"></span>
+                        <a class="object" href="VerbalAdjectiveRulesInstaller$.html" title="Object for converting tabular source to FST statements."></a>
+                        <a href="VerbalAdjectiveRulesInstaller$.html" title="Object for converting tabular source to FST statements.">VerbalAdjectiveRulesInstaller</a>
                       </li>
               </ul>
             </div>
@@ -538,7 +542,7 @@ created by <a href="ParserComposer$.html" class="extype" name="edu.holycross.sho
       </span>
       
       
-    </li><li name="edu.holycross.shot.kanones.builder.IndeclDataInstaller" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="edu.holycross.shot.kanones.builder.IndeclDataInstaller" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="IndeclDataInstaller"></a><a id="IndeclDataInstaller:IndeclDataInstaller"></a>
       <span class="permalink">
       <a href="../../../../../edu/holycross/shot/kanones/builder/index.html#IndeclDataInstaller" title="Permalink">
@@ -554,7 +558,10 @@ created by <a href="ParserComposer$.html" class="extype" name="edu.holycross.sho
       </span>
       
       <p class="shortcomment cmt">An object for reading data about indeclinable stems,
-and writing it in SFST notation.</p>
+and writing it in SFST notation.</p><div class="fullcomment"><div class="comment cmt"><p>An object for reading data about indeclinable stems,
+and writing it in SFST notation.
+Note that targetFile must be a file in an extant
+directory.</p></div></div>
     </li><li name="edu.holycross.shot.kanones.builder.InfinitiveRulesInstaller" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="InfinitiveRulesInstaller"></a><a id="InfinitiveRulesInstaller:InfinitiveRulesInstaller"></a>
       <span class="permalink">
@@ -571,7 +578,7 @@ and writing it in SFST notation.</p>
       </span>
       
       <p class="shortcomment cmt">Object for converting tabular source to FST statements.</p>
-    </li><li name="edu.holycross.shot.kanones.builder.InflectionComposer" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="edu.holycross.shot.kanones.builder.InflectionComposer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="InflectionComposer"></a><a id="InflectionComposer:InflectionComposer"></a>
       <span class="permalink">
       <a href="../../../../../edu/holycross/shot/kanones/builder/index.html#InflectionComposer" title="Permalink">
@@ -588,7 +595,11 @@ and writing it in SFST notation.</p>
       
       <p class="shortcomment cmt">Factory object for composing and writing to a file the top-level
 transducer defining inflectional rules, inflection.fst, in the root of
-the parser build directory.</p>
+the parser build directory.</p><div class="fullcomment"><div class="comment cmt"><p>Factory object for composing and writing to a file the top-level
+transducer defining inflectional rules, inflection.fst, in the root of
+the parser build directory.
+Rules must already be installed in the corpus' inflection
+directory before using this!</p></div></div>
     </li><li name="edu.holycross.shot.kanones.builder.IrregAdjectiveDataInstaller" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="IrregAdjectiveDataInstaller"></a><a id="IrregAdjectiveDataInstaller:IrregAdjectiveDataInstaller"></a>
       <span class="permalink">
@@ -685,7 +696,7 @@ the parser build directory.</p>
       </span>
       
       
-    </li><li name="edu.holycross.shot.kanones.builder.MakefileComposer" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+    </li><li name="edu.holycross.shot.kanones.builder.MakefileComposer" visbl="pub" class="indented0 " data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="MakefileComposer"></a><a id="MakefileComposer:MakefileComposer"></a>
       <span class="permalink">
       <a href="../../../../../edu/holycross/shot/kanones/builder/index.html#MakefileComposer" title="Permalink">
@@ -700,7 +711,8 @@ the parser build directory.</p>
         <a title="Write makefiles to compile all FST source to binary transducers." href="MakefileComposer$.html"><span class="name">MakefileComposer</span></a>
       </span>
       
-      <p class="shortcomment cmt">Write makefiles to compile all FST source to binary transducers.</p>
+      <p class="shortcomment cmt">Write makefiles to compile all FST source to binary transducers.</p><div class="fullcomment"><div class="comment cmt"><p>Write makefiles to compile all FST source to binary transducers.
+NB: data files must already be installed for this to work!</p></div></div>
     </li><li name="edu.holycross.shot.kanones.builder.NounDataInstaller" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
       <a id="NounDataInstaller"></a><a id="NounDataInstaller:NounDataInstaller"></a>
       <span class="permalink">
@@ -842,6 +854,22 @@ the parser build directory.</p>
       </span>
       <span class="symbol">
         <a title="Object for converting tabular source to FST statements." href="VerbRulesInstaller$.html"><span class="name">VerbRulesInstaller</span></a>
+      </span>
+      
+      <p class="shortcomment cmt">Object for converting tabular source to FST statements.</p>
+    </li><li name="edu.holycross.shot.kanones.builder.VerbalAdjectiveRulesInstaller" visbl="pub" class="indented0 " data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="VerbalAdjectiveRulesInstaller"></a><a id="VerbalAdjectiveRulesInstaller:VerbalAdjectiveRulesInstaller"></a>
+      <span class="permalink">
+      <a href="../../../../../edu/holycross/shot/kanones/builder/index.html#VerbalAdjectiveRulesInstaller" title="Permalink">
+        <i class="material-icons"></i>
+      </a>
+    </span>
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a title="Object for converting tabular source to FST statements." href="VerbalAdjectiveRulesInstaller$.html"><span class="name">VerbalAdjectiveRulesInstaller</span></a>
       </span>
       
       <p class="shortcomment cmt">Object for converting tabular source to FST statements.</p>
