@@ -16,10 +16,20 @@ class ParserComposerSpec extends FlatSpec {
       SymbolsComposer(repo, corpus)
       BuildComposer.installAlphabet(dataSource, repo, corpus)
       RulesInstaller(dataSource, repo, corpus)
+      DataInstaller(dataSource, repo, corpus)
 
 
       InflectionComposer(repo/"parsers"/corpus)
       AcceptorComposer(repo, corpus)
-      //ParserComposer(repo/"parsers"/corpus)
+      ParserComposer(repo/"parsers"/corpus)
+
+      val projectDir = "parsers"/corpus
+      val newFiles = Vector(
+        projectDir/"morph.fst",
+        projectDir/"greek.fst"
+      )
+      for (f <- newFiles) {
+        assert(f.exists() && f.lines.toVector.nonEmpty)
+      }
   }
 }
