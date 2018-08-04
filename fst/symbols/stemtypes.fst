@@ -20,7 +20,7 @@
 #diphth3# = <eus_ews><w_ous>
 
 
-#noun3# = #labialpalatal3#  #dental3# #neuttau3# #liquidnasal3# #rho3# #iu3#  #diphth3# 
+#noun3# = #labialpalatal3#  #dental3# #neuttau3# #liquidnasal3# #rho3# #iu3#  #diphth3#
 
 #nounclass# = #noun1# #noun2# #noun3#
 
@@ -47,7 +47,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Indeclinable type
-#indeclclass# = <conjunct><particle><exclam><prepos>
+#indeclclass# = <indeclconj><indeclparticle><indeclinterj><indeclprep>
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
