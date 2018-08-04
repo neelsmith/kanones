@@ -21,9 +21,20 @@ object BuildComposer {
   * data source area to repo/parsers/CORPUS space.
   */
   def installAlphabet(dataSrc: ScalaFile, repo: ScalaFile, corpus: String): Unit = {
+    val src  = dataSrc/corpus/"orthography/alphabet.fst"
+    val srcLines = src.lines.toVector
+    println("SRC ALPHA " + srcLines)
     val symbolsDir = repo/"parsers"/corpus/"symbols"
-    mkdirs(symbolsDir)
-    (dataSrc/corpus/"orthography/alphabet.fst").copyTo(symbolsDir/"alphabet.fst")
+    if (! symbolsDir.exists()) {
+      mkdirs(symbolsDir)
+    }
+
+    val target = symbolsDir/"alphabet.fst"
+    target.overwrite(srcLines.mkString("\n"))
+    println("COPIED  ALPHABET FROM  " + src + " TO " + target)
+    println("Exists? " + target.exists())
+
+    //(src).copyTo(target)
   }
 
 
@@ -43,14 +54,12 @@ object BuildComposer {
     println("and tabulae repo " + repo)
 
     SymbolsComposer(repo, corpus)
-    installAlphabet(dataSource, repo, corpus)
-
     InflectionComposer(repo/"parsers"/corpus)
     AcceptorComposer(repo, corpus)
 
     ParserComposer(repo/"parsers"/corpus)
     MakefileComposer(repo/"parsers"/corpus, fstcompiler)
-
+    installAlphabet(dataSource, repo, corpus)
     //GeneratorComposer(repo, corpus)
   }
 

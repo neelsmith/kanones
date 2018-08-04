@@ -17,11 +17,15 @@ object RulesInstaller {
   * for the corpus.
   */
   def apply(sourceDir: File, repo: File, corpus: String): Unit = {
+    println("\n\nINSTALLING RULES\n\n")
 
+    val inflFst = repo/"fst/inflection"
     val inflDir = repo/"parsers"/corpus/"inflection"
     if (! inflDir.exists) {mkdirs(inflDir)}
-    val srcCorpus = sourceDir/corpus
+    installInvariants(inflFst, inflDir)
 
+
+    val srcCorpus = sourceDir/corpus
     val nounsSrc = srcCorpus/"rules-tables/nouns"
     val nounsFst = inflDir/"nouninfl.fst"
     NounRulesInstaller( nounsSrc,nounsFst )
@@ -48,8 +52,7 @@ object RulesInstaller {
 
 
 
-    val inflFst = repo/"fst/inflection"
-    installInvariants(inflFst, inflDir)
+
   }
 
 

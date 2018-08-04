@@ -9,12 +9,22 @@ import better.files.Dsl._
 object FstCompiler {
 
 
+  /*def installAlphabet(dataSrc: ScalaFile, repo: ScalaFile, corpus: String): Unit = {
+    val symbolsDir = repo/"parsers"/corpus/"symbols"
+    mkdirs(symbolsDir)
+    (dataSrc/corpus/"orthography/alphabet.fst").copyTo(symbolsDir/"alphabet.fst")
+  }*/
+
   def compileAll(dataDirectory: ScalaFile, baseDir: ScalaFile, corpus: String, conf: Configuration) : Unit = {
+    //println("INSTALL ALPHABET")
+    //BuildComposer.installAlphabet(dataDirectory, baseDir, corpus)
+    //val alphaTarget = baseDir/"parsers"/corpus/"symbols/alphabet.fst"
+    //require( alphaTarget.exists(), "NO ALPHABET FILE: "+alphaTarget)
     // Install data and rules, converting tabular data to FST
     //println(s"\n\n  Install data for ${corpus} in ${dataDirectory}...")
     DataInstaller(dataDirectory, baseDir, corpus)
 
-    //println(s"Install rules for ${corpus} in ${dataDirectory}...")
+    println(s"Install rules for ${corpus} in ${dataDirectory}...")
     RulesInstaller(dataDirectory, baseDir, corpus)
 
     //println("Compose build")

@@ -17,10 +17,15 @@ object NounRulesInstaller {
   * @param targetFile File to write FST statements to.
   */
   def apply(srcDir: File, targetFile: File): Unit = {
+    println("\n\nINSTALL NOUN RULES\n\n")
     val nounFst = fstForNounRules(srcDir)
-      if(nounFst.nonEmpty) {
-        targetFile.overwrite(nounFst)
-      } else {}
+    if(nounFst.nonEmpty) {
+      println("WRITTInG DATA TO " + targetFile)
+      targetFile.overwrite(nounFst)
+      println("Exists? " + targetFile.exists())
+    } else {
+      println("NO NOUN DATA")
+    }
   }
 
 
@@ -30,11 +35,12 @@ object NounRulesInstaller {
   * @param srcDir Directory with lexical tables.
   */
   def fstForNounRules(srcDir: File) : String = {
-
+    println("NOUNDS FROM " + srcDir)
     val nounsFiles = srcDir.glob("*.cex").toVector
     val rules = nounsFiles.flatMap(f =>
       f.lines.toVector.filter(_.nonEmpty).drop(1))
     val fst = nounRulesToFst(rules.toVector)
+    println("YIELDED #"+ fst + "#")
     if (fst.nonEmpty) {
       "$nouninfl$ = " + fst + "\n\n$nouninfl$\n"
     } else {
