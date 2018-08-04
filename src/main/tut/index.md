@@ -7,7 +7,7 @@ layout: page
 
 -   [Overview](overview)
 -   [API docs for version 0.3.0](api/edu/holycross/shot/kanones/index.html)
--    Current version: **0.3.1**.  See [release notes](releases)
+-    Current version: **0.4.0**.  See [release notes](releases)
 
 
 

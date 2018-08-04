@@ -3,6 +3,8 @@ layout: page
 title:  Release notes
 ---
 
+**0.4.0**: adds support for regular adjectives and adverbs.
+
 **0.3.1**:  several small bug fixes in installations with different combinations of data types.
 
 **0.3.0**:  adds support for infinitive and participial forms of verbs
