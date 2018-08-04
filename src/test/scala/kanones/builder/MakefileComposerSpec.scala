@@ -9,7 +9,7 @@ import java.io.{File => JFile}
 class MakefileComposerSpec extends FlatSpec {
 
 
-  "The MakefileComposer object" should "compose a makefile for the inflection dir" in {
+  "The MakefileComposer object" should "compose a makefile for the inflection dir" in  {
     // All the prelims before you can comose a parser!
     val repo = File(".")
     val dataSource = File("src/test/resources")
@@ -26,7 +26,9 @@ class MakefileComposerSpec extends FlatSpec {
 
     MakefileComposer.composeInflectionMake(repo/"parsers"/corpus, compiler)
     val inflDir = repo/"parsers"/corpus/"inflection"
-    assert(  (inflDir/"makefile").exists() )
+    val written = (inflDir/"makefile").exists()
+    (repo/"parsers"/corpus).delete()
+    assert( written)
   }
 
   it should "compose the main project makefile" in {
@@ -43,7 +45,10 @@ class MakefileComposerSpec extends FlatSpec {
     ParserComposer(repo/"parsers"/corpus)
     val compiler = "/usr/local/bin/fst-compiler-utf8"
 
-
     MakefileComposer.composeMainMake(repo/"parsers"/corpus, compiler)
+    val corpusDir = repo/"parsers"/corpus
+    val written = (corpusDir/"makefile").exists()
+    (repo/"parsers"/corpus).delete()
+    assert( written)
   }
 }
