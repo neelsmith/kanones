@@ -19,11 +19,7 @@ object SymbolsComposer {
   * in the pasers/CORPUS build space.
   */
   def apply(repo: ScalaFile, corpus: String) : Unit = {
-    val fstDir = repo/"parsers"/corpus/"fst"
-    if (! fstDir.exists) { mkdirs(fstDir)}
     val corpusDir = repo/"parsers"/corpus
-    println("Corpus dir is " + corpusDir)
-    println("Exits? " + corpusDir.exists())
     composeMainFile(corpusDir)
     val symbolDir = repo/"parsers"/corpus/"symbols"
     if (! symbolDir.exists) {mkdirs(symbolDir)}

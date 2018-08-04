@@ -8,6 +8,8 @@ import better.files.Dsl._
 /** Factory object for composing and writing to a file the top-level
 * transducer defining inflectional rules, inflection.fst, in the root of
 * the parser build directory.
+* Rules must already be installed in the corpus' inflection
+* directory before using this!
 */
 object InflectionComposer {
 
@@ -45,16 +47,20 @@ $ending$ = """
   * e.g., REPO/parsers/CORPUS.
   */
   def apply(projectDir: File) : Unit = {
-    val inflFiles = inflectionFsts(projectDir/"inflection")
+    val inflDir = projectDir/"inflection"
+    if (! inflDir.exists()) {
+      throw new Exception("Morphological rule set has not yet been installed!  No directory" + inflDir)
+    } else  {
+      val inflFiles = inflectionFsts(inflDir)
+      val fstText = StringBuilder.newBuilder
+      fstText.append(header)
+      fstText.append( inflFiles.mkString(" |\\\n"))
+      fstText.append ("\n\n$ending$\n")
+      val finalText = fstText.toString
 
-    val fstText = StringBuilder.newBuilder
-    fstText.append(header)
-    fstText.append( inflFiles.mkString(" |\\\n"))
-    fstText.append ("\n\n$ending$\n")
-    val finalText = fstText.toString
-
-    val fstFile = projectDir/"inflection.fst"
-    fstFile.overwrite(finalText)
+      val fstFile = projectDir/"inflection.fst"
+      fstFile.overwrite(finalText)
+    }
   }
 
 }

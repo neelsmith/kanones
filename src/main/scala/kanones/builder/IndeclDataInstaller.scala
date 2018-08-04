@@ -3,10 +3,12 @@ package edu.holycross.shot.kanones.builder
 import better.files._
 import better.files.File._
 import better.files.Dsl._
-
+import java.io.{File => JFile}
 
 /** An object for reading data about indeclinable stems,
 * and writing it in SFST notation.
+* Note that targetFile must be a file in an extant
+* directory.
 */
 object IndeclDataInstaller {
 
@@ -18,8 +20,11 @@ object IndeclDataInstaller {
   */
   def apply(dataSource: File, targetFile: File) = {
     val indeclFst = fstForIndeclData(dataSource)
+    //println("INDECL FST: #" + indeclFst + "#")
     if (indeclFst.nonEmpty) {
+      //println("NEED To WRTIE TO "+ targetFile)
       targetFile.overwrite(indeclFst)
+      //println("WROTE DATA TO " + targetFile)
     } else {}
 
   }

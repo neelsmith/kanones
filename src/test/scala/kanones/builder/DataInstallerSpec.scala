@@ -13,14 +13,15 @@ class DataInstallerSpec extends FlatSpec {
     val datasets = File("src/test/resources")
     val corpus = "minimal"
 
+    println("\n\nInstall data with settings " + datasets + ", " + repo + ", " + corpus)
     DataInstaller(datasets, repo, corpus)
 
     val lex = repo/"parsers"/corpus/"lexica/lexicon-indeclinables.fst"
 
     assert(lex.exists())
     val contents = lex.lines.toVector
-      //tidy up
-      (repo/"parsers"/corpus).delete()
+    //tidy up
+    (repo/"parsers"/corpus).delete()
 
     assert(contents(0) == "<u>lex\\.indecl2</u><u>lexent\\.n51951</u>kai/<indeclconj>")
   }

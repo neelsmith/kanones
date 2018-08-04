@@ -27,8 +27,8 @@ object VerbDataInstaller {
   */
   def fstForVerbData(dir: File) : String = {
     val verbFiles = dir.glob("*.cex").toVector
-    println("VERB DATA FROM DIR " + dir)
-    println("found files "+ verbFiles)
+    //println("VERB DATA FROM DIR " + dir)
+    //println("found files "+ verbFiles)
     val fstLines = for (f <- verbFiles) yield {
       // omit empty lines and header
       val dataLines = f.lines.toVector.filter(_.nonEmpty).drop(1) //Source.fromFile(f).getLines.toVector.filter(_.nonEmpty).drop(1)

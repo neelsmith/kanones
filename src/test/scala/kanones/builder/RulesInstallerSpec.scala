@@ -26,25 +26,4 @@ class RulesInstallerSpec extends FlatSpec {
     assert(fstFiles == expectedFiles)
   }
 
-
-
-   /*
-
-   sourceDir: File, repo: File, corpus: String
-   {
-
-
-      val installDir = repo/"parsers"/corpus
-
-
-
-      InflectionComposer(installDir)
-
-
-
-
-
-
-
-  }*/
 }

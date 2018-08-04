@@ -42,13 +42,9 @@ object AcceptorComposer {
     fst.append(infinitiveAcceptor(projectDir) + "\n")
     fst.append(participleAcceptor(projectDir) + "\n")
 
-
-
-
     fst.append(nounAcceptor(projectDir) + "\n")
     fst.append(adjectiveAcceptor(projectDir) + "\n")
     fst.append(adverbAcceptor(projectDir) + "\n")
-
 
     fst.append(irregVerbAcceptor(projectDir) + "\n")
     fst.append(irregInfinitiveAcceptor(projectDir) + "\n")
@@ -337,7 +333,7 @@ $squashadjurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> <u>[#urnchar#]:<>+\.
   */
   def topLevelAcceptor(dir : ScalaFile): String = {
     val constructed  = unionOfSquashers(dir)
-  val trail = """
+  val tobemoved = """
 %% Put all symbols in 2 categories:  pass
 %% surface symbols through, suppress analytical symbols.
 #analysissymbol# = #editorial# #urntag# #indecl# #pos# #morphtag# #stemtype#  #separator#
@@ -346,8 +342,11 @@ ALPHABET = [#surfacesymbol#] [#analysissymbol#]:<>
 $stripsym$ = .+
 
 %% The canonical pipeline: (morph data) -> acceptor -> parser/stripper
-$acceptor$ || $stripsym$
+%$acceptor$ || $stripsym$
 """
+
+  val trail = "\n$acceptor$\n"
+
     constructed + trail
   }
 
