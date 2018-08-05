@@ -104,14 +104,14 @@ $squashirregverburn$ =  <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u><u>[#urnchar#]
 
 
   def includeIrregNouns(dir: ScalaFile): Boolean = {
-    val indeclSource = dir/"lexica/lexicon-irregverbs.fst"
+    val indeclSource = dir/"lexica/lexicon-irregnouns.fst"
     indeclSource.exists && indeclSource.lines.nonEmpty
   }
   def irregNounAcceptor(dir : ScalaFile): String = {
     if (includeIrregNouns(dir) ) {
       """
 % Irregular noun acceptor
-$squashirregnounurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u><u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> [#stemchars#]+ $gender$ $case$ $number$ <irregnoun> <div> <irregnoun> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
+$squashirregnounurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u><u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u> [#stemchars#]+ $gender$ $case$ $number$ <irregacc><irregnoun> <div> <irregnoun> <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u>
 """
     } else {""}
   }
