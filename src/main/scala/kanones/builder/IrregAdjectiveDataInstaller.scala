@@ -15,6 +15,7 @@ object IrregAdjectiveDataInstaller {
   */
   def apply(dataSource: File, targetFile: File) = {
     val irregAdjectiveFst = fstForIrregAdjectiveData(dataSource)
+    println("\n\nIRREG ADJ:\nFor " + dataSource + "\ngot: \n" + irregAdjectiveFst)
     if (irregAdjectiveFst.nonEmpty) {
       targetFile.overwrite(irregAdjectiveFst)
     } else {}
@@ -43,7 +44,8 @@ object IrregAdjectiveDataInstaller {
       throw new Exception(s"Wrong number of columns ${cols.size}.\nCould not parse data line:\n${line}")
     } else {
 
-      //ag.irrn1m#lexent.n5575#bos#masc#nom#sg
+      //infl.irradj1#lexent.n65552#me/gas#masc#gen#sg#pos
+
       val fstBuilder = StringBuilder.newBuilder
       val ruleUrn = cols(0).replaceAll("_","\\\\_").replaceAll("\\.","\\\\.")
       val lexent = cols(1).replaceAll("_","\\_").replaceAll("\\.","\\\\.")
