@@ -11,6 +11,6 @@ The file `wordlist.txt` will include a minimal set of words to test each rule+st
 
 **Build and testing the parser**. From an `sbt console` in the root `tabulae` directory,
 
-   :load scripts/parse.sc
-   compile("analytical-types")
-   parse("datasets/analytical-types/wordlist.txt")
+    :load scripts/parse.sc
+    compile("analytical-types")
+    parse("datasets/analytical-types/wordlist.txt")
