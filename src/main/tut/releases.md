@@ -3,6 +3,8 @@ layout: page
 title:  Release notes
 ---
 
+**1.0.0**:  tested examples of each stem type, each regular rule type, and each class of irregular form.
+
 **0.5.0**:  adds support for regular verbal adjectives.
 
 **0.4.0**: adds support for regular adjectives and adverbs.

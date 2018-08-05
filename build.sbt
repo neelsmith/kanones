@@ -5,7 +5,7 @@ lazy val root = (project in file(".")).
     settings(
       name := "kanones",
       organization := "edu.holycross.shot",
-      version := "0.5.0",
+      version := "1.0.0",
       scalaVersion := "2.12.4",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
