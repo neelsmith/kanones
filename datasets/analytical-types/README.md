@@ -9,11 +9,8 @@ The file `wordlist.txt` will include a minimal set of words to test each rule+st
 
 ## Testing
 
-**Build the parser**. From an `sbt` console in the root `tabulae` directory:
+**Build and testing the parser**. From an `sbt console` in the root `tabulae` directory,
 
-    fst analytical-types
-
-**Analyze the word list**. From a bash shell in the root `tabulae` directory:
-
-
-    fst-infl parsers/analytical-types/latin.a datasets/analytical-types/wordlist.txt
+   :load scripts/parse.sc
+   compile("analytical-types")
+   parse("datasets/analytical-types/wordlist.txt")
