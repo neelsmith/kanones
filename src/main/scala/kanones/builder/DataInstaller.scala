@@ -53,6 +53,9 @@ object DataInstaller {
 
     val irregInfinsTarget = lexica/"lexicon-irreginfinitives.fst"
     IrregInfinitiveDataInstaller(dataSource/corpusName/"irregular-stems/infinitives", irregInfinsTarget)
+
+    val irregPtcplsTarget = lexica/"lexicon-irregparticiples.fst"
+    IrregParticipleDataInstaller(dataSource/corpusName/"irregular-stems/participles", irregPtcplsTarget)
   }
 
 }

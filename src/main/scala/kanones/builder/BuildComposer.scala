@@ -23,7 +23,6 @@ object BuildComposer {
   def installAlphabet(dataSrc: ScalaFile, repo: ScalaFile, corpus: String): Unit = {
     val src  = dataSrc/corpus/"orthography/alphabet.fst"
     val srcLines = src.lines.toVector
-    println("SRC ALPHA " + srcLines)
     val symbolsDir = repo/"parsers"/corpus/"symbols"
     if (! symbolsDir.exists()) {
       mkdirs(symbolsDir)
@@ -31,10 +30,6 @@ object BuildComposer {
 
     val target = symbolsDir/"alphabet.fst"
     target.overwrite(srcLines.mkString("\n"))
-    println("COPIED  ALPHABET FROM  " + src + " TO " + target)
-    println("Exists? " + target.exists())
-
-    //(src).copyTo(target)
   }
 
 
