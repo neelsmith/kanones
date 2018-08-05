@@ -171,7 +171,7 @@ $squashirregadvurn$ = <u>[#urnchar#]:<>+\.:<>[#urnchar#]:<>+</u><u>[#urnchar#]:<
 
 
   def includeIrregInfinitives(dir: ScalaFile): Boolean = {
-    val indeclSource = dir/"lexica/lexicon-irreginfins.fst"
+    val indeclSource = dir/"lexica/lexicon-irreginfinitives.fst"
     indeclSource.exists && indeclSource.lines.nonEmpty
   }
   def irregInfinitiveAcceptor(dir : ScalaFile): String = {

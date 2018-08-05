@@ -15,7 +15,6 @@ object IrregAdjectiveDataInstaller {
   */
   def apply(dataSource: File, targetFile: File) = {
     val irregAdjectiveFst = fstForIrregAdjectiveData(dataSource)
-    println("\n\nIRREG ADJ:\nFor " + dataSource + "\ngot: \n" + irregAdjectiveFst)
     if (irregAdjectiveFst.nonEmpty) {
       targetFile.overwrite(irregAdjectiveFst)
     } else {}
