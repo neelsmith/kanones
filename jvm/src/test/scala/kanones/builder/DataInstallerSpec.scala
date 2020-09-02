@@ -16,7 +16,12 @@ class DataInstallerSpec extends FlatSpec {
     val c = Vector("analytical_types")
     val tempParserDir =  File("jvm/src/test/resources/parsers") / s"dummyparser-${r.nextInt(1000)}"
 
-
+    // Ensure target directory is empty before testing:
+    val targetDir = tempParserDir /  c.mkString("-") / "lexica"
+    if (targetDir.exists) {
+      //targetDir.delete()
+      //mkdirs(targetDir)
+    }
     val  di = DataInstaller(datasets, c, tempParserDir)
   }
 }

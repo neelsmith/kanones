@@ -20,32 +20,25 @@ import wvlet.log.LogFormatter.SourceCodeLogFormatter
 object DataInstaller extends LogSupport {
 
   def apply(dataSets: File, corpusList: Vector[String], parsers: File) : Unit = {
-
+    Logger.setDefaultLogLevel(LogLevel.INFO)
     info(s"Converting morphological tables in datasets contained in ${dataSets} to FST notation")
 
 
-    /*
-    val projectDir = DataInstaller.madeDir(repo / s"parsers/${corpus}")
-    val lexDir = DataInstaller.madeDir(projectDir / "lexica")
-    NounDataInstaller(repo, corpus)
-    IndeclDataInstaller(repo, corpus)
-    VerbDataInstaller(repo, corpus)
-    */
-  }
+
+    //val projectDir = DataInstaller.madeDir(repo / s"parsers/${corpus}")
+    //val lexDir = DataInstaller.madeDir(projectDir / "lexica")
 
 
-  // CONVERT TO BETTTERFILES
-  // make sure directory exists
-  /*
-  def madeDir (dir: File) : File = {
-    if (! dir.exists()) {
-      dir.mkdir()
-      dir
-    } else {
-      dir
-    }
+    val lexDir = parsers / "lexica"
+    val indeclFile = lexDir / "lexicon-indeclinables.fst"
+    debug("INDECL FILE is " + indeclFile)
+    //NounDataInstaller(repo, corpus)
+    debug("INSTALL INCDECLS " + dataSets + " " + corpusList + " " + indeclFile)
+    //IndeclDataInstaller(dataSets, corpusList,  indeclFile)
+    //VerbDataInstaller(repo, corpus)
+
   }
-  */
+
 
   /** Rewrite characters in s that are not part of FST's
   * alphabet to corresponding FST representation.

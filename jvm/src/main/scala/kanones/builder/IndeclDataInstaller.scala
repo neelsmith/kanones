@@ -4,10 +4,15 @@ import better.files._
 import better.files.File._
 import better.files.Dsl._
 
+
+
+import wvlet.log._
+import wvlet.log.LogFormatter.SourceCodeLogFormatter
+
 /** An object for reading data about indeclinable stems,
 * and writing it in SFST notation.
 */
-object IndeclDataInstaller {
+object IndeclDataInstaller extends LogSupport {
 
 
 
@@ -40,7 +45,7 @@ object IndeclDataInstaller {
     val dir = repo / s"datasets/${corpus}/stems-tables/indeclinable"
     val rulesOpt = (dir) ** "*cex"
     val rulesFiles = rulesOpt.get
-    println("\tbuilding indeclinable stems from " + dir)
+    info("\tbuilding indeclinable stems from " + dir)
 
     for (f <- rulesFiles) {
       val fstFile = lexDirectory / "lex-indecl-" + f.getName().replaceFirst(".cex$", ".fst")
@@ -78,7 +83,7 @@ object IndeclDataInstaller {
 
     if (cols.size < 4) {
       //StemUrn#LexicalEntity#Stem#PoS
-      println(s"Wrong number of columns ${cols.size}.\nCould not parse indeclinable data line:\n${line}")
+      warn(s"Wrong number of columns ${cols.size}.\nCould not parse indeclinable data line:\n${line}")
       throw new Exception(s"Wrong number of columns ${cols.size}.\nCould not parse indeclinable data line:\n${line}")
     } else {
       val fstBuilder = StringBuilder.newBuilder
