@@ -40,13 +40,13 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       // JS-specific settings:
       scalaJSUseMainModuleInitializer := true,
     )
-    lazy val docs = project     
+    lazy val docs = project
     .in(file("docs-build"))
     .dependsOn(crossed.jvm)
     .enablePlugins(MdocPlugin)
     .settings(
-      mdocIn := file("docs-src"),
-      mdocOut := file("testDocs"),
+      mdocIn := file("guide"),
+      mdocOut := file("docs"),
       mdocExtraArguments := Seq("--no-link-hygiene"),
       mdocVariables := Map(
         "VERSION" -> "2.0.0"

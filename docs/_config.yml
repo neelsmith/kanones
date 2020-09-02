@@ -1,0 +1,8 @@
+remote_theme: pmarsceill/just-the-docs
+
+footer_content: "Kanónes is a system for building Greek morphological parsers."
+
+
+aux_links:
+  "Code on github":
+    - "https://github.com/neelsmith/kanones/"
