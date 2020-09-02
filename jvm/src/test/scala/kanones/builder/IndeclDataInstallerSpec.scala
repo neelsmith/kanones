@@ -28,15 +28,14 @@ class IndeclDataInstallerSpec extends FlatSpec {
 
     IndeclDataInstaller(datasets, corpora, targetFile)
     assert(targetFile.exists,"IndeclDataInstaller:  did not create destination file " + targetFile)
-    /*
+    println("FST: \n" + targetFile.lines.toVector.filter(_.nonEmpty))
 
-    val expectedLines = Vector("<u>proof\\.indecl1</u><u>lexent\\.n11873</u>cum<indecl><indeclconj>")
+    val expectedLines = Vector("<u>proof\\.indecl1</u><u>lsj\\.n51951</u>kai<indecl><indeclconj>")
+  
     assert(targetFile.lines.toVector.filter(_.nonEmpty) == expectedLines)
 
-    //println("WROTE : " + targetFile.lines.toVector.filter(_.nonEmpty) )
-
     tempParserDir.delete()
-    */
+
 
   }
 }
