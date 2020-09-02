@@ -34,7 +34,7 @@ class IndeclDataInstallerSpec extends FlatSpec {
 
     assert(targetFile.lines.toVector.filter(_.nonEmpty) == expectedLines)
 
-    //tempParserDir.delete()
+    tempParserDir.delete()
 
 
   }
