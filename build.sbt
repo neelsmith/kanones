@@ -1,33 +1,61 @@
-import complete.DefaultParsers._
-import scala.sys.process._
+lazy val scala211 = "2.11.12"
+lazy val scala212 = "2.12.10"
+lazy val supportedScalaVersions = List(scala212, scala211)
 
-lazy val root = (project in file(".")).
+ThisBuild / scalaVersion := scala212
+ThisBuild / turbo := true
+
+lazy val root = (project in file("."))
+  .aggregate(crossed.js, crossed.jvm)
+  .settings(
+        crossScalaVersions := Nil,
+        publish / skip := true
+    )
+
+lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
     settings(
       name := "kanones",
       organization := "edu.holycross.shot",
-      version := "1.0.0",
-      scalaVersion := "2.12.4",
+      version := "2.0.0",
+      //scalaVersion := scala212,
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
       libraryDependencies ++= Seq(
         "org.scalatest" %% "scalatest" % "3.0.1" % "test",
-        "edu.holycross.shot" %% "greek" % "1.3.5",
+        "org.wvlet.airframe" %%% "airframe-log" % "20.5.2",
 
-        "edu.holycross.shot.cite" %% "xcite" % "3.3.0",
+        "edu.holycross.shot" %% "greek" % "9.0.0",
+        "edu.holycross.shot.cite" %% "xcite" % "4.3.0"
+
+      )
+    ).
+    jvmSettings(
+      libraryDependencies ++=  Seq(
         "com.github.pathikrit" %% "better-files" % "3.5.0"
-      ),
+      )
 
-      tutTargetDirectory := file("docs"),
-      tutSourceDirectory := file("src/main/tut"),
+    ).
+    jsSettings(
+      // JS-specific settings:
+      scalaJSUseMainModuleInitializer := true,
+    )
+    lazy val docs = project     
+    .in(file("docs-build"))
+    .dependsOn(crossed.jvm)
+    .enablePlugins(MdocPlugin)
+    .settings(
+      mdocIn := file("docs-src"),
+      mdocOut := file("testDocs"),
+      mdocExtraArguments := Seq("--no-link-hygiene"),
+      mdocVariables := Map(
+        "VERSION" -> "2.0.0"
+      )
+    )
 
-/*
-      fst := buildFst.evaluated,
-      corpus := corpusImpl.evaluated,
-      utils := utilsImpl.evaluated,
-      cleanAll := cleanAllImpl.value
-    */
-    ).enablePlugins(TutPlugin)
+  //    tutTargetDirectory := file("docs"),
+  //    tutSourceDirectory := file("src/main/tut"),
+
 
 
 /*
