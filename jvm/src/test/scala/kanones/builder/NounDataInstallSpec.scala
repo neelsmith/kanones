@@ -13,7 +13,6 @@ class NounDataInstallSpec extends FlatSpec {
   val millis = Calendar.getInstance().getTimeInMillis()
   r.setSeed(millis)
 
-
   "The NounDataInstaller object" should  "install noun data from a single source" in  {
     val datasets = File("jvm/src/test/resources/datasets/")
     val corpora = Vector("analytical_types")
