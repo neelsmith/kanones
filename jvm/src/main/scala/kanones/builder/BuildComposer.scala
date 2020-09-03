@@ -8,8 +8,6 @@ import wvlet.log._
 import wvlet.log.LogFormatter.SourceCodeLogFormatter
 
 
-
-
 /** Object for composing all files that are generated from source,
 * rather than built from templates or data sets.  These include
 * the necessary makefiles, created by [[MakefileComposer]], and
