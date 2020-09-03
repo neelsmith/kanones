@@ -16,8 +16,7 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
     settings(
       name := "kanones",
       organization := "edu.holycross.shot",
-      version := "2.0.0",
-      //scalaVersion := scala212,
+      version := "2.0.0-rc1",
       licenses += ("GPL-3.0",url("https://opensource.org/licenses/gpl-3.0.html")),
       resolvers += Resolver.jcenterRepo,
       resolvers += Resolver.bintrayRepo("neelsmith", "maven"),
@@ -49,13 +48,9 @@ lazy val crossed = crossProject(JSPlatform, JVMPlatform).in(file(".")).
       mdocOut := file("docs"),
       mdocExtraArguments := Seq("--no-link-hygiene"),
       mdocVariables := Map(
-        "VERSION" -> "2.0.0"
+        "VERSION" -> "2.0.0-rc1"
       )
     )
-
-  //    tutTargetDirectory := file("docs"),
-  //    tutSourceDirectory := file("src/main/tut"),
-
 
 
 /*
