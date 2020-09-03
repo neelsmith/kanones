@@ -9,6 +9,6 @@ nav_order: 0
 
 Phases/layers of work documented/to document:
 
-- code library to [read tabular source and write FST](./writeFst/)
+- code library to [read tabular source data and write FST](./writeFst/)
 - code library to interpret FST source and instantiate in object model
 - code modelling orthography of Ancient Greek
