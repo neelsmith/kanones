@@ -9,7 +9,12 @@ Translating FST from tabular data sources:
 
 
 - `kanones.builder.*DataInstaller` classes
-- `kanones.builder.*RulesInstaller` classes
+- `kanones.builder.*RulesInstaller` classes:
+    - VerbRulesInstaller (finite verbs)
+    - InfinitiveRulesInstaller
+    - ParticipleRulesInstaller
+    - NounRulesInstaller
+    - AdjectiveRulesInstaller
 
 Then composing higher-order FST:
 
