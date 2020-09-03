@@ -13,7 +13,7 @@ class InflectionComposerSpec extends FlatSpec {
   val millis = Calendar.getInstance().getTimeInMillis()
   r.setSeed(millis)
 
-  "The InflectionComposer object" should "write inflection.fst in the parser root directory" in pending /*{
+  "The InflectionComposer object" should "write inflection.fst in the parser root directory" in {
     val datasets = File("jvm/src/test/resources/datasets/")
     val corpora = Vector("analytical_types")
 
@@ -26,19 +26,19 @@ class InflectionComposerSpec extends FlatSpec {
     mkdirs(targetDir)
     assert(targetDir.exists,"InflectionComposer:  could not create " + targetDir)
     // install some rules data:
-    val verbRulesFile = targetDir / "verbinfl.fst"
+    val nounRulesFile = targetDir / "nouninfl.fst"
 
-    VerbRulesInstaller(datasets, corpora, verbRulesFile)
+    NounRulesInstaller(datasets, corpora, nounRulesFile)
     InflectionComposer( projectDirectory )
 
     val topLevelInflectionFile = projectDirectory / "inflection.fst"
     assert(topLevelInflectionFile.exists)
 
     val content = topLevelInflectionFile.lines.mkString("\n")
-    val expected = "analytical_types/inflection/verbinfl.a"
+    val expected = "analytical_types/inflection/nouninfl.a"
     assert(content.contains(expected))
     tempParserDir.delete()
-  } */
+  }
 
   it should "throw an exception if the project has no inflectional files" in pending /*{
     val projectDirectory = File("jvm/src/test/resources/no-fst")
