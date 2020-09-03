@@ -27,11 +27,11 @@ object FstCompiler extends LogSupport {
     DataInstaller(dataSets, corpusList, parser)
 
     //println(s"Install rules for ${corpus} in ${dataDirectory}...")
-    //RulesInstaller(dataSets, corpusList, parser, fstSource)
+    RulesInstaller(dataSets, corpusList, parser, fstSource)
 
     //println("Compose build")
     // Compose makefiles and higher-order FST for build system
-    //BuildComposer(dataSets, corpusList, parser, fstSource, conf.fstcompile)
+    BuildComposer(dataSets, corpusList, parser, fstSource, conf.fstcompile)
 
 
     // Build it!
